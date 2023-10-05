@@ -179,5 +179,11 @@ namespace BusinessLayer.Implementations
                 return men;
             }
         }
+
+        public byte[] pdf_Pedido(int id)
+        {
+            byte[] pdf_Pedido = _fu.pdfPedido(id);
+            return pdf_Pedido;
+        }
     }
 }

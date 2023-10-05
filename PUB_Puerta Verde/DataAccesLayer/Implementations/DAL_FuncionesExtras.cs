@@ -1,6 +1,11 @@
-﻿using DataAccesLayer.Interface;
+﻿using System;
+using System.IO;
+using DataAccesLayer.Interface;
 using DataAccesLayer.Models;
 using Domain.DT;
+using iText.Kernel.Pdf;
+using iText.Layout;
+using iText.Layout.Element;
 using Microsoft.Extensions.Logging;
 using System;
 using System.Collections.Generic;
@@ -141,6 +146,60 @@ namespace DataAccesLayer.Implementations
             
             _db.Mesas.Update(aux);
             _db.SaveChanges();
+        }
+
+        public byte[] pdfPedido(int id)
+        {
+            //PDF en binario
+
+            byte[] pdfData;
+
+            using (MemoryStream ms = new MemoryStream())
+            {
+                // Crea un nuevo documento PDF
+                using (var pdfDoc = new PdfDocument(new PdfWriter(ms)))
+                {
+                    // Crea un nuevo documento PDF vacío
+                    using (var document = new Document(pdfDoc))
+                    {
+                        // Agrega contenido al documento
+                        Paragraph paragraph = new Paragraph("¡Hola, este es el pdf con id "+id+" !");
+                        document.Add(paragraph);
+                    }
+                }
+
+                // Convierte el MemoryStream en un arreglo de bytes
+                pdfData = ms.ToArray();
+            }
+            //retorno el pdf
+            return pdfData;
+            // Aquí puedes trabajar con pdfData, que contiene el PDF en forma de arreglo de bytes
+            // Por ejemplo, puedes guardar el arreglo de bytes en un archivo o en base de datos , enviarlo por correo electrónico, etc.
+            
+            /* ejemplo de como guardarlo en la ubicación del directorio de trabajo actual (carpeta WebApi-PUB_PV en este caso)
+            // Obtiene la ubicación del directorio de trabajo actual
+            string workingDirectory = Environment.CurrentDirectory;
+
+            // Nombre del archivo PDF que deseas crear
+            string pdfFileName = "Pedido " + id + ".pdf";
+
+            // Construye la ruta completa del archivo PDF
+            string pdfFilePath = Path.Combine(workingDirectory, pdfFileName);
+
+
+            // Crea un nuevo documento PDF
+            using (var pdfDoc = new PdfDocument(new PdfWriter(pdfFilePath)))
+            {
+                // Crea un nuevo documento PDF vacío
+                using (var document = new Document(pdfDoc))
+                {
+                    // Agrega contenido al documento
+                    Paragraph paragraph = new Paragraph("¡Hola, mundo!");
+                    document.Add(paragraph);
+                }
+            }
+            Console.WriteLine("PDF creado con éxito en: " + pdfFilePath);
+            */
         }
     }
 }

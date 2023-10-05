@@ -52,5 +52,13 @@ namespace WebApi_PUB_PV.Controllers
             MensajeRetorno x = bl.baja_Pedido(id);
             return Ok(new StatusResponse { StatusOk = x.status, StatusMessage = x.mensaje });
         }
+
+        //PDF
+        [HttpGet("/api/pdfPedido/{id:int}")]
+        public ActionResult<byte[]> Getpdf(int id)
+        {
+            return bl.pdf_Pedido(id);
+            //return Ok(new StatusResponse { StatusOk = x.status, StatusMessage = x.mensaje });
+        }
     }
 }
