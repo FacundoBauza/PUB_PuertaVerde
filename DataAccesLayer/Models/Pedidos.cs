@@ -41,7 +41,7 @@ namespace DataAccesLayer.Models
 
             aux.id_Pedido = x.id_Pedido;
             aux.valorPedido = x.valorPedido;
-            aux.estadoProceso = false;
+            aux.estadoProceso = true;
             aux.pago = false;
             aux.hora_ingreso = x.hora_ingreso;
             aux.fecha_ingreso = x.fecha_ingreso;

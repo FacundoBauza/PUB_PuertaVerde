@@ -145,6 +145,7 @@ namespace DataAccesLayer.Implementations
                 if (aux != null)
                 {
                     aux.pago = true;
+                    aux.estadoProceso = false;
                     _db.Pedidos.Update(aux);
                     _db.SaveChanges();
                 }
