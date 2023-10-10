@@ -7298,19 +7298,19 @@
     ]
   },
   "packageFolders": {
-    "C:\\Users\\cuest\\.nuget\\packages\\": {}
+    "C:\\Users\\leand\\.nuget\\packages\\": {}
   },
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\cuest\\Proyecto\\PUB_PuertaVerde\\PUB_Puerta Verde\\BusinessLayer\\BusinessLayer.csproj",
+      "projectUniqueName": "C:\\Users\\leand\\proyectos\\back-puerta-verde\\PUB_Puerta Verde\\BusinessLayer\\BusinessLayer.csproj",
       "projectName": "BusinessLayer",
-      "projectPath": "C:\\Users\\cuest\\Proyecto\\PUB_PuertaVerde\\PUB_Puerta Verde\\BusinessLayer\\BusinessLayer.csproj",
-      "packagesPath": "C:\\Users\\cuest\\.nuget\\packages\\",
-      "outputPath": "C:\\Users\\cuest\\Proyecto\\PUB_PuertaVerde\\PUB_Puerta Verde\\BusinessLayer\\obj\\",
+      "projectPath": "C:\\Users\\leand\\proyectos\\back-puerta-verde\\PUB_Puerta Verde\\BusinessLayer\\BusinessLayer.csproj",
+      "packagesPath": "C:\\Users\\leand\\.nuget\\packages\\",
+      "outputPath": "C:\\Users\\leand\\proyectos\\back-puerta-verde\\PUB_Puerta Verde\\BusinessLayer\\obj\\",
       "projectStyle": "PackageReference",
       "configFilePaths": [
-        "C:\\Users\\cuest\\AppData\\Roaming\\NuGet\\NuGet.Config",
+        "C:\\Users\\leand\\AppData\\Roaming\\NuGet\\NuGet.Config",
         "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
       ],
       "originalTargetFrameworks": [
@@ -7318,18 +7318,17 @@
       ],
       "sources": {
         "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
-        "https://api.nuget.org/v3/index.json": {},
         "https://api.nuget.org/v3/index.json": {}
       },
       "frameworks": {
         "net7.0": {
           "targetAlias": "net7.0",
           "projectReferences": {
-            "C:\\Users\\cuest\\Proyecto\\PUB_PuertaVerde\\PUB_Puerta Verde\\DataAccesLayer\\DataAccesLayer.csproj": {
-              "projectPath": "C:\\Users\\cuest\\Proyecto\\PUB_PuertaVerde\\PUB_Puerta Verde\\DataAccesLayer\\DataAccesLayer.csproj"
+            "C:\\Users\\leand\\proyectos\\back-puerta-verde\\PUB_Puerta Verde\\DataAccesLayer\\DataAccesLayer.csproj": {
+              "projectPath": "C:\\Users\\leand\\proyectos\\back-puerta-verde\\PUB_Puerta Verde\\DataAccesLayer\\DataAccesLayer.csproj"
             },
-            "C:\\Users\\cuest\\Proyecto\\PUB_PuertaVerde\\PUB_Puerta Verde\\Domain\\Domain.csproj": {
-              "projectPath": "C:\\Users\\cuest\\Proyecto\\PUB_PuertaVerde\\PUB_Puerta Verde\\Domain\\Domain.csproj"
+            "C:\\Users\\leand\\proyectos\\back-puerta-verde\\PUB_Puerta Verde\\Domain\\Domain.csproj": {
+              "projectPath": "C:\\Users\\leand\\proyectos\\back-puerta-verde\\PUB_Puerta Verde\\Domain\\Domain.csproj"
             }
           }
         }

@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "CrjbDusXIK1FXNgiCzi9k/rtTbEu2VZVWIIxgjuqAK0sXV7TAyuE71q0EoqxxlVE8EgLajDlyHrJmoPT8Iojwg==",
+  "dgSpecHash": "99NcXYczwBYbaGrgoalUCwgH2PigOe3fx2ilVM0sW2IoM9uoXEdvIlux0/XI8XJq7S9Qsr4jBDbMVd7cmSNOqA==",
   "success": true,
-  "projectFilePath": "C:\\Users\\cuest\\Proyecto\\PUB_PuertaVerde\\PUB_Puerta Verde\\Domain\\Domain.csproj",
+  "projectFilePath": "C:\\Users\\leand\\proyectos\\back-puerta-verde\\PUB_Puerta Verde\\Domain\\Domain.csproj",
   "expectedPackageFiles": [],
   "logs": []
 }

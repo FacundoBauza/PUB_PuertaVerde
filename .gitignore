@@ -273,7 +273,7 @@ ServiceFabricBackup/
 *.rptproj.rsuser
 *- [Bb]ackup.rdl
 *- [Bb]ackup ([0-9]).rdl
-*- [Bb]ackup ([0-9][0-9]).rdls
+*- [Bb]ackup ([0-9][0-9]).rdl
 
 # Microsoft Fakes
 FakesAssemblies/
@@ -361,4 +361,4 @@ MigrationBackup/
 
 # Fody - auto-generated XML schema
 FodyWeavers.xsd
-
+/WebAPI/internal-nlog.txt
