@@ -79,6 +79,12 @@ namespace DataAccesLayer.Implementations
         }
 
         //Listar
+        List<Pedidos_Productos> IDAL_Pedido.get_ProductosPedidos(int id_Pedido)
+        {
+            return _db.Pedidos_Productos.Where(x => x.id_Pedido == id_Pedido).Select(x => x.GetPedidos_Productos()).ToList();
+        }
+
+        //Listar Productos Pedido
         List<Pedidos> IDAL_Pedido.get_Pedidos()
         {
             return _db.Pedidos.Select(x => x.GetPedido()).ToList();
@@ -104,6 +110,15 @@ namespace DataAccesLayer.Implementations
             return true;
             }
             return false;
+        }
+
+        //ProductoPedido
+        Productos IDAL_Pedido.getProductoPedido(int id_Producto)
+        {
+            Productos? aux = null;
+            aux = _db.Productos.FirstOrDefault(prod => prod.id_Producto == id_Producto);
+            
+            return aux;
         }
     }
 }

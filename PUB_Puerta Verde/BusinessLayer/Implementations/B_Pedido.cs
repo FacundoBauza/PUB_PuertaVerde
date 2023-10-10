@@ -144,9 +144,17 @@ namespace BusinessLayer.Implementations
         List<DTPedido> IB_Pedido.listar_Pedidos()
         {
             List<DTPedido> pedidos = new List<DTPedido>();
+            DTPedido pedido = null;
+            Productos producto = null;
             foreach (Pedidos x in _dal.get_Pedidos())
             {
-                pedidos.Add(_cas.castDTPedido(x));
+                pedido = _cas.castDTPedido(x);
+                foreach(Pedidos_Productos x1 in _dal.get_ProductosPedidos(x.id_Pedido))
+                {
+                    producto = _dal.getProductoPedido(x1.id_Producto);
+                    pedido.list_IdProductos.Add(_cas.castDTPedidoProducto(x1, producto));
+                }
+                pedidos.Add(pedido);
             }
 
             return pedidos;
@@ -156,9 +164,17 @@ namespace BusinessLayer.Implementations
         List<DTPedido> IB_Pedido.listar_PedidosActivos()
         {
             List<DTPedido> pedidos = new List<DTPedido>();
+            DTPedido pedido = null;
+            Productos producto = null;
             foreach (Pedidos x in _dal.get_PedidosActivos())
             {
-                pedidos.Add(_cas.castDTPedido(x));
+                pedido = _cas.castDTPedido(x);
+                foreach (Pedidos_Productos x1 in _dal.get_ProductosPedidos(x.id_Pedido))
+                {
+                    producto = _dal.getProductoPedido(x1.id_Producto);
+                    pedido.list_IdProductos.Add(_cas.castDTPedidoProducto(x1, producto));
+                }
+                pedidos.Add(pedido);
             }
 
             return pedidos;

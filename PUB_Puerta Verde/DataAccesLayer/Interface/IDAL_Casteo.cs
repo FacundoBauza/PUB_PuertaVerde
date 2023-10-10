@@ -16,5 +16,6 @@ namespace DataAccesLayer.Interface
         DTProducto getDTProducto(Productos c);
         DTMesa getDTMesa(Mesas m);
         DTPedido castDTPedido(Pedidos m);
+        DTProducto_Observaciones castDTPedidoProducto(Pedidos_Productos pp, Productos p);
     }
 }
