@@ -74,5 +74,14 @@ namespace DataAccesLayer.Implementations
             aux.numero_movil = p.numero_movil;
             return aux;
         }
+
+        public DTProducto_Observaciones castDTPedidoProducto(Pedidos_Productos pp, Productos p)
+        {
+            DTProducto_Observaciones aux = new DTProducto_Observaciones();
+            aux.id_Producto = p.id_Producto;
+            aux.nombreProducto = p.nombre;
+            aux.observaciones = pp.observaciones;
+            return aux;
+        }
     }
 }

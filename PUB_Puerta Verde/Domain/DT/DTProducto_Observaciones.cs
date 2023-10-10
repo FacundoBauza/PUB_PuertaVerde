@@ -9,17 +9,18 @@ namespace Domain.DT
     public class DTProducto_Observaciones
     {
         public int id_Producto { get; set; }
+        public string nombreProducto { get; set; }
         public string observaciones { get; set; }
 
-#pragma warning disable CS8618
         public DTProducto_Observaciones()
         {
         }
 
-        public DTProducto_Observaciones(int id_Producto, string observaciones)
+        public DTProducto_Observaciones(int id_Producto, string observaciones, string nombreProducto)
         {
             this.id_Producto = id_Producto;
             this.observaciones = observaciones;
+            this.nombreProducto = nombreProducto;
         }
     }
 }
