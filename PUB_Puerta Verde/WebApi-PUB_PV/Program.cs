@@ -41,6 +41,7 @@ builder.Services.AddAuthentication(options =>
 {
     options.SaveToken = true;
     options.RequireHttpsMetadata = false;
+#pragma warning disable CS8604 // Posible argumento de referencia nulo
     options.TokenValidationParameters = new TokenValidationParameters()
     {
         ValidateIssuer = false,
@@ -49,6 +50,7 @@ builder.Services.AddAuthentication(options =>
         //ValidIssuer = configuration["JWT:ValidIssuer"],
         IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(configuration["JWT:Secret"]))
     };
+#pragma warning restore CS8604 // Posible argumento de referencia nulo
 });
 
 builder.Services.Configure<DataProtectionTokenProviderOptions>(options =>

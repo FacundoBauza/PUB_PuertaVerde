@@ -11,6 +11,7 @@ namespace Domain.Entidades
         public bool status { get; set; }
         public string mensaje { get; set; }
 
+#pragma warning disable CS8618
         public MensajeRetorno()
         {
         }

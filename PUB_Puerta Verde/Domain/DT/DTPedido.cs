@@ -20,6 +20,7 @@ namespace Domain.DT
         public string numero_movil { get; set; }
         public List<DTProducto_Observaciones> list_IdProductos { get; set; }
 
+#pragma warning disable CS8618
         public DTPedido()
         {
             hora_ingreso = DateTime.Today;

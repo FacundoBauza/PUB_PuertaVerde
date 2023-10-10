@@ -9,6 +9,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using static iText.StyledXmlParser.Jsoup.Select.Evaluator;
 
 namespace BusinessLayer.Implementations
 {
@@ -94,6 +95,12 @@ namespace BusinessLayer.Implementations
         public MensajeRetorno baja_Mesa(int id)
         {
             throw new NotImplementedException();
+        }
+
+        public byte[] cerarMesa(DTMesa modificar)
+        {
+            byte[] pdf_Pedido = _fu.pdfPedido(modificar.id_Mesa);
+            return pdf_Pedido;
         }
     }
 }

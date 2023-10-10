@@ -14,6 +14,7 @@ namespace Domain.DT
         public int stock { get; set; }
         public int? id_Categoria { get; set; }
 
+#pragma warning disable CS8618
         public DTIngrediente()
         {
         }

@@ -14,7 +14,9 @@ namespace Domain.DT
         public bool registro_Activo { get; set; }
         public List<Ingrediente> ingredientes { get; set; }
 
+#pragma warning disable CS8618 
         public DTCategoria()
+
         {
             ingredientes = new List<Ingrediente>();
         }

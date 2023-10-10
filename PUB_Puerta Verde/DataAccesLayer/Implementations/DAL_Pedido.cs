@@ -21,7 +21,7 @@ namespace DataAccesLayer.Implementations
         public bool set_Cliente(DTPedido dtP)
         {
             Pedidos aux = Pedidos.SetPedido(dtP);
-            Pedidos_Productos aux2 = null;
+            Pedidos_Productos? aux2 = null;
             try
             {
                 _db.Pedidos.Add(aux);
@@ -46,30 +46,30 @@ namespace DataAccesLayer.Implementations
         //Actualizar
         bool IDAL_Pedido.update_Pedido(DTPedido dtP)
         {
-            Pedidos aux = null;
+            Pedidos? aux = null;
             aux = _db.Pedidos.FirstOrDefault(pe => pe.id_Pedido == dtP.id_Pedido);
-
-            aux.valorPedido = dtP.valorPedido;
-            aux.pago = dtP.pago;
-            aux.username = dtP.username;
-            aux.id_Cli_Preferencial = dtP.id_Cli_Preferencial;
-            aux.estadoProceso = dtP.estadoProceso;
-            aux.fecha_ingreso = dtP.fecha_ingreso;
-            aux.hora_ingreso = dtP.hora_ingreso;
-            aux.numero_movil = dtP.numero_movil;
-        
-            Pedidos_Productos aux2 = null;
-
-            try
+            if (aux != null)
             {
-                _db.Update(aux);
-                _db.SaveChanges();
+                aux.valorPedido = dtP.valorPedido;
+                aux.pago = dtP.pago;
+                aux.username = dtP.username;
+                aux.id_Cli_Preferencial = dtP.id_Cli_Preferencial;
+                aux.estadoProceso = dtP.estadoProceso;
+                aux.fecha_ingreso = dtP.fecha_ingreso;
+                aux.hora_ingreso = dtP.hora_ingreso;
+                aux.numero_movil = dtP.numero_movil;
+                try
+                {
+                    _db.Update(aux);
+                    _db.SaveChanges();
+                }
+                catch
+                {
+                    return false;
+                }
+                return true;
             }
-            catch
-            {
-                return false;
-            }
-            return true;
+            return false;
         }
 
         //Listar Activos 
@@ -87,9 +87,9 @@ namespace DataAccesLayer.Implementations
         //Baja 
         bool IDAL_Pedido.baja_Pedido(int id)
         {
-            Pedidos aux = null;
+            Pedidos? aux = null;
             aux = _db.Pedidos.FirstOrDefault(ped => ped.id_Pedido == id);
-
+            if(aux != null) {
             aux.estadoProceso = false;
 
             try
@@ -102,6 +102,8 @@ namespace DataAccesLayer.Implementations
                 return false;
             }
             return true;
+            }
+            return false;
         }
     }
 }

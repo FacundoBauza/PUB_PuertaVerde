@@ -38,10 +38,13 @@ namespace WebApi_PUB_PV.Controllers
         [ProducesResponseType(typeof(LoginResponse), 200)]
         public async Task<IActionResult> Login([FromBody] LoginModel model)
         {
+#pragma warning disable CS8600 // Se va a convertir un literal nulo o un posible valor nulo en un tipo que no acepta valores NULL
+#pragma warning disable CS8604 // Posible argumento de referencia nulo
+#pragma warning disable CS8618 // Un campo que no acepta valores NULL debe contener un valor distinto de NULL al salir del constructor. Considere la posibilidad de declararlo como que admite un valor NULL.
             try
             {
                 Usuarios user = await _userManager.FindByNameAsync(model.Username);
-                
+
                 if (user != null && await _userManager.CheckPasswordAsync(user, model.Password))
                 {
                     if (user.registro_Activo)
@@ -133,6 +136,7 @@ namespace WebApi_PUB_PV.Controllers
             string username = User.FindFirstValue(ClaimTypes.NameIdentifier);
             Usuarios usuario = await _userManager.Users.Where(x => x.UserName == username).FirstOrDefaultAsync();
 
+#pragma warning disable CS8602 // Desreferencia de una referencia posiblemente NULL.
             DTUsuario response = new DTUsuario()
             {
                 Apellido = usuario.apellido,
@@ -142,6 +146,7 @@ namespace WebApi_PUB_PV.Controllers
                 Username = usuario.UserName,
                 registro_Activo = usuario.registro_Activo
             };
+#pragma warning restore CS8602 // Desreferencia de una referencia posiblemente NULL.
 
             // TODO Agregar roles.
             return response;

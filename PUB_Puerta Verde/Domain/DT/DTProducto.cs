@@ -13,6 +13,7 @@ namespace Domain.DT
         public string descripcion { get; set; }
         public float precio { get; set; }
 
+#pragma warning disable CS8618
         public DTProducto()
         {
         }

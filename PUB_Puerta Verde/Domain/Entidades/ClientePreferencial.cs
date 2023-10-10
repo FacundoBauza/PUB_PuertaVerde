@@ -16,6 +16,7 @@ namespace Domain.Entidades
         public float saldo { get; set; }
         public bool registro_Activo { get; set; }
 
+#pragma warning disable CS8618
         public ClientePreferencial()
         {
         }

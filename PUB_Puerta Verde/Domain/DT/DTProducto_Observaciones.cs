@@ -11,6 +11,7 @@ namespace Domain.DT
         public int id_Producto { get; set; }
         public string observaciones { get; set; }
 
+#pragma warning disable CS8618
         public DTProducto_Observaciones()
         {
         }

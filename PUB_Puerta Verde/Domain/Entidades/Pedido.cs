@@ -21,6 +21,7 @@ namespace Domain.Entidades
         public DateTime fecha_ingreso { get; set; }
         public string numero_movil { get; set; }
 
+#pragma warning disable CS8618
         public Pedido()
         {
             hora_ingreso = DateTime.Today;

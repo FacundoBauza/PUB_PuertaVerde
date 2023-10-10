@@ -18,7 +18,6 @@ namespace DataAccesLayer.Implementations
             aux.nombre = x.nombre;
             aux.stock = x.stock;
             aux.id_Categoria = x.id_Categoria;
-
             return aux;
         }
 
@@ -49,7 +48,6 @@ namespace DataAccesLayer.Implementations
             aux.telefono = x.telefono;
             aux.saldo = x.saldo;
             aux.fichasCanje = x.fichasCanje;
-
             return aux;
         }
 

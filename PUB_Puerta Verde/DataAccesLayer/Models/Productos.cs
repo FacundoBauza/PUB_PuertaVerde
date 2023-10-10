@@ -13,6 +13,7 @@ namespace DataAccesLayer.Models
     [Table(name: "Producto")]
     public class Productos
     {
+#pragma warning disable CS8618 // Un campo que no acepta valores NULL debe contener un valor distinto de NULL al salir del constructor. Considere la posibilidad de declararlo como que admite un valor NULL.
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         [Key]
         public int id_Producto { get; set; }

@@ -12,6 +12,7 @@ namespace Domain.Entidades
         public string nombre { get; set; }
         public List<Ingrediente> ingredientes { get; set; }
 
+#pragma warning disable CS8618
         public Categoria()
         {
             ingredientes = new List<Ingrediente>();
