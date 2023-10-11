@@ -33,6 +33,7 @@ namespace DataAccesLayer.Implementations
                 ProductoEncontrado.precio = dtp.precio;
                 ProductoEncontrado.descripcion = dtp.descripcion;
                 // Guarda los cambios en la base de datos.
+                _db.Update(ProductoEncontrado);
                 _db.SaveChanges();
 
                 return true;

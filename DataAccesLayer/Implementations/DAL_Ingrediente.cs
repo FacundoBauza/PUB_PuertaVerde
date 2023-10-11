@@ -12,7 +12,7 @@ using static System.Runtime.InteropServices.JavaScript.JSType;
 
 namespace DataAccesLayer.Implementations
 {
-    public class DAL_Ingrediente: IDAL_Ingrediente
+    public class DAL_Ingrediente : IDAL_Ingrediente
     {
         private readonly DataContext _db;
         public DAL_Ingrediente(DataContext db)
@@ -31,15 +31,18 @@ namespace DataAccesLayer.Implementations
             var ingredienteEncontrado = _db.Ingredientes.SingleOrDefault(i => i.id_Ingrediente == dti.id_Ingrediente);
             if (ingredienteEncontrado != null)
             {
-                // Modifica las propiedades del ingrediente.
-                ingredienteEncontrado.stock = dti.stock;
-                // Guarda los cambios en la base de datos.
-                _db.SaveChanges();
-                
-                return true;
+                try
+                {
+                    // Modifica las propiedades del ingrediente.
+                    ingredienteEncontrado.stock = dti.stock;
+                    // Guarda los cambios en la base de datos.
+                    _db.Update(ingredienteEncontrado);
+                    _db.SaveChanges();
+                    return true;
+                }
+                catch { }
             }
-            else
-                return false;
+            return false;
         }
 
         public bool set_Ingrediente(DTIngrediente dti)
