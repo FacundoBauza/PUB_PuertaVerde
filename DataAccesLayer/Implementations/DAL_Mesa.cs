@@ -29,25 +29,30 @@ namespace DataAccesLayer.Implementations
             var MesaEncontrada = _db.Mesas.SingleOrDefault(i => i.id_Mesa == dtm.id_Mesa);
             if (MesaEncontrada != null)
             {
-                // Modifica las propiedades del Producto.
-                MesaEncontrada.enUso = dtm.enUso;
-                MesaEncontrada.precioTotal = MesaEncontrada.precioTotal + dtm.precioTotal;
-                // Guarda los cambios en la base de datos.
-                _db.SaveChanges();
-
-                return true;
+                try
+                {
+                    // Modifica las propiedades de la mesa.
+                    MesaEncontrada.enUso = dtm.enUso;
+                    MesaEncontrada.precioTotal = dtm.precioTotal;
+                    // Guarda los cambios en la base de datos.
+                    _db.Update(MesaEncontrada);
+                    _db.SaveChanges();
+                    //retota que todo se hizo corectamente
+                    return true;
+                }
+                catch { }
             }
-            else
-                return false;
+            //no se pudo encontrar la mesa y retorna false
+            return false;
         }
 
         public bool set_Mesa(DTMesa dtm)
         {
-            //Castea el DT en tipo Ingrediente
+            //Castea el DT en tipo Mesas
             Mesas aux = Mesas.SetMesa(dtm);
             try
             {
-                //Agrega el Ingrediente
+                //Agrega la Mesas
                 _db.Mesas.Add(aux);
 
                 // Guarda los cambios en la base de datos.
@@ -55,8 +60,10 @@ namespace DataAccesLayer.Implementations
             }
             catch
             {
+                //si ocurrio algun error retorna false
                 return false;
             }
+            //todo bien y retorna true
             return true;
         }
     }

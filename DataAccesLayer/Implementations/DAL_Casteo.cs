@@ -56,6 +56,7 @@ namespace DataAccesLayer.Implementations
             DTMesa aux = new DTMesa();
             aux.id_Mesa = m.id_Mesa;
             aux.enUso = m.enUso;
+            aux.precioTotal = m.precioTotal;
             return aux;
         }
 
