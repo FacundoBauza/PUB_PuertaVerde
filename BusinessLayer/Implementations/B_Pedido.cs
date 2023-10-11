@@ -12,7 +12,7 @@ using System.Threading.Tasks;
 
 namespace BusinessLayer.Implementations
 {
-    public class B_Pedido: IB_Pedido
+    public class B_Pedido : IB_Pedido
     {
         private IDAL_Pedido _dal;
         private IDAL_Casteo _cas;
@@ -31,60 +31,66 @@ namespace BusinessLayer.Implementations
             MensajeRetorno men = new MensajeRetorno();
             if (dtP != null)
             {
-                if (!_fu.existePedido(dtP.id_Pedido))
+                if (dtP.list_IdProductos != null)
                 {
-                    if (_fu.existeUsuario(dtP.username))
+                    if (!_fu.existePedido(dtP.id_Pedido))
                     {
-                        if (_fu.existeMesa(dtP.id_Mesa))
+                        if (_fu.existeUsuario(dtP.username))
                         {
-                            if (!_fu.mesaEnUso(dtP.id_Mesa))
+                            if (_fu.existeMesa(dtP.id_Mesa))
                             {
-                                if (_dal.set_Cliente(dtP) == true)
+                                if (!_fu.mesaEnUso(dtP.id_Mesa))
                                 {
-                                    _fu.agregarPrecioaMesa(dtP.valorPedido, dtP.id_Mesa);
-                                    men.mensaje = "El Pedido se guardo Correctamente";
-                                    men.status = true;
-                                    return men;
+                                    if (_dal.set_Cliente(dtP))
+                                    {
+                                        _fu.agregarPrecioaMesa(dtP.valorPedido, dtP.id_Mesa);
+                                        men.mensaje = "El Pedido se guardo Correctamente";
+                                        men.status = true;
+                                        return men;
+                                    }
+                                    else
+                                    {
+                                        men.Exepcion_no_Controlada();
+                                        return men;
+                                    }
                                 }
                                 else
                                 {
-                                    men.Exepcion_no_Controlada();
+                                    men.mensaje = "La mesa asignada ya esta en uso";
+                                    men.status = false;
                                     return men;
                                 }
                             }
                             else
                             {
-                                men.mensaje = "La mesa asignada ya esta en uso";
+                                men.mensaje = "La mesa asignada no existe en el sistema";
                                 men.status = false;
                                 return men;
                             }
                         }
                         else
                         {
-                            men.mensaje = "La mesa asignada no existe en el sistema";
+                            men.mensaje = "El usuario no existe";
                             men.status = false;
                             return men;
                         }
                     }
                     else
                     {
-                        men.mensaje = "El usuario no existe";
+                        men.mensaje = "Ya existe un pedido con los datos ingresados";
                         men.status = false;
                         return men;
                     }
                 }
                 else
                 {
-                    men.mensaje = "Ya existe un pedido con los datos ingresados";
+                    men.mensaje = "El Pedido no cuenta con profuctos";
                     men.status = false;
                     return men;
                 }
             }
-            else
-            {
-                men.Objeto_Nulo();
-                return men;
-            }
+            men.Objeto_Nulo();
+            return men;
         }
 
         //Actualizar
