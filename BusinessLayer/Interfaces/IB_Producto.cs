@@ -14,6 +14,7 @@ namespace BusinessLayer.Interfaces
         MensajeRetorno agregar_Producto(DTProducto value);
         MensajeRetorno baja_Producto(int id);
         List<DTProducto> listar_Productos();
+        List<DTProducto> listar_ProductosPorTipo(string tipo);
         MensajeRetorno Modificar_Producto(DTProducto modificar);
     }
 }

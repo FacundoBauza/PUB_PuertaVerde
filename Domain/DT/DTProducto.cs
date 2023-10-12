@@ -12,18 +12,20 @@ namespace Domain.DT
         public string nombre { get; set; }
         public string descripcion { get; set; }
         public float precio { get; set; }
+        public string tipo { get; set; }
 
 #pragma warning disable CS8618
         public DTProducto()
         {
         }
 
-        public DTProducto(int id_Producto, string nombre, string descripcion, float precio)
+        public DTProducto(int id_Producto, string nombre, string descripcion, float precio, string tipo)
         {
             this.id_Producto = id_Producto;
             this.nombre = nombre;
             this.descripcion = descripcion;
             this.precio = precio;
+            this.tipo = tipo;
         }
     }
 }
