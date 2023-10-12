@@ -1,0 +1,17 @@
+C:\Users\visua\Desktop\PUB_PuertaVerde\PUB_Puerta Verde\DataAccesLayer\bin\Debug\net7.0\DataAccesLayer.deps.json
+C:\Users\visua\Desktop\PUB_PuertaVerde\PUB_Puerta Verde\DataAccesLayer\bin\Debug\net7.0\DataAccesLayer.runtimeconfig.json
+C:\Users\visua\Desktop\PUB_PuertaVerde\PUB_Puerta Verde\DataAccesLayer\bin\Debug\net7.0\DataAccesLayer.dll
+C:\Users\visua\Desktop\PUB_PuertaVerde\PUB_Puerta Verde\DataAccesLayer\bin\Debug\net7.0\DataAccesLayer.pdb
+C:\Users\visua\Desktop\PUB_PuertaVerde\PUB_Puerta Verde\DataAccesLayer\bin\Debug\net7.0\Domain.dll
+C:\Users\visua\Desktop\PUB_PuertaVerde\PUB_Puerta Verde\DataAccesLayer\bin\Debug\net7.0\Domain.pdb
+C:\Users\visua\Desktop\PUB_PuertaVerde\PUB_Puerta Verde\DataAccesLayer\obj\Debug\net7.0\DataAccesLayer.csproj.AssemblyReference.cache
+C:\Users\visua\Desktop\PUB_PuertaVerde\PUB_Puerta Verde\DataAccesLayer\obj\Debug\net7.0\DataAccesLayer.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\visua\Desktop\PUB_PuertaVerde\PUB_Puerta Verde\DataAccesLayer\obj\Debug\net7.0\DataAccesLayer.AssemblyInfoInputs.cache
+C:\Users\visua\Desktop\PUB_PuertaVerde\PUB_Puerta Verde\DataAccesLayer\obj\Debug\net7.0\DataAccesLayer.AssemblyInfo.cs
+C:\Users\visua\Desktop\PUB_PuertaVerde\PUB_Puerta Verde\DataAccesLayer\obj\Debug\net7.0\DataAccesLayer.csproj.CoreCompileInputs.cache
+C:\Users\visua\Desktop\PUB_PuertaVerde\PUB_Puerta Verde\DataAccesLayer\obj\Debug\net7.0\DataAccesLayer.csproj.CopyComplete
+C:\Users\visua\Desktop\PUB_PuertaVerde\PUB_Puerta Verde\DataAccesLayer\obj\Debug\net7.0\DataAccesLayer.dll
+C:\Users\visua\Desktop\PUB_PuertaVerde\PUB_Puerta Verde\DataAccesLayer\obj\Debug\net7.0\refint\DataAccesLayer.dll
+C:\Users\visua\Desktop\PUB_PuertaVerde\PUB_Puerta Verde\DataAccesLayer\obj\Debug\net7.0\DataAccesLayer.pdb
+C:\Users\visua\Desktop\PUB_PuertaVerde\PUB_Puerta Verde\DataAccesLayer\obj\Debug\net7.0\DataAccesLayer.genruntimeconfig.cache
+C:\Users\visua\Desktop\PUB_PuertaVerde\PUB_Puerta Verde\DataAccesLayer\obj\Debug\net7.0\ref\DataAccesLayer.dll

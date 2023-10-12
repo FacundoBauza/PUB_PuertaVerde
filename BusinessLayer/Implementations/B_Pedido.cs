@@ -155,7 +155,7 @@ namespace BusinessLayer.Implementations
             foreach (Pedidos x in _dal.get_Pedidos())
             {
                 pedido = _cas.castDTPedido(x);
-                foreach (Pedidos_Productos x1 in _dal.get_ProductosPedidos(x.id_Pedido))
+                foreach(Pedidos_Productos x1 in _dal.get_ProductosPedidos(x.id_Pedido))
                 {
                     producto = _dal.getProductoPedido(x1.id_Producto);
                     pedido.list_IdProductos.Add(_cas.castDTPedidoProducto(x1, producto));

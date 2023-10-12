@@ -165,6 +165,12 @@ namespace DataAccesLayer.Migrations
 
             modelBuilder.Entity("DataAccesLayer.Models.Pedidos_Productos", b =>
                 {
+                    b.Property<int>("idPedidoProducto")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("integer");
+
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("idPedidoProducto"));
+
                     b.Property<int>("id_Pedido")
                         .HasColumnType("integer");
 
@@ -175,7 +181,7 @@ namespace DataAccesLayer.Migrations
                         .IsRequired()
                         .HasColumnType("text");
 
-                    b.HasKey("id_Pedido", "id_Producto");
+                    b.HasKey("idPedidoProducto");
 
                     b.ToTable("Pedido_Producto");
                 });
