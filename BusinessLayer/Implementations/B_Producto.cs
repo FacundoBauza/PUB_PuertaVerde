@@ -95,5 +95,16 @@ namespace BusinessLayer.Implementations
         {
             throw new NotImplementedException();
         }
+
+        public List<DTProducto> listar_ProductosPorTipo(string tipo)
+        {
+            List<Productos> Productos = _dal.getProductoPorTipo(tipo);
+            List<DTProducto> dt_Productos = new List<DTProducto>();
+            foreach (Productos c in Productos)
+            {
+                dt_Productos.Add(_cas.getDTProducto(c));
+            }
+            return dt_Productos;
+        }
     }
 }

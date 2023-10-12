@@ -28,6 +28,7 @@ namespace DataAccesLayer.Implementations
             aux.nombre = c.nombre;
             aux.precio = c.precio;
             aux.descripcion = c.descripcion;
+            aux.tipo = c.tipo;
             return aux;
         }
 
