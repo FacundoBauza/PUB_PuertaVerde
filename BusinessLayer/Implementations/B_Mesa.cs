@@ -4,6 +4,8 @@ using DataAccesLayer.Interface;
 using DataAccesLayer.Models;
 using Domain.DT;
 using Domain.Entidades;
+using iText.Kernel.Pdf;
+using iText.Layout.Element;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -99,7 +101,7 @@ namespace BusinessLayer.Implementations
 
         public byte[] cerarMesa(DTMesa modificar)
         {
-            byte[] pdf_Pedido = _fu.pdfPedido(modificar.id_Mesa);
+            byte[] pdf_Pedido = _dal.cerarMesa(modificar.id_Mesa);
             return pdf_Pedido;
         }
     }
