@@ -150,15 +150,13 @@ namespace BusinessLayer.Implementations
         List<DTPedido> IB_Pedido.listar_Pedidos()
         {
             List<DTPedido> pedidos = new List<DTPedido>();
-            DTPedido pedido = null;
-            Productos producto = null;
+            DTPedido? pedido = null;
             foreach (Pedidos x in _dal.get_Pedidos())
             {
                 pedido = _cas.castDTPedido(x);
                 foreach(Pedidos_Productos x1 in _dal.get_ProductosPedidos(x.id_Pedido))
                 {
-                    producto = _dal.getProductoPedido(x1.id_Producto);
-                    pedido.list_IdProductos.Add(_cas.castDTPedidoProducto(x1, producto));
+                    pedido.list_IdProductos.Add(_cas.castDTPedidoProducto(x1, _dal.getProductoPedido(x1.id_Producto)));
                 }
                 pedidos.Add(pedido);
             }
@@ -170,19 +168,16 @@ namespace BusinessLayer.Implementations
         List<DTPedido> IB_Pedido.listar_PedidosActivos()
         {
             List<DTPedido> pedidos = new List<DTPedido>();
-            DTPedido pedido = null;
-            Productos producto = null;
+            DTPedido? pedido = null;
             foreach (Pedidos x in _dal.get_PedidosActivos())
             {
                 pedido = _cas.castDTPedido(x);
                 foreach (Pedidos_Productos x1 in _dal.get_ProductosPedidos(x.id_Pedido))
                 {
-                    producto = _dal.getProductoPedido(x1.id_Producto);
-                    pedido.list_IdProductos.Add(_cas.castDTPedidoProducto(x1, producto));
+                    pedido.list_IdProductos.Add(_cas.castDTPedidoProducto(x1, _dal.getProductoPedido(x1.id_Producto)));
                 }
                 pedidos.Add(pedido);
             }
-
             return pedidos;
         }
 
@@ -200,12 +195,6 @@ namespace BusinessLayer.Implementations
                 men.Exepcion_no_Controlada();
                 return men;
             }
-        }
-
-        public byte[] pdf_Pedido(int id)
-        {
-            byte[] pdf_Pedido = _fu.pdfPedido(id);
-            return pdf_Pedido;
         }
     }
 }

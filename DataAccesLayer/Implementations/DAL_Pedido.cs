@@ -117,7 +117,7 @@ namespace DataAccesLayer.Implementations
         {
             Productos? aux = null;
             aux = _db.Productos.FirstOrDefault(prod => prod.id_Producto == id_Producto);
-            
+#pragma warning disable CS8603 // Posible tipo de valor devuelto de referencia nulo
             return aux;
         }
     }
