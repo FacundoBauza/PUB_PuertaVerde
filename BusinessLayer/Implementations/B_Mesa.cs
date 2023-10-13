@@ -101,8 +101,7 @@ namespace BusinessLayer.Implementations
 
         public byte[] cerarMesa(DTMesa modificar)
         {
-            byte[] pdf_Pedido = _dal.cerarMesa(modificar.id_Mesa);
-            return pdf_Pedido;
+            return _dal.cerarMesa(modificar.id_Mesa);
         }
     }
 }
