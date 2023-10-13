@@ -39,25 +39,16 @@ namespace BusinessLayer.Implementations
                         {
                             if (_fu.existeMesa(dtP.id_Mesa))
                             {
-                                if (!_fu.mesaEnUso(dtP.id_Mesa))
+                                if (_dal.set_Cliente(dtP))
                                 {
-                                    if (_dal.set_Cliente(dtP))
-                                    {
-                                        _fu.agregarPrecioaMesa(dtP.valorPedido, dtP.id_Mesa);
-                                        men.mensaje = "El Pedido se guardo Correctamente";
-                                        men.status = true;
-                                        return men;
-                                    }
-                                    else
-                                    {
-                                        men.Exepcion_no_Controlada();
-                                        return men;
-                                    }
+                                    _fu.agregarPrecioaMesa(dtP.valorPedido, dtP.id_Mesa);
+                                    men.mensaje = "El Pedido se guardo Correctamente";
+                                    men.status = true;
+                                    return men;
                                 }
                                 else
                                 {
-                                    men.mensaje = "La mesa asignada ya esta en uso";
-                                    men.status = false;
+                                    men.Exepcion_no_Controlada();
                                     return men;
                                 }
                             }
@@ -154,7 +145,7 @@ namespace BusinessLayer.Implementations
             foreach (Pedidos x in _dal.get_Pedidos())
             {
                 pedido = _cas.castDTPedido(x);
-                foreach(Pedidos_Productos x1 in _dal.get_ProductosPedidos(x.id_Pedido))
+                foreach (Pedidos_Productos x1 in _dal.get_ProductosPedidos(x.id_Pedido))
                 {
                     pedido.list_IdProductos.Add(_cas.castDTPedidoProducto(x1, _dal.getProductoPedido(x1.id_Producto)));
                 }
