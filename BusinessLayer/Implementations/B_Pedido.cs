@@ -37,25 +37,32 @@ namespace BusinessLayer.Implementations
                     {
                         if (_fu.existeUsuario(dtP.username))
                         {
-                            if (_fu.existeMesa(dtP.id_Mesa))
+                            if (_dal.set_Cliente(dtP))
                             {
-                                if (_dal.set_Cliente(dtP))
+                                if (_fu.existeClienteId(dtP.id_Cli_Preferencial))
+                                {
+                                    _fu.restarSaldoCliente(dtP.valorPedido, dtP.id_Cli_Preferencial);
+                                    men.mensaje = "El Pedido se guardo Correctamente en el cliente";
+                                    men.status = true;
+                                    return men;
+                                }
+                                else if (_fu.existeMesa(dtP.id_Mesa))
                                 {
                                     _fu.agregarPrecioaMesa(dtP.valorPedido, dtP.id_Mesa);
-                                    men.mensaje = "El Pedido se guardo Correctamente";
+                                    men.mensaje = "El Pedido se guardo Correctamente en la mesa";
                                     men.status = true;
                                     return men;
                                 }
                                 else
                                 {
-                                    men.Exepcion_no_Controlada();
+                                    men.mensaje = "El Pedido se guardo Correctamente sin mesa ni cliente";
+                                    men.status = true;
                                     return men;
                                 }
                             }
                             else
                             {
-                                men.mensaje = "La mesa asignada no existe en el sistema";
-                                men.status = false;
+                                men.Exepcion_no_Controlada();
                                 return men;
                             }
                         }

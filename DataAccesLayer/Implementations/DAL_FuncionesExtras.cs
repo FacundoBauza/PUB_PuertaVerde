@@ -14,6 +14,7 @@ using System.Text;
 using System.Threading.Tasks;
 using static System.Runtime.InteropServices.JavaScript.JSType;
 using Domain.Entidades;
+using Org.BouncyCastle.Crypto;
 
 namespace DataAccesLayer.Implementations
 {
@@ -107,6 +108,17 @@ namespace DataAccesLayer.Implementations
             {
                 aux.precioTotal = valor;
                 _db.Mesas.Update(aux);
+                _db.SaveChanges();
+            }
+        }
+
+        public void restarSaldoCliente(float valor, int idCliente)
+        {
+            ClientesPreferenciales? aux = _db.ClientesPreferenciales.SingleOrDefault(i => i.id_Cli_Preferencial == idCliente);
+            if (aux != null)
+            {
+                aux.saldo = aux.saldo - valor;
+                _db.ClientesPreferenciales.Update(aux);
                 _db.SaveChanges();
             }
         }

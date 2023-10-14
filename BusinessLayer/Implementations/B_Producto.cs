@@ -34,7 +34,8 @@ namespace BusinessLayer.Implementations
                 {
                     if (_dal.set_Producto(dtp) == true)
                     {
-                        men.El_Ingrediente_se_guardo_Correctamente();
+                        men.mensaje = "El producto se guardo correctamente";
+                        men.status = true;
                         return men;
                     }
                     else
@@ -45,7 +46,8 @@ namespace BusinessLayer.Implementations
                 }
                 else
                 {
-                    men.Ya_existe_un_Ingrediente_con_el_Nombre_ingresado();
+                    men.mensaje = "Ya existe el Producto";
+                    men.status = false;
                     return men;
                 }
             }
@@ -75,7 +77,8 @@ namespace BusinessLayer.Implementations
             {
                 if (_dal.modificar_Producto(dtp) == true)
                 {
-                    men.El_Ingrediente_se_guardo_Correctamente();
+                    men.mensaje = "El producto se guardo correctamente";
+                    men.status = true;
                     return men;
                 }
                 else

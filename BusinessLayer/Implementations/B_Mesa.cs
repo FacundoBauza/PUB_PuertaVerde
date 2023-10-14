@@ -37,7 +37,8 @@ namespace BusinessLayer.Implementations
                 {
                     if (_dal.set_Mesa(dtm) == true)
                     {
-                        men.El_Ingrediente_se_guardo_Correctamente();
+                        men.mensaje = "La mesa se guardo correctamente";
+                        men.status = true;
                         return men;
                     }
                     else
@@ -48,7 +49,8 @@ namespace BusinessLayer.Implementations
                 }
                 else
                 {
-                    men.Ya_existe_un_Ingrediente_con_el_Nombre_ingresado();
+                    men.mensaje = "Ya existe la mesa";
+                    men.status = false;
                     return men;
                 }
             }
@@ -78,7 +80,8 @@ namespace BusinessLayer.Implementations
             {
                 if (_dal.modificar_Mesas(dtm) == true)
                 {
-                    men.El_Ingrediente_se_guardo_Correctamente();
+                    men.mensaje = "La mesa se guardo correctamente";
+                    men.status = true;
                     return men;
                 }
                 else

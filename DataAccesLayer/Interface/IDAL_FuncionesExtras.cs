@@ -21,5 +21,6 @@ namespace DataAccesLayer.Interface
         bool existeUsuario(string username);
         bool mesaEnUso(int idMesa);
         void agregarPrecioaMesa(float valor, int idMesa);
+        void restarSaldoCliente(float valor, int idCliente);
     }
 }
