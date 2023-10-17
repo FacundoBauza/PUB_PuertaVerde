@@ -22,7 +22,7 @@ builder.Services.AddIdentity<Usuarios, IdentityRole>()
 builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
-builder.Services.AddSwaggerGen();
+//builder.Services.AddSwaggerGen();
 builder.Services.AddDbContext<DataContext>();
 
 // Adding Authentication
@@ -69,7 +69,7 @@ builder.Services.AddCors(options =>
 
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
-builder.Services.AddSwaggerGen(c =>
+/*builder.Services.AddSwaggerGen(c =>
 {
     c.SwaggerDoc("v1",
         new OpenApiInfo
@@ -105,11 +105,11 @@ builder.Services.AddSwaggerGen(c =>
     },
         new string[] {}
     }});
-});
+});*/
 
 
 builder.Services.AddEndpointsApiExplorer();
-builder.Services.AddSwaggerGen();
+//builder.Services.AddSwaggerGen();
 builder.Services.AddSignalR();
 
 /********************************************************************************************************/
@@ -147,8 +147,8 @@ app.UseCors("CorsPolicy");
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
 {
-    app.UseSwagger();
-    app.UseSwaggerUI();
+    /*app.UseSwagger();
+    app.UseSwaggerUI();*/
 }
 
 app.UseHttpsRedirection();
