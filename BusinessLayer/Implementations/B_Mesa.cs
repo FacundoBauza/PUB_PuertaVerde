@@ -4,6 +4,8 @@ using DataAccesLayer.Interface;
 using DataAccesLayer.Models;
 using Domain.DT;
 using Domain.Entidades;
+using iText.Kernel.Pdf;
+using iText.Layout.Element;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -35,7 +37,8 @@ namespace BusinessLayer.Implementations
                 {
                     if (_dal.set_Mesa(dtm) == true)
                     {
-                        men.El_Ingrediente_se_guardo_Correctamente();
+                        men.mensaje = "La mesa se guardo correctamente";
+                        men.status = true;
                         return men;
                     }
                     else
@@ -46,7 +49,8 @@ namespace BusinessLayer.Implementations
                 }
                 else
                 {
-                    men.Ya_existe_un_Ingrediente_con_el_Nombre_ingresado();
+                    men.mensaje = "Ya existe la mesa";
+                    men.status = false;
                     return men;
                 }
             }
@@ -76,7 +80,8 @@ namespace BusinessLayer.Implementations
             {
                 if (_dal.modificar_Mesas(dtm) == true)
                 {
-                    men.El_Ingrediente_se_guardo_Correctamente();
+                    men.mensaje = "La mesa se guardo correctamente";
+                    men.status = true;
                     return men;
                 }
                 else
@@ -99,8 +104,7 @@ namespace BusinessLayer.Implementations
 
         public byte[] cerarMesa(DTMesa modificar)
         {
-            byte[] pdf_Pedido = _fu.pdfPedido(modificar.id_Mesa);
-            return pdf_Pedido;
+            return _dal.cerarMesa(modificar.id_Mesa);
         }
     }
 }

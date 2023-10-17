@@ -28,6 +28,7 @@ namespace DataAccesLayer.Implementations
             aux.nombre = c.nombre;
             aux.precio = c.precio;
             aux.descripcion = c.descripcion;
+            aux.tipo = c.tipo;
             return aux;
         }
 
@@ -56,6 +57,7 @@ namespace DataAccesLayer.Implementations
             DTMesa aux = new DTMesa();
             aux.id_Mesa = m.id_Mesa;
             aux.enUso = m.enUso;
+            aux.precioTotal = m.precioTotal;
             return aux;
         }
 

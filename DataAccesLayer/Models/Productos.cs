@@ -21,6 +21,7 @@ namespace DataAccesLayer.Models
         public string descripcion { get; set; }
         public float precio { get; set; }
         public bool registro_Activo { get; set; }
+        public string tipo { get; set; }
         public ICollection<Productos_Ingredientes> ProductoIngredientes { get; set; }
 
         internal static Productos SetProducto(DTProducto p)
@@ -30,6 +31,7 @@ namespace DataAccesLayer.Models
             aux.nombre = p.nombre;
             aux.precio = p.precio;
             aux.descripcion = p.descripcion;
+            aux.tipo = p.tipo;
             return aux;
         }
 
@@ -40,6 +42,7 @@ namespace DataAccesLayer.Models
             aux.nombre = nombre;
             aux.precio = precio;
             aux.descripcion = descripcion;
+            aux.tipo = tipo;
             return aux;
         }
     }

@@ -37,34 +37,32 @@ namespace BusinessLayer.Implementations
                     {
                         if (_fu.existeUsuario(dtP.username))
                         {
-                            if (_fu.existeMesa(dtP.id_Mesa))
+                            if (_dal.set_Cliente(dtP))
                             {
-                                if (!_fu.mesaEnUso(dtP.id_Mesa))
+                                if (_fu.existeClienteId(dtP.id_Cli_Preferencial))
                                 {
-                                    if (_dal.set_Cliente(dtP))
-                                    {
-                                        _fu.agregarPrecioaMesa(dtP.valorPedido, dtP.id_Mesa);
-                                        men.mensaje = "El Pedido se guardo Correctamente";
-                                        men.status = true;
-                                        return men;
-                                    }
-                                    else
-                                    {
-                                        men.Exepcion_no_Controlada();
-                                        return men;
-                                    }
+                                    _fu.restarSaldoCliente(dtP.valorPedido, dtP.id_Cli_Preferencial);
+                                    men.mensaje = "El Pedido se guardo Correctamente en el cliente";
+                                    men.status = true;
+                                    return men;
+                                }
+                                else if (_fu.existeMesa(dtP.id_Mesa))
+                                {
+                                    _fu.agregarPrecioaMesa(dtP.valorPedido, dtP.id_Mesa);
+                                    men.mensaje = "El Pedido se guardo Correctamente en la mesa";
+                                    men.status = true;
+                                    return men;
                                 }
                                 else
                                 {
-                                    men.mensaje = "La mesa asignada ya esta en uso";
-                                    men.status = false;
+                                    men.mensaje = "El Pedido se guardo Correctamente sin mesa ni cliente";
+                                    men.status = true;
                                     return men;
                                 }
                             }
                             else
                             {
-                                men.mensaje = "La mesa asignada no existe en el sistema";
-                                men.status = false;
+                                men.Exepcion_no_Controlada();
                                 return men;
                             }
                         }
@@ -150,15 +148,13 @@ namespace BusinessLayer.Implementations
         List<DTPedido> IB_Pedido.listar_Pedidos()
         {
             List<DTPedido> pedidos = new List<DTPedido>();
-            DTPedido pedido = null;
-            Productos producto = null;
+            DTPedido? pedido = null;
             foreach (Pedidos x in _dal.get_Pedidos())
             {
                 pedido = _cas.castDTPedido(x);
-                foreach(Pedidos_Productos x1 in _dal.get_ProductosPedidos(x.id_Pedido))
+                foreach (Pedidos_Productos x1 in _dal.get_ProductosPedidos(x.id_Pedido))
                 {
-                    producto = _dal.getProductoPedido(x1.id_Producto);
-                    pedido.list_IdProductos.Add(_cas.castDTPedidoProducto(x1, producto));
+                    pedido.list_IdProductos.Add(_cas.castDTPedidoProducto(x1, _dal.getProductoPedido(x1.id_Producto)));
                 }
                 pedidos.Add(pedido);
             }
@@ -170,19 +166,16 @@ namespace BusinessLayer.Implementations
         List<DTPedido> IB_Pedido.listar_PedidosActivos()
         {
             List<DTPedido> pedidos = new List<DTPedido>();
-            DTPedido pedido = null;
-            Productos producto = null;
+            DTPedido? pedido = null;
             foreach (Pedidos x in _dal.get_PedidosActivos())
             {
                 pedido = _cas.castDTPedido(x);
                 foreach (Pedidos_Productos x1 in _dal.get_ProductosPedidos(x.id_Pedido))
                 {
-                    producto = _dal.getProductoPedido(x1.id_Producto);
-                    pedido.list_IdProductos.Add(_cas.castDTPedidoProducto(x1, producto));
+                    pedido.list_IdProductos.Add(_cas.castDTPedidoProducto(x1, _dal.getProductoPedido(x1.id_Producto)));
                 }
                 pedidos.Add(pedido);
             }
-
             return pedidos;
         }
 
@@ -200,12 +193,6 @@ namespace BusinessLayer.Implementations
                 men.Exepcion_no_Controlada();
                 return men;
             }
-        }
-
-        public byte[] pdf_Pedido(int id)
-        {
-            byte[] pdf_Pedido = _fu.pdfPedido(id);
-            return pdf_Pedido;
         }
     }
 }

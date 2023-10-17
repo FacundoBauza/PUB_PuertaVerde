@@ -28,7 +28,8 @@ namespace BusinessLayer.Implementations
             MensajeRetorno men = new MensajeRetorno();
             if (_dal.ProductoIngrediente(pi.id_Producto, pi.id_Ingrediente))
             {
-                men.El_Ingrediente_se_guardo_Correctamente();
+                men.mensaje = "El Ingrediente se guardo Correctamente";
+                men.status = true;
                 return men;
             }
             men.Objeto_Nulo();

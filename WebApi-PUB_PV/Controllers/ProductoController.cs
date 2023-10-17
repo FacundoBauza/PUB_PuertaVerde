@@ -31,6 +31,13 @@ namespace WebApi_PUB_PV.Controllers
             return bl.listar_Productos();
         }
 
+        //Listar
+        [HttpGet("/api/listarProductosPorTipo{tipo}")]
+        public List<DTProducto> GetProductosPorTipo(string tipo)
+        {
+            return bl.listar_ProductosPorTipo(tipo);
+        }
+
         //Eliminar
         [HttpDelete("/api/bajaProducto/{id:int}")]
         public ActionResult<bool> BajaProducto(int id)

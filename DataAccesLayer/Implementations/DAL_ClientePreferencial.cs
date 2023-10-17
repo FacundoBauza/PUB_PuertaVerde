@@ -1,4 +1,9 @@
-﻿using DataAccesLayer.Interface;
+﻿using System;
+using System.IO;
+using iText.Kernel.Pdf;
+using iText.Layout;
+using iText.Layout.Element;
+using DataAccesLayer.Interface;
 using DataAccesLayer.Models;
 using Domain.DT;
 using System;
@@ -6,6 +11,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using static iText.StyledXmlParser.Jsoup.Select.Evaluator;
 
 namespace DataAccesLayer.Implementations
 {
@@ -86,5 +92,64 @@ namespace DataAccesLayer.Implementations
             }
             return false;
         }
+
+        public byte[] cerarCuenta(int id)
+        {
+            //string para con todo el contenido para luego cargarselo al pdf
+            string factura = "";
+            //total
+            float total = 0;
+            //PDF en binario
+            byte[] pdfData;
+#pragma warning disable CS8604 // Posible argumento de referencia nulo
+            //Traigo todos los pedidos sin pagar de este cliente y los recorro
+            foreach (Pedidos Pedido in _db.Pedidos.Where(x => x.id_Cli_Preferencial == id & x.pago == false).Select(x => x.GetPedido()).ToList())
+            {
+                //Traigo los productos que tiene ese pedido y los recorro
+                foreach (Pedidos_Productos Pepr in _db.Pedidos_Productos.Where(x => x.id_Pedido == Pedido.id_Pedido).Select(x => x.GetPedidos_Productos()).ToList())
+                {
+                    //Me traigo el producto
+                    Productos? producto = _db.Productos.SingleOrDefault(i => i.id_Producto == Pepr.id_Producto);
+                    if (producto != null)
+                    {
+                        //Agrego el producto a la fatura
+                        factura += Environment.NewLine + producto.nombre + " " + producto.precio;
+                        //Sumo los precios
+                        total += producto.precio;
+                    }
+                }
+                Pedidos? aux = _db.Pedidos.FirstOrDefault(pe => pe.id_Pedido == Pedido.id_Pedido);
+                if (aux != null)
+                {
+                    aux.pago = true;
+                    aux.estadoProceso = false;
+                    _db.Pedidos.Update(aux);
+                    _db.SaveChanges();
+                }
+            }
+            factura += Environment.NewLine + "      TOTAL: " + total;
+#pragma warning restore CS8604
+            using (MemoryStream ms = new MemoryStream())
+            {
+                // Crea un nuevo documento PDF
+                using (var pdfDoc = new PdfDocument(new PdfWriter(ms)))
+                {
+                    // Crea un nuevo documento PDF vacío
+                    using (var document = new Document(pdfDoc))
+                    {
+                        // Agrega el contenido al documento
+                        Paragraph paragraph = new Paragraph(factura);
+                        document.Add(paragraph);
+                    }
+                }
+                //falta ver que se hace con el saldo del cliente 
+                // Convierte el MemoryStream en un arreglo de bytes
+                pdfData = ms.ToArray();
+            }
+
+            //retorno el pdf
+            return pdfData;
+        }
+
     }
 }

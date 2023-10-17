@@ -63,25 +63,6 @@ namespace Domain.Entidades
             status = false;
         }
 
-        //Ingrediente
-        public void Ya_existe_un_Ingrediente_con_el_Nombre_ingresado()
-        {
-            mensaje = "Ya existe un Ingrediente con el Nombre ingresado";
-            status = false;
-        }
-
-        public void El_Ingrediente_se_guardo_Correctamente()
-        {
-            mensaje = "El Ingrediente se guardo correctamente";
-            status = true;
-        }
-
-        public void El_Ingrediente_se_modifico_Correctamente()
-        {
-            mensaje = "El Ingrediente se modifico correctamente";
-            status = true;
-        }
-
         public void No_existe_un_Cliente_con_los_datos_ingresado()
         {
             mensaje = "No existe un Cliente con los datos aportados";

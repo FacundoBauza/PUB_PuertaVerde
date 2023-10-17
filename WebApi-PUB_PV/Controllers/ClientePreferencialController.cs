@@ -45,5 +45,11 @@ namespace WebApi_PUB_PV.Controllers
             MensajeRetorno x = bl.baja_ClientePreferencial(id);
             return Ok(new StatusResponse { StatusOk = x.status, StatusMessage = x.mensaje });
         }
+        //Cerar cuenta del Cliente Preferencial
+        [HttpPut("/api/cerarCuentaCliente")]
+        public ActionResult<byte[]> cerarMesa([FromBody] DTCliente_Preferencial Modificar)
+        {
+            return bl.cerarCuenta(Modificar);
+        }
     }
 }

@@ -11,6 +11,7 @@ namespace DataAccesLayer.Interface
     public interface IDAL_Producto
     {
         public List<Productos> getProducto();
+        List<Productos> getProductoPorTipo(string tipo);
         bool modificar_Producto(DTProducto dtp);
         public bool set_Producto(DTProducto dtp);
     }

@@ -46,7 +46,7 @@ namespace WebApi_PUB_PV.Controllers
             MensajeRetorno x = bl.Modificar_Mesa(Modificar);
             return Ok(new StatusResponse { StatusOk = x.status, StatusMessage = x.mensaje });
         }
-        //Modificar
+        //Cerar cuenta de la mesa
         [HttpPut("/api/cerarCuentaMesa")]
         public ActionResult<byte[]> cerarMesa([FromBody] DTMesa Modificar)
         {

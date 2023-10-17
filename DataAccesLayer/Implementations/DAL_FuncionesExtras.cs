@@ -14,6 +14,7 @@ using System.Text;
 using System.Threading.Tasks;
 using static System.Runtime.InteropServices.JavaScript.JSType;
 using Domain.Entidades;
+using Org.BouncyCastle.Crypto;
 
 namespace DataAccesLayer.Implementations
 {
@@ -111,74 +112,15 @@ namespace DataAccesLayer.Implementations
             }
         }
 
-        public byte[] pdfPedido(int id)
+        public void restarSaldoCliente(float valor, int idCliente)
         {
-            //string para con todo el contenido para luego cargarselo al pdf
-            //lista para guardar los productos_pedidos
-            string factura = "";
-            List<Pedidos_Productos> pp = new();
-            //total
-            float total = 0;
-            //PDF en binario
-            byte[] pdfData;
-            //Traigo todos los pedidos sin pagar de esa mesa
-            List<Pedidos> p = _db.Pedidos.Where(x => x.id_Mesa == id & x.pago == false).Select(x => x.GetPedido()).ToList();
-            //Recorro todos los pedidos
-#pragma warning disable CS8604 // Posible argumento de referencia nulo
-            foreach (Pedidos Pedido in p)
+            ClientesPreferenciales? aux = _db.ClientesPreferenciales.SingleOrDefault(i => i.id_Cli_Preferencial == idCliente);
+            if (aux != null)
             {
-                //Traigo los productos que tiene ese pedido
-                pp = _db.Pedidos_Productos.Where(x => x.id_Pedido == Pedido.id_Pedido).Select(x => x.GetPedidos_Productos()).ToList();
-                foreach (Pedidos_Productos Pepr in pp)
-                {
-                    //Me traigo el producto
-                    Productos? producto = _db.Productos.SingleOrDefault(i => i.id_Producto == Pepr.id_Producto);
-                    if (producto != null)
-                    {
-                        //Agrego el producto a la fatura
-                        factura += Environment.NewLine + producto.nombre + " " + producto.precio;
-                        //Sumo los precios
-                        total += producto.precio;
-                    }
-                }
-                Pedidos? aux = _db.Pedidos.FirstOrDefault(pe => pe.id_Pedido == Pedido.id_Pedido);
-                if (aux != null)
-                {
-                    aux.pago = true;
-                    aux.estadoProceso = false;
-                    _db.Pedidos.Update(aux);
-                    _db.SaveChanges();
-                }
+                aux.saldo = aux.saldo - valor;
+                _db.ClientesPreferenciales.Update(aux);
+                _db.SaveChanges();
             }
-            factura += Environment.NewLine + "      TOTAL: " + total;
-#pragma warning restore CS8604
-            using (MemoryStream ms = new MemoryStream())
-            {
-                // Crea un nuevo documento PDF
-                using (var pdfDoc = new PdfDocument(new PdfWriter(ms)))
-                {
-                    // Crea un nuevo documento PDF vacío
-                    using (var document = new Document(pdfDoc))
-                    {
-                        // Agrega el contenido al documento
-                        Paragraph paragraph = new Paragraph(factura);
-                        document.Add(paragraph);
-                    }
-                }
-
-                // Convierte el MemoryStream en un arreglo de bytes
-                pdfData = ms.ToArray();
-            }
-            //Traigo la mesa
-            Mesas? mesa = _db.Mesas.SingleOrDefault(i => i.id_Mesa == id);
-            if (mesa != null)
-            {
-                //Dejo la mesa libre
-                mesa.precioTotal = 0;
-                mesa.enUso = false;
-            }
-            //retorno el pdf
-            return pdfData;
         }
     }
 }

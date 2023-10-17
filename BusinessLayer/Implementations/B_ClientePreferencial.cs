@@ -11,7 +11,7 @@ using System.Threading.Tasks;
 
 namespace BusinessLayer.Implementations
 {
-    public class B_ClientePreferencial: IB_ClientePreferencial
+    public class B_ClientePreferencial : IB_ClientePreferencial
     {
         private IDAL_ClientePreferencial _dal;
         private IDAL_Casteo _cas;
@@ -91,7 +91,7 @@ namespace BusinessLayer.Implementations
             List<DTCliente_Preferencial> clientes = new List<DTCliente_Preferencial>();
             foreach (ClientesPreferenciales x in _dal.get_Cliente())
             {
-                if(x.registro_Activo == true)
+                if (x.registro_Activo == true)
                     clientes.Add(_cas.castDTCliente_Preferencial(x));
             }
 
@@ -111,6 +111,11 @@ namespace BusinessLayer.Implementations
                 men.Exepcion_no_Controlada();
                 return men;
             }
+        }
+
+        public byte[] cerarCuenta(DTCliente_Preferencial modificar)
+        {
+            return _dal.cerarCuenta(modificar.id_Cli_Preferencial);
         }
     }
 }

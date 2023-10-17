@@ -23,6 +23,11 @@ namespace DataAccesLayer.Implementations
             return _db.Productos.Select(x => x.GetProducto()).ToList();
         }
 
+        public List<Productos> getProductoPorTipo(string tipo)
+        {
+            return _db.Productos.Where(x => x.tipo == tipo).Select(x => x.GetProducto()).ToList();
+        }
+
         public bool modificar_Producto(DTProducto dtp)
         {
             // Utiliza SingleOrDefault() para buscar un Producto por nombre.
@@ -32,7 +37,9 @@ namespace DataAccesLayer.Implementations
                 // Modifica las propiedades del Producto.
                 ProductoEncontrado.precio = dtp.precio;
                 ProductoEncontrado.descripcion = dtp.descripcion;
+                ProductoEncontrado.tipo = dtp.tipo;
                 // Guarda los cambios en la base de datos.
+                _db.Update(ProductoEncontrado);
                 _db.SaveChanges();
 
                 return true;
