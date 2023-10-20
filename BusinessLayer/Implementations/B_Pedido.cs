@@ -194,5 +194,21 @@ namespace BusinessLayer.Implementations
                 return men;
             }
         }
+
+        public MensajeRetorno finalizar_Pedido(int id)
+        {
+            MensajeRetorno men = new MensajeRetorno();
+            if (_dal.finalizar_Pedido(id) == true)
+            {
+                men.mensaje = "El Pedido se finalizo correctamente";
+                men.status = true;
+                return men;
+            }
+            else
+            {
+                men.Exepcion_no_Controlada();
+                return men;
+            }
+        }
     }
 }

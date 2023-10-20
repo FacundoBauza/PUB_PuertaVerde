@@ -24,5 +24,6 @@ namespace DataAccesLayer.Interface
         bool baja_Pedido(int id);
         //ProductoPedido
         Productos getProductoPedido(int id_Producto);
+        bool finalizar_Pedido(int id);
     }
 }

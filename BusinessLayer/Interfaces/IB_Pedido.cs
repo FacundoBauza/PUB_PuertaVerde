@@ -20,6 +20,6 @@ namespace BusinessLayer.Interfaces
         List<DTPedido> listar_PedidosActivos();
         //Baja
         MensajeRetorno baja_Pedido(int id);
-
+        MensajeRetorno finalizar_Pedido(int id);
     }
 }
