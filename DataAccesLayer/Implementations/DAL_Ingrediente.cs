@@ -35,6 +35,7 @@ namespace DataAccesLayer.Implementations
                 {
                     // Modifica las propiedades del ingrediente.
                     ingredienteEncontrado.stock = dti.stock;
+                    ingredienteEncontrado.id_Categoria = dti.id_Categoria;
                     // Guarda los cambios en la base de datos.
                     _db.Update(ingredienteEncontrado);
                     _db.SaveChanges();
