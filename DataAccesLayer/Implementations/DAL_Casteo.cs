@@ -72,7 +72,6 @@ namespace DataAccesLayer.Implementations
             aux.id_Cli_Preferencial = p.id_Cli_Preferencial;
             aux.id_Mesa = p.id_Mesa;
             aux.fecha_ingreso = p.fecha_ingreso;
-            aux.hora_ingreso = p.hora_ingreso;
             aux.numero_movil = p.numero_movil;
             return aux;
         }

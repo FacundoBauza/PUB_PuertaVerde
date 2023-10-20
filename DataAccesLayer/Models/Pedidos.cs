@@ -20,7 +20,6 @@ namespace DataAccesLayer.Models
         public int id_Pedido { get; set; }
         public float valorPedido { get; set; }
         public bool estadoProceso { get; set; }
-        public DateTime hora_ingreso { get; set; }
         public DateTime fecha_ingreso { get; set; }
         public string numero_movil { get; set; }
         public bool pago { get; set; }
@@ -43,7 +42,6 @@ namespace DataAccesLayer.Models
             aux.valorPedido = x.valorPedido;
             aux.estadoProceso = true;
             aux.pago = false;
-            aux.hora_ingreso = x.hora_ingreso;
             aux.fecha_ingreso = x.fecha_ingreso;
             aux.numero_movil = x.numero_movil;
             aux.username = x.username;
@@ -63,7 +61,6 @@ namespace DataAccesLayer.Models
             aux.valorPedido = valorPedido;
             aux.estadoProceso = estadoProceso;
             aux.pago = pago;
-            aux.hora_ingreso = hora_ingreso;
             aux.fecha_ingreso = fecha_ingreso;
             aux.numero_movil = numero_movil;
             aux.username = username;
