@@ -10,6 +10,7 @@ using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
 using SignalR;
 using System.Text;
+using WebApi_PUB_PV.Controllers;
 
 var builder = WebApplication.CreateBuilder(args);
 ConfigurationManager configuration = builder.Configuration;
@@ -22,7 +23,7 @@ builder.Services.AddIdentity<Usuarios, IdentityRole>()
 builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
-//builder.Services.AddSwaggerGen();
+builder.Services.AddSwaggerGen();
 builder.Services.AddDbContext<DataContext>();
 
 // Adding Authentication
@@ -46,8 +47,8 @@ builder.Services.AddAuthentication(options =>
     {
         ValidateIssuer = false,
         ValidateAudience = false,
-        //ValidAudience = configuration["JWT:ValidAudience"],
-        //ValidIssuer = configuration["JWT:ValidIssuer"],
+        ValidAudience = configuration["JWT:ValidAudience"],
+        ValidIssuer = configuration["JWT:ValidIssuer"],
         IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(configuration["JWT:Secret"]))
     };
 #pragma warning restore CS8604 // Posible argumento de referencia nulo
@@ -55,8 +56,8 @@ builder.Services.AddAuthentication(options =>
 
 builder.Services.Configure<DataProtectionTokenProviderOptions>(options =>
 {
-    // Reset token valid for 2 hours
-    options.TokenLifespan = TimeSpan.FromHours(2);
+    // Reset token valid for 12 hours
+    options.TokenLifespan = TimeSpan.FromHours(12);
 });
 // Add cors builder
 builder.Services.AddCors(options =>
@@ -69,7 +70,7 @@ builder.Services.AddCors(options =>
 
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
-/*builder.Services.AddSwaggerGen(c =>
+builder.Services.AddSwaggerGen(c =>
 {
     c.SwaggerDoc("v1",
         new OpenApiInfo
@@ -105,11 +106,11 @@ builder.Services.AddEndpointsApiExplorer();
     },
         new string[] {}
     }});
-});*/
+});
 
 
 builder.Services.AddEndpointsApiExplorer();
-//builder.Services.AddSwaggerGen();
+builder.Services.AddSwaggerGen();
 builder.Services.AddSignalR();
 
 /********************************************************************************************************/
@@ -139,6 +140,10 @@ builder.Services.AddTransient<IB_Producto, B_Producto>();
 builder.Services.AddTransient<IDAL_ClientePreferencial, DAL_ClientePreferencial>();
 builder.Services.AddTransient<IB_ClientePreferencial, B_ClientePreferencial>();
 
+builder.Services.AddTransient<IDAL_Estadisticas, DAL_Estadisticas>();
+builder.Services.AddTransient<IB_Estadisticas, B_Estadisticas>();
+
+
 builder.Services.AddControllers();
 
 var app = builder.Build();
@@ -147,8 +152,8 @@ app.UseCors("CorsPolicy");
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
 {
-    /*app.UseSwagger();
-    app.UseSwaggerUI();*/
+    app.UseSwagger();
+    app.UseSwaggerUI();
 }
 
 app.UseHttpsRedirection();

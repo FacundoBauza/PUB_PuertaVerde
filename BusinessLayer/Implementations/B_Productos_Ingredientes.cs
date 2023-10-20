@@ -10,13 +10,13 @@ using System.Threading.Tasks;
 
 namespace BusinessLayer.Implementations
 {
-    public class BProductos_Ingredientes : IBProductos_Ingredientes
+    public class B_Productos_Ingredientes : IBProductos_Ingredientes
     {
         private IDAL_ProductoIngrediente _dal;
         private IDAL_Casteo _cas;
         private IDAL_FuncionesExtras _fu;
 
-        public BProductos_Ingredientes(IDAL_ProductoIngrediente dal, IDAL_Casteo cas, IDAL_FuncionesExtras fu)
+        public B_Productos_Ingredientes(IDAL_ProductoIngrediente dal, IDAL_Casteo cas, IDAL_FuncionesExtras fu)
         {
             _dal = dal;
             _cas = cas;
