@@ -32,12 +32,12 @@ namespace BusinessLayer.Implementations
 
         public List<DTProductoEstadistica> productostipo(DTProductoEstadistica value)
         {
-            throw new NotImplementedException();
+            return _dal.productostipo(value);
         }
 
         public List<DTProductoEstadistica> todoslosproductos(DTProductoEstadistica value)
         {
-            throw new NotImplementedException();
+            return _dal.todoslosproductos(value);
         }
     }
 }
