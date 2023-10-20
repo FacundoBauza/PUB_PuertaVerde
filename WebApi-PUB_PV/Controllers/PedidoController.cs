@@ -45,6 +45,15 @@ namespace WebApi_PUB_PV.Controllers
             return bl.listar_PedidosActivos();
         }
 
+
+        ///Eliminar
+        [HttpPost("/api/finalizarPedido/{id:int}")]
+        public ActionResult<bool> finalizarPedido(int id)
+        {
+            MensajeRetorno x = bl.finalizar_Pedido(id);
+            return Ok(new StatusResponse { StatusOk = x.status, StatusMessage = x.mensaje });
+        }
+
         ///Eliminar
         [HttpDelete("/api/bajaPedido/{id:int}")]
         public ActionResult<bool> BajaPedido(int id)

@@ -95,19 +95,20 @@ namespace DataAccesLayer.Implementations
         {
             Pedidos? aux = null;
             aux = _db.Pedidos.FirstOrDefault(ped => ped.id_Pedido == id);
-            if(aux != null) {
-            aux.estadoProceso = false;
+            if (aux != null)
+            {
+                aux.estadoProceso = false;
 
-            try
-            {
-                _db.Update(aux);
-                _db.SaveChanges();
-            }
-            catch
-            {
-                return false;
-            }
-            return true;
+                try
+                {
+                    _db.Update(aux);
+                    _db.SaveChanges();
+                }
+                catch
+                {
+                    return false;
+                }
+                return true;
             }
             return false;
         }
@@ -115,10 +116,29 @@ namespace DataAccesLayer.Implementations
         //ProductoPedido
         Productos IDAL_Pedido.getProductoPedido(int id_Producto)
         {
-            Productos? aux = null;
-            aux = _db.Productos.FirstOrDefault(prod => prod.id_Producto == id_Producto);
 #pragma warning disable CS8603 // Posible tipo de valor devuelto de referencia nulo
-            return aux;
+            return _db.Productos.FirstOrDefault(prod => prod.id_Producto == id_Producto);
+#pragma warning restore CS8603 // Posible tipo de valor devuelto de referencia nulo
+        }
+
+        public bool finalizar_Pedido(int id)
+        {
+            Pedidos? aux = _db.Pedidos.FirstOrDefault(ped => ped.id_Pedido == id);
+            if (aux != null)
+            {
+                aux.estadoProceso = false;
+                try
+                {
+                    _db.Update(aux);
+                    _db.SaveChanges();
+                }
+                catch
+                {
+                    return false;
+                }
+                return true;
+            }
+            return false;
         }
     }
 }
