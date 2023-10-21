@@ -2,6 +2,7 @@
 using DataAccesLayer.Models;
 using Domain.DT;
 using Domain.Entidades;
+using Domain.Enums;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -23,7 +24,7 @@ namespace DataAccesLayer.Implementations
             return _db.Productos.Select(x => x.GetProducto()).ToList();
         }
 
-        public List<Productos> getProductoPorTipo(string tipo)
+        public List<Productos> getProductoPorTipo(Domain.Enums.Categoria tipo)
         {
             return _db.Productos.Where(x => x.tipo == tipo).Select(x => x.GetProducto()).ToList();
         }

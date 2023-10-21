@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Domain.Enums;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -12,14 +13,14 @@ namespace Domain.DT
         public string nombre { get; set; }
         public string descripcion { get; set; }
         public float precio { get; set; }
-        public string tipo { get; set; }
+        public Categoria tipo { get; set; }
 
 #pragma warning disable CS8618
         public DTProducto()
         {
         }
 
-        public DTProducto(int id_Producto, string nombre, string descripcion, float precio, string tipo)
+        public DTProducto(int id_Producto, string nombre, string descripcion, float precio, Categoria tipo)
         {
             this.id_Producto = id_Producto;
             this.nombre = nombre;

@@ -1,4 +1,5 @@
 ﻿using DataAccesLayer.Models;
+using Domain.Enums;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
@@ -46,6 +47,12 @@ namespace DataAccesLayer
                 .HasForeignKey(pi => pi.id_Ingrediente);
 
             base.OnModelCreating(builder);
+
+            builder.Entity<Productos>()
+            .Property(e => e.tipo)
+            .HasConversion(
+                v => v.ToString(),
+                v => (Categoria)Enum.Parse(typeof(Categoria), v));
         }
     }
 }

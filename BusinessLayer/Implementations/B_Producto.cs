@@ -4,6 +4,7 @@ using DataAccesLayer.Interface;
 using DataAccesLayer.Models;
 using Domain.DT;
 using Domain.Entidades;
+using Domain.Enums;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -99,7 +100,7 @@ namespace BusinessLayer.Implementations
             throw new NotImplementedException();
         }
 
-        public List<DTProducto> listar_ProductosPorTipo(string tipo)
+        public List<DTProducto> listar_ProductosPorTipo(Domain.Enums.Categoria tipo)
         {
             List<Productos> Productos = _dal.getProductoPorTipo(tipo);
             List<DTProducto> dt_Productos = new List<DTProducto>();

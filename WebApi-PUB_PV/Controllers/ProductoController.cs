@@ -1,6 +1,7 @@
 ﻿using BusinessLayer.Interfaces;
 using Domain.DT;
 using Domain.Entidades;
+using Domain.Enums;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using WebApi_PUB_PV.Models;
@@ -33,7 +34,7 @@ namespace WebApi_PUB_PV.Controllers
 
         //Listar
         [HttpGet("/api/listarProductosPorTipo{tipo}")]
-        public List<DTProducto> GetProductosPorTipo(string tipo)
+        public List<DTProducto> GetProductosPorTipo(Domain.Enums.Categoria tipo)
         {
             return bl.listar_ProductosPorTipo(tipo);
         }

@@ -1,4 +1,5 @@
 ﻿using Domain.DT;
+using Domain.Enums;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -21,7 +22,7 @@ namespace DataAccesLayer.Models
         public string descripcion { get; set; }
         public float precio { get; set; }
         public bool registro_Activo { get; set; }
-        public string tipo { get; set; }
+        public Categoria tipo { get; set; }
         public ICollection<Productos_Ingredientes> ProductoIngredientes { get; set; }
 
         internal static Productos SetProducto(DTProducto p)

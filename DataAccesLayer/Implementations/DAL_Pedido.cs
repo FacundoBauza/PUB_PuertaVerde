@@ -56,7 +56,6 @@ namespace DataAccesLayer.Implementations
                 aux.id_Cli_Preferencial = dtP.id_Cli_Preferencial;
                 aux.estadoProceso = dtP.estadoProceso;
                 aux.fecha_ingreso = dtP.fecha_ingreso;
-                aux.hora_ingreso = dtP.hora_ingreso;
                 aux.numero_movil = dtP.numero_movil;
                 try
                 {
