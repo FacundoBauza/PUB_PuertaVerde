@@ -12,8 +12,8 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace DataAccesLayer.Migrations
 {
     [DbContext(typeof(DataContext))]
-    [Migration("20231020211654_EnumCategorias")]
-    partial class EnumCategorias
+    [Migration("20231021021415_EnumCategoria")]
+    partial class EnumCategoria
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -208,8 +208,9 @@ namespace DataAccesLayer.Migrations
                     b.Property<bool>("registro_Activo")
                         .HasColumnType("boolean");
 
-                    b.Property<int>("tipo")
-                        .HasColumnType("integer");
+                    b.Property<string>("tipo")
+                        .IsRequired()
+                        .HasColumnType("text");
 
                     b.HasKey("id_Producto");
 
