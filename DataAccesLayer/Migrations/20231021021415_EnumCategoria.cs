@@ -5,22 +5,10 @@
 namespace DataAccesLayer.Migrations
 {
     /// <inheritdoc />
-    public partial class EnumCategorias : Migration
+    public partial class EnumCategoria : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
-        {
-            migrationBuilder.AlterColumn<int>(
-                name: "tipo",
-                table: "Producto",
-                type: "integer",
-                nullable: false,
-                oldClrType: typeof(string),
-                oldType: "text");
-        }
-
-        /// <inheritdoc />
-        protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.AlterColumn<string>(
                 name: "tipo",
@@ -29,6 +17,18 @@ namespace DataAccesLayer.Migrations
                 nullable: false,
                 oldClrType: typeof(int),
                 oldType: "integer");
+        }
+
+        /// <inheritdoc />
+        protected override void Down(MigrationBuilder migrationBuilder)
+        {
+            migrationBuilder.AlterColumn<int>(
+                name: "tipo",
+                table: "Producto",
+                type: "integer",
+                nullable: false,
+                oldClrType: typeof(string),
+                oldType: "text");
         }
     }
 }

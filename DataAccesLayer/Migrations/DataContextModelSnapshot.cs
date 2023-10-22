@@ -205,8 +205,9 @@ namespace DataAccesLayer.Migrations
                     b.Property<bool>("registro_Activo")
                         .HasColumnType("boolean");
 
-                    b.Property<int>("tipo")
-                        .HasColumnType("integer");
+                    b.Property<string>("tipo")
+                        .IsRequired()
+                        .HasColumnType("text");
 
                     b.HasKey("id_Producto");
 
