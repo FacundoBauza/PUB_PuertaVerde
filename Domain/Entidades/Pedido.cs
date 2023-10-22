@@ -17,14 +17,12 @@ namespace Domain.Entidades
         public int id_Cli_Preferencial { get; set; }
         public int id_Mesa { get; set; }
         public bool estadoProceso { get; set; }
-        public DateTime hora_ingreso { get; set; }
         public DateTime fecha_ingreso { get; set; }
         public string numero_movil { get; set; }
 
 #pragma warning disable CS8618
         public Pedido()
         {
-            hora_ingreso = DateTime.Today;
             fecha_ingreso = DateTime.Today;
             pago = false;
             estadoProceso = false;
