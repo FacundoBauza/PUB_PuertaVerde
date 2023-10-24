@@ -1,5 +1,6 @@
 ﻿using BusinessLayer.Interfaces;
 using DataAccesLayer.Interface;
+using DataAccesLayer.Models;
 using Domain.DT;
 using Domain.Entidades;
 using System;
@@ -34,6 +35,18 @@ namespace BusinessLayer.Implementations
             }
             men.Objeto_Nulo();
             return men;
+        }
+
+        public List<DTIngrediente> listar_IngredientesProducto(int idProducto)
+        {
+            List<Ingredientes> Ingredientes = _dal.getIngredientesProducto(idProducto);
+            List<DTIngrediente> dt_Ingredientes = new List<DTIngrediente>();
+            foreach (Ingredientes i in Ingredientes)
+            {
+                dt_Ingredientes.Add(_cas.getDTIngrediente(i));
+            }
+
+            return dt_Ingredientes;
         }
     }
 }

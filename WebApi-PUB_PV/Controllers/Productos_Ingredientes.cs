@@ -16,11 +16,18 @@ namespace WebApi_PUB_PV.Controllers
         }
 
         //Agregar
-        [HttpPost("/api/Productos_Ingredientes")]
+        [HttpPost("/api/agregarProductos_Ingredientes")]
         public ActionResult<DTProductos_Ingredientes> Post([FromBody] DTProductos_Ingredientes value)
         {
             MensajeRetorno x = bl.Productos_Ingredientes(value);
             return Ok(new StatusResponse { StatusOk = x.status, StatusMessage = x.mensaje });
+        }
+
+        //Listar
+        [HttpGet("/api/listarIngredientesProducto{idProducto}")]
+        public List<DTIngrediente> Get(int idProducto)
+        {
+            return bl.listar_IngredientesProducto(idProducto);
         }
     }
 }

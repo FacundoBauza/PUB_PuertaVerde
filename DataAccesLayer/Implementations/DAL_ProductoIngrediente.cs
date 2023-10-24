@@ -47,5 +47,17 @@ namespace DataAccesLayer.Implementations
                 return false;
             }
         }
+
+        public List<Ingredientes> getIngredientesProducto(int idProducto)
+        {
+            List<Ingredientes> ingredientes = new List<Ingredientes>();
+            Ingredientes ing = null;
+            List<Productos_Ingredientes> P_I = context.Productos_Ingredientes.Where(x => x.id_Producto == idProducto).Select(x => x.GetProductoIngredientes()).ToList();
+            foreach(Productos_Ingredientes pi in P_I){
+                ing = context.Ingredientes.Where(pi => pi.id_Ingrediente == pi.id_Ingrediente).FirstOrDefault();
+                ingredientes.Add(ing);
+            }
+            return ingredientes;
+        }
     }
 }

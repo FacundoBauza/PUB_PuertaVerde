@@ -1,4 +1,6 @@
-﻿using Domain.DT;
+﻿using BusinessLayer.Implementations;
+using DataAccesLayer.Models;
+using Domain.DT;
 using Domain.Entidades;
 using System;
 using System.Collections.Generic;
@@ -11,5 +13,6 @@ namespace BusinessLayer.Interfaces
     public interface IBProductos_Ingredientes
     {
         MensajeRetorno Productos_Ingredientes(DTProductos_Ingredientes pi);
+        List<DTIngrediente> listar_IngredientesProducto(int idProducto);
     }
 }

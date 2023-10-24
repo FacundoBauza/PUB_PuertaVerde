@@ -33,6 +33,7 @@ namespace DataAccesLayer.Models
             aux.precio = p.precio;
             aux.descripcion = p.descripcion;
             aux.tipo = p.tipo;
+            aux.registro_Activo = true; 
             return aux;
         }
 

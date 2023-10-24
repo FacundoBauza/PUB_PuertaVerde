@@ -5,6 +5,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using static System.Runtime.InteropServices.JavaScript.JSType;
 
 namespace DataAccesLayer.Models
 {
@@ -16,6 +17,14 @@ namespace DataAccesLayer.Models
         public Productos Productos { get; set; }
         public int id_Ingrediente { get; set; }
         public Ingredientes Ingredientes { get; set; }
+
+        public Productos_Ingredientes GetProductoIngredientes()
+        {
+            Productos_Ingredientes aux = new Productos_Ingredientes();
+            aux.id_Producto = id_Producto;
+            aux.id_Ingrediente = id_Ingrediente;
+            return aux;
+        }
     }
 
 }

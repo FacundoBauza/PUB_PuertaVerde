@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Domain.Enums;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -11,6 +12,7 @@ namespace Domain.DT
         public int id_Producto { get; set; }
         public string nombreProducto { get; set; }
         public string observaciones { get; set; }
+        public Categoria tipo { get; set; }
 
         public DTProducto_Observaciones()
         {

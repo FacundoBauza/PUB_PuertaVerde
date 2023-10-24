@@ -82,6 +82,7 @@ namespace DataAccesLayer.Implementations
             aux.id_Producto = p.id_Producto;
             aux.nombreProducto = p.nombre;
             aux.observaciones = pp.observaciones;
+            aux.tipo = p.tipo;
             return aux;
         }
     }
