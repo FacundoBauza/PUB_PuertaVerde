@@ -27,5 +27,6 @@ namespace DataAccesLayer.Interface
         Productos getProductoPedido(int id_Producto);
         bool finalizar_Pedido(int id);
         List<Pedidos> getPedidosPorTipo(Categoria tipo);
+        List<Pedidos> getPedidosPorMesa(int id);
     }
 }

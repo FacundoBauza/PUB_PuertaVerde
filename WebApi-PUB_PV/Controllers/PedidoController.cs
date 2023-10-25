@@ -45,12 +45,18 @@ namespace WebApi_PUB_PV.Controllers
             return bl.listar_PedidosActivos();
         }
 
-
         //Listar
         [HttpGet("/api/listarPedidosPorTipo{tipo}")]
         public List<DTPedido> GetProductosPorTipo(Domain.Enums.Categoria tipo)
         {
             return bl.listar_PedidosPorTipo(tipo);
+        }
+
+        //Listar
+        [HttpGet("/api/listarPedidosPorMesa{id}")]
+        public List<DTPedido> GetProductosPorTipo(int id)
+        {
+            return bl.listar_PedidosPorMesa(id);
         }
 
         ///Eliminar
