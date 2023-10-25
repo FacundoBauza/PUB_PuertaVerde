@@ -178,6 +178,20 @@ namespace BusinessLayer.Implementations
             }
             return pedidos;
         }
+        public List<DTPedido> listar_PedidosPorTipo(Domain.Enums.Categoria tipo)
+        {
+            List<DTPedido> dt_Productos = new List<DTPedido>();
+            foreach (Pedidos x in _dal.getPedidosPorTipo(tipo))
+            {
+                DTPedido pedido = _cas.castDTPedido(x);
+                foreach (Pedidos_Productos x1 in _dal.get_ProductosPedidos(x.id_Pedido))
+                {
+                    pedido.list_IdProductos.Add(_cas.castDTPedidoProducto(x1, _dal.getProductoPedido(x1.id_Producto)));
+                }
+                dt_Productos.Add(pedido);
+            }
+            return dt_Productos;
+        }
 
         MensajeRetorno IB_Pedido.baja_Pedido(int id)
         {

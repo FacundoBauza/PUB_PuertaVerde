@@ -1,4 +1,5 @@
-﻿using Domain.Enums;
+﻿using Domain;
+using Domain.Enums;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations.Schema;
@@ -19,6 +20,7 @@ namespace Domain.Entidades
         public bool estadoProceso { get; set; }
         public DateTime fecha_ingreso { get; set; }
         public string numero_movil { get; set; }
+        public Domain.Enums.Categoria tipo { get; set; }
 
 #pragma warning disable CS8618
         public Pedido()
@@ -28,7 +30,7 @@ namespace Domain.Entidades
             estadoProceso = false;
         }
 
-        public Pedido(int id_Pedido, float valorPedido, bool pago, string username, int id_Cli_Preferencial, int id_Mesa, string numero_movil)
+        public Pedido(int id_Pedido, float valorPedido, bool pago, string username, int id_Cli_Preferencial, int id_Mesa, string numero_movil, Domain.Enums.Categoria tipo)
         {
             this.id_Pedido = id_Pedido;
             this.valorPedido = valorPedido;
@@ -37,6 +39,7 @@ namespace Domain.Entidades
             this.id_Cli_Preferencial = id_Cli_Preferencial;
             this.id_Mesa = id_Mesa;
             this.numero_movil = numero_movil;
+            this.tipo = tipo;
         }
     }
 }

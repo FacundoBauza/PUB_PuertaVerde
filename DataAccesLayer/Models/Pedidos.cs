@@ -23,6 +23,7 @@ namespace DataAccesLayer.Models
         public DateTime fecha_ingreso { get; set; }
         public string numero_movil { get; set; }
         public bool pago { get; set; }
+        public Domain.Enums.Categoria tipo { get; set; }
 
         [ForeignKey("User")]
         public string username { get; set; }
@@ -36,39 +37,38 @@ namespace DataAccesLayer.Models
 
         public static Pedidos SetPedido(DTPedido x)
         {
-            Pedidos aux = new Pedidos();
-
-            aux.id_Pedido = x.id_Pedido;
-            aux.valorPedido = x.valorPedido;
-            aux.estadoProceso = true;
-            aux.pago = false;
-            aux.fecha_ingreso = x.fecha_ingreso;
-            aux.numero_movil = x.numero_movil;
-            aux.username = x.username;
-            aux.id_Cli_Preferencial = x.id_Cli_Preferencial;
-            aux.id_Mesa = x.id_Mesa;
-
-            //aux.registro_Activo = true;
+            Pedidos aux = new Pedidos
+            {
+                id_Pedido = x.id_Pedido,
+                valorPedido = x.valorPedido,
+                estadoProceso = true,
+                pago = false,
+                fecha_ingreso = x.fecha_ingreso,
+                numero_movil = x.numero_movil,
+                username = x.username,
+                id_Cli_Preferencial = x.id_Cli_Preferencial,
+                id_Mesa = x.id_Mesa,
+                tipo = x.tipo,
+            };
 
             return aux;
         }
 
         public Pedidos GetPedido()
         {
-            Pedidos aux = new Pedidos();
-
-            aux.id_Pedido = id_Pedido;
-            aux.valorPedido = valorPedido;
-            aux.estadoProceso = estadoProceso;
-            aux.pago = pago;
-            aux.fecha_ingreso = fecha_ingreso;
-            aux.numero_movil = numero_movil;
-            aux.username = username;
-            aux.id_Cli_Preferencial = id_Cli_Preferencial;
-            aux.id_Mesa = id_Mesa;
-
-            //aux.registro_Activo = registro_Activo;
-
+            Pedidos aux = new Pedidos
+            {
+                id_Pedido = id_Pedido,
+                valorPedido = valorPedido,
+                estadoProceso = estadoProceso,
+                pago = pago,
+                fecha_ingreso = fecha_ingreso,
+                numero_movil = numero_movil,
+                username = username,
+                id_Cli_Preferencial = id_Cli_Preferencial,
+                id_Mesa = id_Mesa,
+                tipo = tipo
+            };
             return aux;
         }
     }

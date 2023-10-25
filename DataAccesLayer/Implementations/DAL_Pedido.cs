@@ -1,6 +1,7 @@
 ﻿using DataAccesLayer.Interface;
 using DataAccesLayer.Models;
 using Domain.DT;
+using Domain.Enums;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -138,6 +139,11 @@ namespace DataAccesLayer.Implementations
                 return true;
             }
             return false;
+        }
+
+        public List<Pedidos> getPedidosPorTipo(Categoria tipo)
+        {
+            return _db.Pedidos.Where(x => x.tipo == tipo).Select(x => x.GetPedido()).ToList();
         }
     }
 }

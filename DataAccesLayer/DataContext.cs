@@ -53,6 +53,12 @@ namespace DataAccesLayer
             .HasConversion(
                 v => v.ToString(),
                 v => (Categoria)Enum.Parse(typeof(Categoria), v));
+
+            builder.Entity<Pedidos>()
+            .Property(e => e.tipo)
+            .HasConversion(
+                v => v.ToString(),
+                v => (Categoria)Enum.Parse(typeof(Categoria), v));
         }
     }
 }

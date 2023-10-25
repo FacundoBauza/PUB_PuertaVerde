@@ -21,5 +21,6 @@ namespace BusinessLayer.Interfaces
         //Baja
         MensajeRetorno baja_Pedido(int id);
         MensajeRetorno finalizar_Pedido(int id);
+        List<DTPedido> listar_PedidosPorTipo(Domain.Enums.Categoria tipo);
     }
 }

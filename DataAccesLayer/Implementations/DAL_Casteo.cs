@@ -63,16 +63,19 @@ namespace DataAccesLayer.Implementations
 
         public DTPedido castDTPedido(Pedidos p)
         {
-            DTPedido aux = new DTPedido();
-            aux.id_Pedido = p.id_Pedido;
-            aux.valorPedido = p.valorPedido;
-            aux.pago = p.pago;
-            aux.estadoProceso = p.estadoProceso;
-            aux.username = p.username;
-            aux.id_Cli_Preferencial = p.id_Cli_Preferencial;
-            aux.id_Mesa = p.id_Mesa;
-            aux.fecha_ingreso = p.fecha_ingreso;
-            aux.numero_movil = p.numero_movil;
+            DTPedido aux = new DTPedido
+            {
+                id_Pedido = p.id_Pedido,
+                valorPedido = p.valorPedido,
+                pago = p.pago,
+                estadoProceso = p.estadoProceso,
+                username = p.username,
+                id_Cli_Preferencial = p.id_Cli_Preferencial,
+                id_Mesa = p.id_Mesa,
+                fecha_ingreso = p.fecha_ingreso,
+                numero_movil = p.numero_movil,
+                tipo = p.tipo
+            };
             return aux;
         }
 
