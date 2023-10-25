@@ -143,7 +143,7 @@ namespace DataAccesLayer.Implementations
 
         public List<Pedidos> getPedidosPorTipo(Categoria tipo)
         {
-            return _db.Pedidos.Where(x => x.tipo == tipo).Select(x => x.GetPedido()).ToList();
+            return _db.Pedidos.Where(x => x.tipo == tipo & x.estadoProceso).Select(x => x.GetPedido()).ToList();
         }
     }
 }
