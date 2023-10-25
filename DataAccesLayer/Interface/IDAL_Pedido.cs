@@ -1,5 +1,6 @@
 ﻿using DataAccesLayer.Models;
 using Domain.DT;
+using Domain.Enums;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -25,5 +26,6 @@ namespace DataAccesLayer.Interface
         //ProductoPedido
         Productos getProductoPedido(int id_Producto);
         bool finalizar_Pedido(int id);
+        List<Pedidos> getPedidosPorTipo(Categoria tipo);
     }
 }

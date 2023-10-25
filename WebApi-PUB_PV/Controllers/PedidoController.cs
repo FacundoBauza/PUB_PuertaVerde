@@ -46,6 +46,13 @@ namespace WebApi_PUB_PV.Controllers
         }
 
 
+        //Listar
+        [HttpGet("/api/listarPedidosPorTipo{tipo}")]
+        public List<DTPedido> GetProductosPorTipo(Domain.Enums.Categoria tipo)
+        {
+            return bl.listar_PedidosPorTipo(tipo);
+        }
+
         ///Eliminar
         [HttpPost("/api/finalizarPedido/{id:int}")]
         public ActionResult<bool> finalizarPedido(int id)
