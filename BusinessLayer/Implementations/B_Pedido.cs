@@ -192,6 +192,20 @@ namespace BusinessLayer.Implementations
             }
             return dt_Productos;
         }
+        public List<DTPedido> listar_PedidosPorMesa(int id)
+        {
+            List<DTPedido> dt_Productos = new List<DTPedido>();
+            foreach (Pedidos x in _dal.getPedidosPorMesa(id))
+            {
+                DTPedido pedido = _cas.castDTPedido(x);
+                foreach (Pedidos_Productos x1 in _dal.get_ProductosPedidos(x.id_Pedido))
+                {
+                    pedido.list_IdProductos.Add(_cas.castDTPedidoProducto(x1, _dal.getProductoPedido(x1.id_Producto)));
+                }
+                dt_Productos.Add(pedido);
+            }
+            return dt_Productos;
+        }
 
         MensajeRetorno IB_Pedido.baja_Pedido(int id)
         {

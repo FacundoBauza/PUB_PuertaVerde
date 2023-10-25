@@ -145,5 +145,10 @@ namespace DataAccesLayer.Implementations
         {
             return _db.Pedidos.Where(x => x.tipo == tipo & x.estadoProceso).Select(x => x.GetPedido()).ToList();
         }
+
+        public List<Pedidos> getPedidosPorMesa(int id)
+        {
+            return _db.Pedidos.Where(x => x.id_Mesa == id & !x.pago).Select(x => x.GetPedido()).ToList(); 
+        }
     }
 }
