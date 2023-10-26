@@ -200,8 +200,7 @@ namespace BusinessLayer.Implementations
                 DTPedido pedido = _cas.castDTPedido(x);
                 foreach (Pedidos_Productos x1 in _dal.get_ProductosPedidos(x.id_Pedido))
                 {
-                    pedido.list_IdProductos.Add(_cas.castDTPedid
-                        oProducto(x1, _dal.getProductoPedido(x1.id_Producto)));
+                    pedido.list_IdProductos.Add(_cas.castDTPedidoProducto(x1, _dal.getProductoPedido(x1.id_Producto)));
                 }
                 dt_Productos.Add(pedido);
             }

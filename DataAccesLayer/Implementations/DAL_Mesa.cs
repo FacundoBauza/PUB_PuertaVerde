@@ -12,6 +12,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Runtime.Intrinsics.X86;
 
 namespace DataAccesLayer.Implementations
 {
@@ -130,6 +131,8 @@ namespace DataAccesLayer.Implementations
             //Dejo la mesa libre
             mesa.precioTotal = 0;
             mesa.enUso = false;
+            _db.Mesas.Update(mesa);
+            _db.SaveChanges();
 #pragma warning restore CS8602 // Desreferencia de una referencia posiblemente NULL.
             //retorno el pdf
             return pdfData;
