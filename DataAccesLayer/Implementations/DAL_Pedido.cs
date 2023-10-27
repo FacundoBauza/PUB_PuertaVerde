@@ -2,6 +2,7 @@
 using DataAccesLayer.Models;
 using Domain.DT;
 using Domain.Enums;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -93,21 +94,15 @@ namespace DataAccesLayer.Implementations
         //Baja 
         bool IDAL_Pedido.baja_Pedido(int id)
         {
-            Pedidos? aux = null;
-            aux = _db.Pedidos.FirstOrDefault(ped => ped.id_Pedido == id);
-            if (aux != null)
+            var Pedido = _db.Pedidos.Find(id);
+            if (Pedido != null)
             {
-                aux.estadoProceso = false;
+                var registrosAEliminar = _db.Pedidos_Productos.Where(e => e.id_Pedido == id).ToList(); // Esto selecciona los registros a eliminar
+                _db.Pedidos_Productos.RemoveRange(registrosAEliminar); // Elimina los registros seleccionados
+                _db.SaveChanges(); // Guarda los cambios en la base de datos
+                _db.Pedidos.Remove(Pedido);
+                _db.SaveChanges();// Guarda los cambios en la base de datos
 
-                try
-                {
-                    _db.Update(aux);
-                    _db.SaveChanges();
-                }
-                catch
-                {
-                    return false;
-                }
                 return true;
             }
             return false;
@@ -148,7 +143,7 @@ namespace DataAccesLayer.Implementations
 
         public List<Pedidos> getPedidosPorMesa(int id)
         {
-            return _db.Pedidos.Where(x => x.id_Mesa == id & !x.pago).Select(x => x.GetPedido()).ToList(); 
+            return _db.Pedidos.Where(x => x.id_Mesa == id & !x.pago).Select(x => x.GetPedido()).ToList();
         }
     }
 }
