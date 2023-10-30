@@ -21,12 +21,16 @@ namespace DataAccesLayer.Implementations
 
         public List<Productos> getProducto()
         {
-            return _db.Productos.Select(x => x.GetProducto()).ToList();
+            //return _db.Productos.Select(x => x.GetProducto()).ToList(); 
+            return _db.Productos
+                .Where(producto => producto.ProductoIngredientes.All(ingrediente => ingrediente.Ingredientes.stock >0))
+                .ToList();// ahora retorna  la lista de productos con stock en todos sus ingredientes.
+
         }
 
         public List<Productos> getProductoPorTipo(Domain.Enums.Categoria tipo)
         {
-            return _db.Productos.Where(x => x.tipo == tipo).Select(x => x.GetProducto()).ToList();
+            return _db.Productos.Where(x => x.ProductoIngredientes.All(ingrediente => ingrediente.Ingredientes.stock > 0) & x.tipo == tipo).Select(x => x.GetProducto()).ToList();
         }
 
         public bool modificar_Producto(DTProducto dtp)
