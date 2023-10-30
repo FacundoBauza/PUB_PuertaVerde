@@ -23,6 +23,14 @@ namespace WebApi_PUB_PV.Controllers
             return Ok(new StatusResponse { StatusOk = x.status, StatusMessage = x.mensaje });
         }
 
+        //Quitar
+        [HttpPost("/api/quitarProductos_Ingredientes")]
+        public ActionResult<DTProductos_Ingredientes> Delete([FromBody] DTProductos_Ingredientes value)
+        {
+            MensajeRetorno x = bl.quitarProductos_Ingredientes(value);
+            return Ok(new StatusResponse { StatusOk = x.status, StatusMessage = x.mensaje });
+        }
+
         //Listar
         [HttpGet("/api/listarIngredientesProducto{idProducto}")]
         public List<DTIngrediente> Get(int idProducto)

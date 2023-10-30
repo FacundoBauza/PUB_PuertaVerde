@@ -48,5 +48,18 @@ namespace BusinessLayer.Implementations
 
             return dt_Ingredientes;
         }
+
+        public MensajeRetorno quitarProductos_Ingredientes(DTProductos_Ingredientes pi)
+        {
+            MensajeRetorno men = new MensajeRetorno();
+            if (_dal.bajaProductoIngrediente(pi.id_Producto, pi.id_Ingrediente))
+            {
+                men.mensaje = "El Ingrediente se quito Correctamente";
+                men.status = true;
+                return men;
+            }
+            men.Objeto_Nulo();
+            return men;
+        }
     }
 }

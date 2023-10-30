@@ -14,5 +14,6 @@ namespace BusinessLayer.Interfaces
     {
         MensajeRetorno Productos_Ingredientes(DTProductos_Ingredientes pi);
         List<DTIngrediente> listar_IngredientesProducto(int idProducto);
+        MensajeRetorno quitarProductos_Ingredientes(DTProductos_Ingredientes pi);
     }
 }

@@ -29,13 +29,15 @@ namespace BusinessLayer.Implementations
         public MensajeRetorno agregar_Producto(DTProducto dtp)
         {
             MensajeRetorno men = new MensajeRetorno();
+            int aux = 0;
             if (dtp != null)
             {
                 if (!_fu.existeProducto(dtp.nombre))
                 {
-                    if (_dal.set_Producto(dtp) == true)
+                    aux = _dal.set_Producto(dtp);
+                    if (aux != 0)
                     {
-                        men.mensaje = "El producto se guardo correctamente";
+                        men.mensaje = "El producto se guardo correctamente/"+aux;
                         men.status = true;
                         return men;
                     }

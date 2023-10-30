@@ -14,6 +14,6 @@ namespace DataAccesLayer.Interface
         public List<Productos> getProducto();
         List<Productos> getProductoPorTipo(Categoria tipo);
         bool modificar_Producto(DTProducto dtp);
-        public bool set_Producto(DTProducto dtp);
+        public int set_Producto(DTProducto dtp);
     }
 }

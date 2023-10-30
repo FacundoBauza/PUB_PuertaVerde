@@ -14,5 +14,7 @@ namespace DataAccesLayer.Interface
         public bool ProductoIngrediente(int productoId, int ingredienteId);
 
         List<Ingredientes> getIngredientesProducto(int idProducto);
+
+        bool bajaProductoIngrediente(int id_Producto, int id_Ingrediente);
     }
 }

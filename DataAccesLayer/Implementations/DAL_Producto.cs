@@ -6,6 +6,7 @@ using Domain.Enums;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.Intrinsics.X86;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -36,6 +37,7 @@ namespace DataAccesLayer.Implementations
             if (ProductoEncontrado != null)
             {
                 // Modifica las propiedades del Producto.
+                ProductoEncontrado.nombre = dtp.nombre;
                 ProductoEncontrado.precio = dtp.precio;
                 ProductoEncontrado.descripcion = dtp.descripcion;
                 ProductoEncontrado.tipo = dtp.tipo;
@@ -49,10 +51,11 @@ namespace DataAccesLayer.Implementations
                 return false;
         }
 
-        public bool set_Producto(DTProducto dtp)
+        public int set_Producto(DTProducto dtp)
         {
             //Castea el DT en tipo Ingrediente
             Productos aux = Productos.SetProducto(dtp);
+            int idProducto = 0;
             try
             {
                 //Agrega el Ingrediente
@@ -60,12 +63,15 @@ namespace DataAccesLayer.Implementations
 
                 // Guarda los cambios en la base de datos.
                 _db.SaveChanges();
+
+                idProducto = aux.id_Producto;
+
+                return idProducto;
             }
             catch
             {
-                return false;
+                return 0;
             }
-            return true;
         }
     }
 }

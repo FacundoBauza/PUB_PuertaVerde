@@ -50,14 +50,30 @@ namespace DataAccesLayer.Implementations
 
         public List<Ingredientes> getIngredientesProducto(int idProducto)
         {
-            List<Ingredientes> ingredientes = new List<Ingredientes>();
-            Ingredientes ing = null;
-            List<Productos_Ingredientes> P_I = context.Productos_Ingredientes.Where(x => x.id_Producto == idProducto).Select(x => x.GetProductoIngredientes()).ToList();
-            foreach(Productos_Ingredientes pi in P_I){
-                ing = context.Ingredientes.Where(pi => pi.id_Ingrediente == pi.id_Ingrediente).FirstOrDefault();
-                ingredientes.Add(ing);
-            }
+            var ingredientes = context.Productos_Ingredientes
+                .Where(pi => pi.id_Producto == idProducto)
+                .Select(pi => context.Ingredientes.FirstOrDefault(i => i.id_Ingrediente == pi.id_Ingrediente))
+                .ToList();
+
             return ingredientes;
+        }
+
+        
+        public bool bajaProductoIngrediente(int id_Producto, int id_Ingrediente)
+        {
+            var pi = context.Productos_Ingredientes.FirstOrDefault(i => i.id_Ingrediente == id_Ingrediente && i.id_Producto == id_Producto);
+
+            if (pi != null)
+            {
+                context.Productos_Ingredientes.Remove(pi);
+                context.SaveChanges();
+
+                return true;
+            }
+            else
+            {
+                return false;
+            }
         }
     }
 }

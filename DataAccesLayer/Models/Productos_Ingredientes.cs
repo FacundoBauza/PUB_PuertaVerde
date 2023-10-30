@@ -18,6 +18,16 @@ namespace DataAccesLayer.Models
         public int id_Ingrediente { get; set; }
         public Ingredientes Ingredientes { get; set; }
 
+        public static Productos_Ingredientes SetProductos_Ingredientes(int idProducto, int idIngrediente)
+        {
+            Productos_Ingredientes aux = new Productos_Ingredientes();
+            
+            aux.id_Producto = idProducto;
+            aux.id_Ingrediente = idIngrediente;
+
+            return aux;
+        }
+
         public Productos_Ingredientes GetProductoIngredientes()
         {
             Productos_Ingredientes aux = new Productos_Ingredientes();

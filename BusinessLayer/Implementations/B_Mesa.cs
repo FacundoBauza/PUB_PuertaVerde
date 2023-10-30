@@ -99,8 +99,19 @@ namespace BusinessLayer.Implementations
 
         public MensajeRetorno baja_Mesa(int id)
         {
-            throw new NotImplementedException();
+            MensajeRetorno men = new MensajeRetorno();
+            if (_dal.baja_Mesa(id) == true)
+            {
+                men.El_Cliente_se_quito_Correctamente();
+                return men;
+            }
+            else
+            {
+                men.Exepcion_no_Controlada();
+                return men;
+            }
         }
+
 
         public byte[] cerarMesa(DTMesa modificar)
         {
