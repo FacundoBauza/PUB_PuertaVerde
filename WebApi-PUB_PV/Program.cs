@@ -143,9 +143,11 @@ builder.Services.AddTransient<IB_ClientePreferencial, B_ClientePreferencial>();
 builder.Services.AddTransient<IDAL_Estadisticas, DAL_Estadisticas>();
 builder.Services.AddTransient<IB_Estadisticas, B_Estadisticas>();
 
+builder.Services.AddTransient<IDAL_ProductoIngrediente, DAL_ProductoIngrediente>();
+builder.Services.AddTransient<IBProductos_Ingredientes,B_Productos_Ingredientes>();
 
 builder.Services.AddControllers();
-
+ 
 var app = builder.Build();
 
 app.UseCors("CorsPolicy");
