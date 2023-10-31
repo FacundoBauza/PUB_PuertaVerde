@@ -113,7 +113,7 @@ namespace BusinessLayer.Implementations
             }
         }
 
-        public byte[] cerarCuenta(DTCliente_Preferencial modificar)
+        public string cerarCuenta(DTCliente_Preferencial modificar)
         {
             return _dal.cerarCuenta(modificar.id_Cli_Preferencial);
         }
