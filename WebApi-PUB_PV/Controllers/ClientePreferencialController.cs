@@ -47,7 +47,7 @@ namespace WebApi_PUB_PV.Controllers
         }
         //Cerar cuenta del Cliente Preferencial
         [HttpPut("/api/cerarCuentaCliente")]
-        public ActionResult<string> cerarMesa([FromBody] DTCliente_Preferencial Modificar)
+        public ActionResult<byte[]> cerarCuenta([FromBody] DTCliente_Preferencial Modificar)
         {
             return bl.cerarCuenta(Modificar);
         }

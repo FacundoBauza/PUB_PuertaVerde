@@ -8,11 +8,15 @@ using System.Threading.Tasks;
 
 namespace DataAccesLayer.Interface
 {
-    public interface IDAL_Mesa
+    public interface IDAL_Caja
     {
-        List<Mesas> getMesas();
-        bool modificar_Mesas(DTMesa dtm);
-        bool set_Mesa(DTMesa dtm);
-        byte[] cerarMesa(int id);
+        //Agregar
+        bool set_Categoria(DTCaja dtc);
+
+        //Listar
+        List<Cajas> getCategorias();
+
+        //Baja
+        bool baja_Categoria(int id);
     }
 }
