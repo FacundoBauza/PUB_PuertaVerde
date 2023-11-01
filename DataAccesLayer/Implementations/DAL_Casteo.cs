@@ -1,11 +1,6 @@
 ﻿using DataAccesLayer.Interface;
 using DataAccesLayer.Models;
 using Domain.DT;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace DataAccesLayer.Implementations
 {
@@ -64,9 +59,9 @@ namespace DataAccesLayer.Implementations
         {
             DTMesa aux = new()
             {
-                id_Mesa = m.Id_Mesa,
-                enUso = m.EnUso,
-                precioTotal = m.PrecioTotal
+                id_Mesa = m.id_Mesa,
+                enUso = m.enUso,
+                precioTotal = m.precioTotal
             };
             return aux;
         }
@@ -75,16 +70,16 @@ namespace DataAccesLayer.Implementations
         {
             DTPedido aux = new()
             {
-                Id_Pedido = p.id_Pedido,
-                ValorPedido = p.valorPedido,
-                Pago = p.pago,
-                EstadoProceso = p.estadoProceso,
-                Username = p.username,
-                Id_Cli_Preferencial = p.id_Cli_Preferencial,
-                Id_Mesa = p.id_Mesa,
-                Fecha_ingreso = p.fecha_ingreso,
-                Numero_movil = p.numero_movil,
-                Tipo = p.tipo
+                id_Pedido = p.id_Pedido,
+                valorPedido = p.valorPedido,
+                pago = p.pago,
+                estadoProceso = p.estadoProceso,
+                username = p.username,
+                id_Cli_Preferencial = p.id_Cli_Preferencial,
+                id_Mesa = p.id_Mesa,
+                fecha_ingreso = p.fecha_ingreso,
+                numero_movil = p.numero_movil,
+                tipo = p.tipo
             };
             return aux;
         }
@@ -94,10 +89,10 @@ namespace DataAccesLayer.Implementations
 #pragma warning disable CS8601 // Posible asignación de referencia nula
             DTProducto_Observaciones aux = new()
             {
-                Id_Producto = p.id_Producto,
-                NombreProducto = p.nombre,
-                Observaciones = pp.Observaciones,
-                Tipo = p.tipo
+                id_Producto = p.id_Producto,
+                nombreProducto = p.nombre,
+                observaciones = pp.observaciones,
+                tipo = p.tipo
             };
 #pragma warning restore CS8601 // Posible asignación de referencia nula
             return aux;
@@ -107,10 +102,10 @@ namespace DataAccesLayer.Implementations
         {
             DTCaja dtc = new()
             {
-                id = c.Id,
-                estado = c.Estado,
-                fecha = c.Fecha,
-                TotalPrecios = c.TotalPrecios
+                id = c.id,
+                estado = c.estado,
+                fecha = c.fecha,
+                totalPrecios = c.totalPrecios
             };
             return dtc;
         }

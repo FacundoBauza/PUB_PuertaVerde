@@ -1,13 +1,6 @@
 ﻿using Domain.DT;
-using Domain.Enums;
-using System;
-using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using static System.Runtime.InteropServices.JavaScript.JSType;
 
 namespace DataAccesLayer.Models
 {
@@ -39,16 +32,16 @@ namespace DataAccesLayer.Models
         {
             Pedidos aux = new Pedidos
             {
-                id_Pedido = x.Id_Pedido,
-                valorPedido = x.ValorPedido,
+                id_Pedido = x.id_Pedido,
+                valorPedido = x.valorPedido,
                 estadoProceso = true,
                 pago = false,
-                fecha_ingreso = x.Fecha_ingreso,
-                numero_movil = x.Numero_movil,
-                username = x.Username,
-                id_Cli_Preferencial = x.Id_Cli_Preferencial,
-                id_Mesa = x.Id_Mesa,
-                tipo = x.Tipo,
+                fecha_ingreso = x.fecha_ingreso,
+                numero_movil = x.numero_movil,
+                username = x.username,
+                id_Cli_Preferencial = x.id_Cli_Preferencial,
+                id_Mesa = x.id_Mesa,
+                tipo = x.tipo,
             };
 
             return aux;

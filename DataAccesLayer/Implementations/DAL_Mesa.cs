@@ -1,20 +1,10 @@
-﻿using System;
-using System.IO;
+﻿using DataAccesLayer.Interface;
+using DataAccesLayer.Models;
+using Domain.DT;
+using iText.Kernel.Font;
 using iText.Kernel.Pdf;
 using iText.Layout;
 using iText.Layout.Element;
-using DataAccesLayer.Interface;
-using DataAccesLayer.Models;
-using Domain.DT;
-using Domain.Entidades;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Runtime.Intrinsics.X86;
-using iText.Kernel.Font;
-using iText.Kernel.Geom;
 using iText.Layout.Properties;
 
 namespace DataAccesLayer.Implementations
@@ -35,14 +25,14 @@ namespace DataAccesLayer.Implementations
         public bool Modificar_Mesas(DTMesa dtm)
         {
             // Utiliza SingleOrDefault() para buscar una Mesa.
-            var MesaEncontrada = _db.Mesas.SingleOrDefault(i => i.Id_Mesa == dtm.id_Mesa);
+            var MesaEncontrada = _db.Mesas.SingleOrDefault(i => i.id_Mesa == dtm.id_Mesa);
             if (MesaEncontrada != null)
             {
                 try
                 {
                     // Modifica las propiedades de la mesa.
-                    MesaEncontrada.EnUso = dtm.enUso;
-                    MesaEncontrada.PrecioTotal = dtm.precioTotal;
+                    MesaEncontrada.enUso = dtm.enUso;
+                    MesaEncontrada.precioTotal = dtm.precioTotal;
                     // Guarda los cambios en la base de datos.
                     _db.Mesas.Update(MesaEncontrada);
                     _db.SaveChanges();
@@ -134,19 +124,19 @@ namespace DataAccesLayer.Implementations
                 foreach (Pedidos Pedido in _db.Pedidos.Where(x => x.id_Mesa == id & x.pago == false).Select(x => x.GetPedido()).ToList())
                 {
                     //Traigo los productos que tiene ese pedido y los recorro
-                    foreach (Pedidos_Productos Pepr in _db.Pedidos_Productos.Where(x => x.Id_Pedido == Pedido.id_Pedido).Select(x => x.GetPedidos_Productos()).ToList())
+                    foreach (Pedidos_Productos Pepr in _db.Pedidos_Productos.Where(x => x.id_Pedido == Pedido.id_Pedido).Select(x => x.GetPedidos_Productos()).ToList())
                     {
                         //Me traigo el producto
-                        Productos? producto = _db.Productos.SingleOrDefault(i => i.id_Producto == Pepr.Id_Producto);
+                        Productos? producto = _db.Productos.SingleOrDefault(i => i.id_Producto == Pepr.id_Producto);
                         if (producto != null)
                         {
 
                             //me fijo si el producto ya esta en la factura
                             foreach (DTPDF item in PDF)
                             {
-                                if (item.Nombre.Equals(producto.nombre))
+                                if (item.nombre.Equals(producto.nombre))
                                     //si esta suno 1 a cantidad
-                                    item.Cantidad++;
+                                    item.cantidad++;
                                 else
                                 {
                                     //Agrego el producto
@@ -172,10 +162,10 @@ namespace DataAccesLayer.Implementations
 
                 for (int i = 0; i < PDF.Count; i++)
                 {
-                    table.AddCell(new Paragraph(PDF[i].Nombre).SetFont(font).SetFontSize(fontSize).SetTextAlignment(TextAlignment.LEFT));
-                    table.AddCell(new Paragraph(PDF[i].Cantidad.ToString()).SetFont(font).SetFontSize(fontSize).SetTextAlignment(TextAlignment.CENTER));
-                    table.AddCell(new Paragraph((PDF[i].Precio * PDF[i].Cantidad).ToString()).SetFont(font).SetFontSize(fontSize).SetTextAlignment(TextAlignment.RIGHT));
-                    totalVenta += PDF[i].Precio * PDF[i].Cantidad;
+                    table.AddCell(new Paragraph(PDF[i].nombre).SetFont(font).SetFontSize(fontSize).SetTextAlignment(TextAlignment.LEFT));
+                    table.AddCell(new Paragraph(PDF[i].cantidad.ToString()).SetFont(font).SetFontSize(fontSize).SetTextAlignment(TextAlignment.CENTER));
+                    table.AddCell(new Paragraph((PDF[i].precio * PDF[i].cantidad).ToString()).SetFont(font).SetFontSize(fontSize).SetTextAlignment(TextAlignment.RIGHT));
+                    totalVenta += PDF[i].precio * PDF[i].cantidad;
                 }
 
                 // Controla el flujo de texto para evitar desbordamientos
@@ -190,11 +180,11 @@ namespace DataAccesLayer.Implementations
                 document.Add(total);
             }
             //Libera la mesa
-            Mesas? mesa = _db.Mesas.FirstOrDefault(m => m.Id_Mesa == id);
+            Mesas? mesa = _db.Mesas.FirstOrDefault(m => m.id_Mesa == id);
             if (mesa != null)
             {
-                mesa.EnUso = false;
-                mesa.PrecioTotal = 0;
+                mesa.enUso = false;
+                mesa.precioTotal = 0;
                 _db.Mesas.Update(mesa);
                 _db.SaveChanges();
 

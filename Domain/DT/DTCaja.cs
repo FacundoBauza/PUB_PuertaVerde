@@ -1,16 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace Domain.DT
+﻿namespace Domain.DT
 {
     public class DTCaja
     {
         public int id { get; set; }
         public DateTime fecha { get; set; }
-        public float TotalPrecios { get; set; }
+        public float totalPrecios { get; set; }
         public Boolean estado { get; set; }
 
         public DTCaja()
@@ -21,7 +15,7 @@ namespace Domain.DT
         {
             this.id = id;
             this.fecha = fecha;
-            TotalPrecios = totalPrecios;
+            this.totalPrecios = totalPrecios;
             this.estado = estado;
         }
     }

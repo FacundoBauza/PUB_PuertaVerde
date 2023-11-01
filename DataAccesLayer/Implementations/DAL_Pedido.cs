@@ -2,12 +2,6 @@
 using DataAccesLayer.Models;
 using Domain.DT;
 using Domain.Enums;
-using Microsoft.EntityFrameworkCore;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace DataAccesLayer.Implementations
 {
@@ -31,9 +25,9 @@ namespace DataAccesLayer.Implementations
 
                 int idPedido = aux.id_Pedido;
 
-                foreach (DTProducto_Observaciones dpo in dtP.List_IdProductos)
+                foreach (DTProducto_Observaciones dpo in dtP.list_IdProductos)
                 {
-                    aux2 = Pedidos_Productos.SetPedido_Producto(idPedido, dpo.Id_Producto, dpo.Observaciones);
+                    aux2 = Pedidos_Productos.SetPedido_Producto(idPedido, dpo.id_Producto, dpo.observaciones);
                     _db.Pedidos_Productos.Add(aux2);
                     _db.SaveChanges();
                 }
@@ -49,16 +43,16 @@ namespace DataAccesLayer.Implementations
         bool IDAL_Pedido.update_Pedido(DTPedido dtP)
         {
             Pedidos? aux = null;
-            aux = _db.Pedidos.FirstOrDefault(pe => pe.id_Pedido == dtP.Id_Pedido);
+            aux = _db.Pedidos.FirstOrDefault(pe => pe.id_Pedido == dtP.id_Pedido);
             if (aux != null)
             {
-                aux.valorPedido = dtP.ValorPedido;
-                aux.pago = dtP.Pago;
-                aux.username = dtP.Username;
-                aux.id_Cli_Preferencial = dtP.Id_Cli_Preferencial;
-                aux.estadoProceso = dtP.EstadoProceso;
-                aux.fecha_ingreso = dtP.Fecha_ingreso;
-                aux.numero_movil = dtP.Numero_movil;
+                aux.valorPedido = dtP.valorPedido;
+                aux.pago = dtP.pago;
+                aux.username = dtP.username;
+                aux.id_Cli_Preferencial = dtP.id_Cli_Preferencial;
+                aux.estadoProceso = dtP.estadoProceso;
+                aux.fecha_ingreso = dtP.fecha_ingreso;
+                aux.numero_movil = dtP.numero_movil;
                 try
                 {
                     _db.Update(aux);
@@ -82,7 +76,7 @@ namespace DataAccesLayer.Implementations
         //Listar
         List<Pedidos_Productos> IDAL_Pedido.get_ProductosPedidos(int id_Pedido)
         {
-            return _db.Pedidos_Productos.Where(x => x.Id_Pedido == id_Pedido).Select(x => x.GetPedidos_Productos()).ToList();
+            return _db.Pedidos_Productos.Where(x => x.id_Pedido == id_Pedido).Select(x => x.GetPedidos_Productos()).ToList();
         }
 
         //Listar Productos Pedido
@@ -97,7 +91,7 @@ namespace DataAccesLayer.Implementations
             var Pedido = _db.Pedidos.Find(id);
             if (Pedido != null)
             {
-                var registrosAEliminar = _db.Pedidos_Productos.Where(e => e.Id_Pedido == id).ToList(); // Esto selecciona los registros a eliminar
+                var registrosAEliminar = _db.Pedidos_Productos.Where(e => e.id_Pedido == id).ToList(); // Esto selecciona los registros a eliminar
                 _db.Pedidos_Productos.RemoveRange(registrosAEliminar); // Elimina los registros seleccionados
                 _db.SaveChanges(); // Guarda los cambios en la base de datos
                 _db.Pedidos.Remove(Pedido);

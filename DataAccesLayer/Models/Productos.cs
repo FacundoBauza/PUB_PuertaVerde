@@ -1,13 +1,7 @@
 ﻿using Domain.DT;
 using Domain.Enums;
-using System;
-using System.Collections;
-using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace DataAccesLayer.Models
 {
@@ -33,7 +27,7 @@ namespace DataAccesLayer.Models
             aux.precio = p.precio;
             aux.descripcion = p.descripcion;
             aux.tipo = p.tipo;
-            aux.registro_Activo = true; 
+            aux.registro_Activo = true;
             return aux;
         }
 

@@ -3,14 +3,6 @@ using DataAccesLayer.Interface;
 using DataAccesLayer.Models;
 using Domain.DT;
 using Domain.Entidades;
-using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.Logging;
-using System;
-using System.Collections.Generic;
-using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace BusinessLayer.Implementations
 {
@@ -63,7 +55,7 @@ namespace BusinessLayer.Implementations
         //Listar
         List<DTCategoria> IB_Categoria.listar_Categoria()
         {
-            List <Categorias> categorias = _dal.getCategorias();
+            List<Categorias> categorias = _dal.getCategorias();
             List<DTCategoria> dt_categorias = new List<DTCategoria>();
             foreach (Categorias c in categorias)
             {

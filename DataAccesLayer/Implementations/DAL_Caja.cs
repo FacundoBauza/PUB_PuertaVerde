@@ -1,11 +1,6 @@
 ﻿using DataAccesLayer.Interface;
 using DataAccesLayer.Models;
 using Domain.DT;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace DataAccesLayer.Implementations
 {
@@ -40,14 +35,14 @@ namespace DataAccesLayer.Implementations
         public bool Modificar_Cajas(DTCaja dtc)
         {
             // Utiliza SingleOrDefault() para buscar una caja.
-            var CajaEncontrada = _db.Cajas.SingleOrDefault(i => i.Id== dtc.id);
+            var CajaEncontrada = _db.Cajas.SingleOrDefault(i => i.id == dtc.id);
             if (CajaEncontrada != null)
             {
                 try
                 {
                     // Modifica las propiedades de la mesa.
-                    CajaEncontrada.Estado = dtc.estado;
-                    CajaEncontrada.TotalPrecios = dtc.TotalPrecios;
+                    CajaEncontrada.estado = dtc.estado;
+                    CajaEncontrada.totalPrecios = dtc.totalPrecios;
                     // Guarda los cambios en la base de datos.
                     _db.Cajas.Update(CajaEncontrada);
                     _db.SaveChanges();

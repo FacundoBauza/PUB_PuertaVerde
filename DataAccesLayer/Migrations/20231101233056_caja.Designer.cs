@@ -12,7 +12,7 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace DataAccesLayer.Migrations
 {
     [DbContext(typeof(DataContext))]
-    [Migration("20231101210023_caja")]
+    [Migration("20231101233056_caja")]
     partial class caja
     {
         /// <inheritdoc />
@@ -27,22 +27,22 @@ namespace DataAccesLayer.Migrations
 
             modelBuilder.Entity("DataAccesLayer.Models.Cajas", b =>
                 {
-                    b.Property<int>("Id")
+                    b.Property<int>("id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("integer");
 
-                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("id"));
 
-                    b.Property<bool>("Estado")
+                    b.Property<bool>("estado")
                         .HasColumnType("boolean");
 
-                    b.Property<DateTime>("Fecha")
+                    b.Property<DateTime>("fecha")
                         .HasColumnType("timestamp with time zone");
 
-                    b.Property<float>("TotalPrecios")
+                    b.Property<float>("totalPrecios")
                         .HasColumnType("real");
 
-                    b.HasKey("Id");
+                    b.HasKey("id");
 
                     b.ToTable("Cajas");
                 });
@@ -126,22 +126,22 @@ namespace DataAccesLayer.Migrations
 
             modelBuilder.Entity("DataAccesLayer.Models.Mesas", b =>
                 {
-                    b.Property<int>("Id_Mesa")
+                    b.Property<int>("id_Mesa")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("integer");
 
-                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id_Mesa"));
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("id_Mesa"));
 
-                    b.Property<bool>("EnUso")
+                    b.Property<bool>("enUso")
                         .HasColumnType("boolean");
 
-                    b.Property<float>("PrecioTotal")
+                    b.Property<float>("precioTotal")
                         .HasColumnType("real");
 
-                    b.Property<bool>("Registro_Activo")
+                    b.Property<bool>("registro_Activo")
                         .HasColumnType("boolean");
 
-                    b.HasKey("Id_Mesa");
+                    b.HasKey("id_Mesa");
 
                     b.ToTable("Mesa");
                 });
@@ -191,22 +191,22 @@ namespace DataAccesLayer.Migrations
 
             modelBuilder.Entity("DataAccesLayer.Models.Pedidos_Productos", b =>
                 {
-                    b.Property<int>("IdPedidoProducto")
+                    b.Property<int>("idPedidoProducto")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("integer");
 
-                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("IdPedidoProducto"));
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("idPedidoProducto"));
 
-                    b.Property<int>("Id_Pedido")
+                    b.Property<int>("id_Pedido")
                         .HasColumnType("integer");
 
-                    b.Property<int>("Id_Producto")
+                    b.Property<int>("id_Producto")
                         .HasColumnType("integer");
 
-                    b.Property<string>("Observaciones")
+                    b.Property<string>("observaciones")
                         .HasColumnType("text");
 
-                    b.HasKey("IdPedidoProducto");
+                    b.HasKey("idPedidoProducto");
 
                     b.ToTable("Pedido_Producto");
                 });
@@ -244,15 +244,15 @@ namespace DataAccesLayer.Migrations
 
             modelBuilder.Entity("DataAccesLayer.Models.Productos_Ingredientes", b =>
                 {
-                    b.Property<int>("Id_Producto")
+                    b.Property<int>("id_Producto")
                         .HasColumnType("integer");
 
-                    b.Property<int>("Id_Ingrediente")
+                    b.Property<int>("id_Ingrediente")
                         .HasColumnType("integer");
 
-                    b.HasKey("Id_Producto", "Id_Ingrediente");
+                    b.HasKey("id_Producto", "id_Ingrediente");
 
-                    b.HasIndex("Id_Ingrediente");
+                    b.HasIndex("id_Ingrediente");
 
                     b.ToTable("Producto_Ingrediente");
                 });
@@ -468,21 +468,21 @@ namespace DataAccesLayer.Migrations
 
             modelBuilder.Entity("DataAccesLayer.Models.Productos_Ingredientes", b =>
                 {
-                    b.HasOne("DataAccesLayer.Models.Ingredientes", "Ingredientes")
+                    b.HasOne("DataAccesLayer.Models.Ingredientes", "ingredientes")
                         .WithMany("ProductoIngredientes")
-                        .HasForeignKey("Id_Ingrediente")
+                        .HasForeignKey("id_Ingrediente")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("DataAccesLayer.Models.Productos", "Productos")
+                    b.HasOne("DataAccesLayer.Models.Productos", "productos")
                         .WithMany("ProductoIngredientes")
-                        .HasForeignKey("Id_Producto")
+                        .HasForeignKey("id_Producto")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.Navigation("Ingredientes");
+                    b.Navigation("ingredientes");
 
-                    b.Navigation("Productos");
+                    b.Navigation("productos");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
