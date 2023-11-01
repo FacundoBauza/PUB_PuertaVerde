@@ -95,7 +95,7 @@ namespace DataAccesLayer.Implementations
             return false;
         }
 
-        public string cerarCuenta(int id)
+        public byte[] cerarCuenta(int id)
         {
             // Crear un MemoryStream para almacenar el PDF en memoria.
             using (MemoryStream stream = new MemoryStream())
@@ -211,9 +211,10 @@ namespace DataAccesLayer.Implementations
                     }
                 }
                 // Convierte el PDF en un arreglo de bytes
-                byte[] pdfBytes = stream.ToArray();
+                //byte[] pdfBytes = stream.ToArray();
                 //Retorna el pdf
-                return Convert.ToBase64String(pdfBytes); ;
+                //return Convert.ToBase64String(pdfBytes);
+                return stream.ToArray();
             }
         }
 
