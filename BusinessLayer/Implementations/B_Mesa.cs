@@ -112,8 +112,7 @@ namespace BusinessLayer.Implementations
             }
         }
 
-
-        public byte[] cerarMesa(DTMesa modificar)
+        public string cerarMesa(DTMesa modificar)
         {
             return _dal.cerarMesa(modificar.id_Mesa);
         }
