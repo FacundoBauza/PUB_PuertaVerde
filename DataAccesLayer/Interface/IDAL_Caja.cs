@@ -11,12 +11,12 @@ namespace DataAccesLayer.Interface
     public interface IDAL_Caja
     {
         //Agregar
-        bool set_Categoria(DTCaja dtc);
-
+        bool Set_Caja(DTCaja dtc);
         //Listar
-        List<Cajas> getCategorias();
-
+        List<Cajas> GetCaja();
+        //Modificar
+        public bool Modificar_Cajas(DTCaja dtc);
         //Baja
-        bool baja_Categoria(int id);
+        bool Baja_Caja(int id);
     }
 }

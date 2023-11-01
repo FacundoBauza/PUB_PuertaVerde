@@ -5,28 +5,44 @@ using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Domain.DT;
 
 namespace DataAccesLayer.Models
 {
+    [Table(name: "Cajas")]
     public class Cajas
     {
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         [Key]
-        public int id;
-        public DateTime fecha;
-        public float TotalPrecios;
-        public Boolean estado;
+        public int Id { get; set; }
 
-        public Cajas()
+        public DateTime Fecha { get; set; }
+        
+        public float TotalPrecios { get; set; }
+        
+        public Boolean Estado { get; set; }
+
+        public Cajas GetCajas()
         {
+            Cajas aux = new ()
+            {
+                Id = Id,
+                Fecha = Fecha,
+                TotalPrecios = TotalPrecios,
+                Estado = Estado
+            };
+            return aux;
         }
-
-        public Cajas(int id, DateTime fecha, float totalPrecios, bool estado)
+        internal static Cajas SetCajas(DTCaja p)
         {
-            this.id = id;
-            this.fecha = fecha;
-            TotalPrecios = totalPrecios;
-            this.estado = estado;
+            Cajas aux = new()
+            {
+                Id = p.id,
+                Fecha=p.fecha,
+                TotalPrecios = p.TotalPrecios,
+                Estado = p.estado
+            };
+            return aux;
         }
     }
 }

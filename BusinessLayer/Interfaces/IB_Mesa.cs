@@ -10,10 +10,10 @@ namespace BusinessLayer.Interfaces
 {
     public interface IB_Mesa
     {
-        MensajeRetorno agregar_Mesa(DTMesa value);
-        MensajeRetorno baja_Mesa(int id);
-        byte[] cerarMesa(DTMesa modificar);
-        List<DTMesa> listar_Mesas();
+        MensajeRetorno Agregar_Mesa(DTMesa value);
+        MensajeRetorno Baja_Mesa(int id);
+        byte[] CerarMesa(DTMesa modificar);
+        List<DTMesa> Listar_Mesas();
         MensajeRetorno Modificar_Mesa(DTMesa modificar);
     }
 }

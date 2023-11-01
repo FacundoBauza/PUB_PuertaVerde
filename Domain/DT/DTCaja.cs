@@ -8,10 +8,10 @@ namespace Domain.DT
 {
     public class DTCaja
     {
-        public int id;
-        public DateTime fecha;
-        public float TotalPrecios;
-        public Boolean estado;
+        public int id { get; set; }
+        public DateTime fecha { get; set; }
+        public float TotalPrecios { get; set; }
+        public Boolean estado { get; set; }
 
         public DTCaja()
         {

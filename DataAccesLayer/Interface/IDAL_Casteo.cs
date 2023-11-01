@@ -10,12 +10,13 @@ namespace DataAccesLayer.Interface
 {
     public interface IDAL_Casteo
     {
-        DTIngrediente getDTIngrediente(Ingredientes x);
-        DTCategoria getDTCategoria(Categorias x);
-        DTCliente_Preferencial castDTCliente_Preferencial(ClientesPreferenciales x);
-        DTProducto getDTProducto(Productos c);
-        DTMesa getDTMesa(Mesas m);
-        DTPedido castDTPedido(Pedidos m);
-        DTProducto_Observaciones castDTPedidoProducto(Pedidos_Productos pp, Productos p);
+        DTIngrediente GetDTIngrediente(Ingredientes x);
+        DTCategoria GetDTCategoria(Categorias x);
+        DTCliente_Preferencial CastDTCliente_Preferencial(ClientesPreferenciales x);
+        DTProducto GetDTProducto(Productos c);
+        DTMesa GetDTMesa(Mesas m);
+        DTPedido CastDTPedido(Pedidos m);
+        DTProducto_Observaciones CastDTPedidoProducto(Pedidos_Productos pp, Productos p);
+        DTCaja GetDTCaja(Cajas c);
     }
 }

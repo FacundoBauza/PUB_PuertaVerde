@@ -27,24 +27,24 @@ namespace DataAccesLayer.Implementations
             _db = db;
         }
 
-        public List<Mesas> getMesas()
+        public List<Mesas> GetMesas()
         {
             return _db.Mesas.Select(x => x.GetMesa()).ToList();
         }
 
-        public bool modificar_Mesas(DTMesa dtm)
+        public bool Modificar_Mesas(DTMesa dtm)
         {
             // Utiliza SingleOrDefault() para buscar una Mesa.
-            var MesaEncontrada = _db.Mesas.SingleOrDefault(i => i.id_Mesa == dtm.id_Mesa);
+            var MesaEncontrada = _db.Mesas.SingleOrDefault(i => i.Id_Mesa == dtm.id_Mesa);
             if (MesaEncontrada != null)
             {
                 try
                 {
                     // Modifica las propiedades de la mesa.
-                    MesaEncontrada.enUso = dtm.enUso;
-                    MesaEncontrada.precioTotal = dtm.precioTotal;
+                    MesaEncontrada.EnUso = dtm.enUso;
+                    MesaEncontrada.PrecioTotal = dtm.precioTotal;
                     // Guarda los cambios en la base de datos.
-                    _db.Update(MesaEncontrada);
+                    _db.Mesas.Update(MesaEncontrada);
                     _db.SaveChanges();
                     //retota que todo se hizo corectamente
                     return true;
@@ -55,7 +55,7 @@ namespace DataAccesLayer.Implementations
             return false;
         }
 
-        public bool set_Mesa(DTMesa dtm)
+        public bool Set_Mesa(DTMesa dtm)
         {
             //Castea el DT en tipo Mesas
             Mesas aux = Mesas.SetMesa(dtm);
@@ -75,138 +75,135 @@ namespace DataAccesLayer.Implementations
             //todo bien y retorna true
             return true;
         }
-        public byte[] cerarMesa(int id)
+        public byte[] CerarMesa(int id)
         {
             // Crear un MemoryStream para almacenar el PDF en memoria.
-            using (MemoryStream stream = new MemoryStream())
+            using MemoryStream stream = new();
+            // Crear un nuevo documento PDF y asociarlo con el MemoryStream.
+            using (var pdfDoc = new PdfDocument(new PdfWriter(stream)))
             {
-                // Crear un nuevo documento PDF y asociarlo con el MemoryStream.
-                using (var pdfDoc = new PdfDocument(new PdfWriter(stream)))
+                // Crear un documento iText7 para agregar contenido al PDF.
+                using var document = new Document(pdfDoc);
+
+                // Ajusta el tamaño del papel
+                //PageSize pageSize = new PageSize(80, 300); //me rompe todo voy a ver como se imprime sin eso y luego veo
+                //pdfDoc.SetDefaultPageSize(pageSize);
+
+                // Define el formato de texto
+                PdfFont font = PdfFontFactory.CreateFont("Helvetica");
+                float fontSize = 10;
+
+                // Crea el título del ticket
+                Paragraph title = new Paragraph("La Puerta Verde Open Bar")
+                    .SetFont(font)
+                    .SetFontSize(fontSize + 4)
+                    .SetBold()
+                    .SetTextAlignment(TextAlignment.CENTER);
+                document.Add(title);
+
+                // Crea una tabla para la lista de productos o servicios
+                Table table = new(3);
+                table.SetWidth(UnitValue.CreatePercentValue(100));
+
+                // Define las celdas de la tabla
+                Cell cell1 = new Cell().Add(new Paragraph("Producto"))
+                    .SetFont(font)
+                    .SetFontSize(fontSize)
+                    .SetBold()
+                    .SetTextAlignment(TextAlignment.LEFT);
+                Cell cell2 = new Cell().Add(new Paragraph("Cantidad"))
+                    .SetFont(font)
+                    .SetFontSize(fontSize)
+                    .SetBold()
+                    .SetTextAlignment(TextAlignment.CENTER);
+                Cell cell3 = new Cell().Add(new Paragraph("Total"))
+                    .SetFont(font)
+                    .SetFontSize(fontSize)
+                    .SetBold()
+                    .SetTextAlignment(TextAlignment.RIGHT);
+
+                // Agrega las celdas a la tabla
+                table.AddCell(cell1);
+                table.AddCell(cell2);
+                table.AddCell(cell3);
+
+                // Agrega los elementos al ticket
+
+                List<DTPDF> PDF = new();
+                //Traigo todos los pedidos sin pagar de esa mesa y los recorro
+                foreach (Pedidos Pedido in _db.Pedidos.Where(x => x.id_Mesa == id & x.pago == false).Select(x => x.GetPedido()).ToList())
                 {
-                    // Crear un documento iText7 para agregar contenido al PDF.
-                    using (var document = new Document(pdfDoc))
+                    //Traigo los productos que tiene ese pedido y los recorro
+                    foreach (Pedidos_Productos Pepr in _db.Pedidos_Productos.Where(x => x.Id_Pedido == Pedido.id_Pedido).Select(x => x.GetPedidos_Productos()).ToList())
                     {
-
-                        // Ajusta el tamaño del papel
-                        //PageSize pageSize = new PageSize(80, 300); //me rompe todo voy a ver como se imprime sin eso y luego veo
-                        //pdfDoc.SetDefaultPageSize(pageSize);
-                        
-                        // Define el formato de texto
-                        PdfFont font = PdfFontFactory.CreateFont("Helvetica");
-                        float fontSize = 10;
-
-                        // Crea el título del ticket
-                        Paragraph title = new Paragraph("La Puerta Verde Open Bar")
-                            .SetFont(font)
-                            .SetFontSize(fontSize + 4)
-                            .SetBold()
-                            .SetTextAlignment(TextAlignment.CENTER);
-                        document.Add(title);
-
-                        // Crea una tabla para la lista de productos o servicios
-                        Table table = new Table(3);
-                        table.SetWidth(UnitValue.CreatePercentValue(100));
-
-                        // Define las celdas de la tabla
-                        Cell cell1 = new Cell().Add(new Paragraph("Producto"))
-                            .SetFont(font)
-                            .SetFontSize(fontSize)
-                            .SetBold()
-                            .SetTextAlignment(TextAlignment.LEFT);
-                        Cell cell2 = new Cell().Add(new Paragraph("Cantidad"))
-                            .SetFont(font)
-                            .SetFontSize(fontSize)
-                            .SetBold()
-                            .SetTextAlignment(TextAlignment.CENTER);
-                        Cell cell3 = new Cell().Add(new Paragraph("Total"))
-                            .SetFont(font)
-                            .SetFontSize(fontSize)
-                            .SetBold()
-                            .SetTextAlignment(TextAlignment.RIGHT);
-
-                        // Agrega las celdas a la tabla
-                        table.AddCell(cell1);
-                        table.AddCell(cell2);
-                        table.AddCell(cell3);
-
-                        // Agrega los elementos al ticket
-
-                        List<DTPDF> PDF = new();
-                        //Traigo todos los pedidos sin pagar de esa mesa y los recorro
-                        foreach (Pedidos Pedido in _db.Pedidos.Where(x => x.id_Mesa == id & x.pago == false).Select(x => x.GetPedido()).ToList())
+                        //Me traigo el producto
+                        Productos? producto = _db.Productos.SingleOrDefault(i => i.id_Producto == Pepr.Id_Producto);
+                        if (producto != null)
                         {
-                            //Traigo los productos que tiene ese pedido y los recorro
-                            foreach (Pedidos_Productos Pepr in _db.Pedidos_Productos.Where(x => x.id_Pedido == Pedido.id_Pedido).Select(x => x.GetPedidos_Productos()).ToList())
+
+                            //me fijo si el producto ya esta en la factura
+                            foreach (DTPDF item in PDF)
                             {
-                                //Me traigo el producto
-                                Productos? producto = _db.Productos.SingleOrDefault(i => i.id_Producto == Pepr.id_Producto);
-                                if (producto != null)
+                                if (item.Nombre.Equals(producto.nombre))
+                                    //si esta suno 1 a cantidad
+                                    item.Cantidad++;
+                                else
                                 {
-                                    
-                                        //me fijo si el producto ya esta en la factura
-                                    foreach (DTPDF item in PDF)
-                                    {
-                                        if (item.nombre.Equals(producto.nombre))
-                                            //si esta suno 1 a cantidad
-                                            item.cantidad++;
-                                        else
-                                        {
-                                            //Agrego el producto
-                                            DTPDF aux1 = new(producto.nombre, 1, producto.precio);
-                                            PDF.Add(aux1);
-                                        }
-                                    }
-                                    
+                                    //Agrego el producto
+                                    DTPDF aux1 = new(producto.nombre, 1, producto.precio);
+                                    PDF.Add(aux1);
                                 }
                             }
-                            Pedidos? aux = _db.Pedidos.FirstOrDefault(pe => pe.id_Pedido == Pedido.id_Pedido);
-                            if (aux != null)
-                            {
-                                aux.pago = true;
-                                aux.estadoProceso = false;
-                                _db.Pedidos.Update(aux);
-                                _db.SaveChanges();
-                            }
+
                         }
-
-                        // Calcula y muestra el total
-                        float totalVenta = 0;
-
-                        for (int i = 0; i < PDF.Count; i++)
-                        {
-                            table.AddCell(new Paragraph(PDF[i].nombre).SetFont(font).SetFontSize(fontSize).SetTextAlignment(TextAlignment.LEFT));
-                            table.AddCell(new Paragraph(PDF[i].cantidad.ToString()).SetFont(font).SetFontSize(fontSize).SetTextAlignment(TextAlignment.CENTER));
-                            table.AddCell(new Paragraph((PDF[i].precio * PDF[i].cantidad).ToString()).SetFont(font).SetFontSize(fontSize).SetTextAlignment(TextAlignment.RIGHT));
-                            totalVenta += PDF[i].precio * PDF[i].cantidad;
-                        }
-
-                        // Controla el flujo de texto para evitar desbordamientos
-                        table.SetKeepTogether(true);
-                        document.Add(table);
-
-
-                        Paragraph total = new Paragraph("Total: " + totalVenta.ToString())
-                            .SetFont(font)
-                            .SetFontSize(fontSize)
-                            .SetTextAlignment(TextAlignment.RIGHT);
-                        document.Add(total);
+                    }
+                    Pedidos? aux = _db.Pedidos.FirstOrDefault(pe => pe.id_Pedido == Pedido.id_Pedido);
+                    if (aux != null)
+                    {
+                        aux.pago = true;
+                        aux.estadoProceso = false;
+                        _db.Pedidos.Update(aux);
+                        _db.SaveChanges();
                     }
                 }
-                //Libera la mesa
-                Mesas ? mesa = _db.Mesas.FirstOrDefault(m => m.id_Mesa == id);
-                if (mesa != null){
-                    mesa.enUso = false;
-                    mesa.precioTotal = 0;
-                    _db.Mesas.Update(mesa);
-                    _db.SaveChanges();
 
+                // Calcula y muestra el total
+                float totalVenta = 0;
+
+                for (int i = 0; i < PDF.Count; i++)
+                {
+                    table.AddCell(new Paragraph(PDF[i].Nombre).SetFont(font).SetFontSize(fontSize).SetTextAlignment(TextAlignment.LEFT));
+                    table.AddCell(new Paragraph(PDF[i].Cantidad.ToString()).SetFont(font).SetFontSize(fontSize).SetTextAlignment(TextAlignment.CENTER));
+                    table.AddCell(new Paragraph((PDF[i].Precio * PDF[i].Cantidad).ToString()).SetFont(font).SetFontSize(fontSize).SetTextAlignment(TextAlignment.RIGHT));
+                    totalVenta += PDF[i].Precio * PDF[i].Cantidad;
                 }
-                // Convierte el PDF en un arreglo de bytes
-                //byte[] pdfBytes = stream.ToArray();
-                //Retorna el pdf
-                //return Convert.ToBase64String(pdfBytes);
-                return stream.ToArray();
+
+                // Controla el flujo de texto para evitar desbordamientos
+                table.SetKeepTogether(true);
+                document.Add(table);
+
+
+                Paragraph total = new Paragraph("Total: " + totalVenta.ToString())
+                    .SetFont(font)
+                    .SetFontSize(fontSize)
+                    .SetTextAlignment(TextAlignment.RIGHT);
+                document.Add(total);
             }
+            //Libera la mesa
+            Mesas? mesa = _db.Mesas.FirstOrDefault(m => m.Id_Mesa == id);
+            if (mesa != null)
+            {
+                mesa.EnUso = false;
+                mesa.PrecioTotal = 0;
+                _db.Mesas.Update(mesa);
+                _db.SaveChanges();
+
+            }
+            // Convierte el PDF en un arreglo de bytes
+            //byte[] pdfBytes = stream.ToArray();
+            //Retorna el pdf
+            //return Convert.ToBase64String(pdfBytes);
+            return stream.ToArray();
         }
     }
 }

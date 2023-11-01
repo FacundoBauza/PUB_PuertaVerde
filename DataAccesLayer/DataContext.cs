@@ -34,17 +34,18 @@ namespace DataAccesLayer
         public DbSet<Pedidos_Productos> Pedidos_Productos { get; set; }
         public DbSet<Productos> Productos { get; set; }
         public DbSet<Productos_Ingredientes> Productos_Ingredientes { get; set; }
+        public DbSet<Cajas> Cajas { get; set; }
         protected override void OnModelCreating(ModelBuilder builder)
         {
             builder.Entity<Productos_Ingredientes>()
                 .HasOne(pi => pi.Productos)
                 .WithMany(p => p.ProductoIngredientes)
-                .HasForeignKey(pi => pi.id_Producto);
+                .HasForeignKey(pi => pi.Id_Producto);
 
             builder.Entity<Productos_Ingredientes>()
                 .HasOne(pi => pi.Ingredientes)
                 .WithMany(i => i.ProductoIngredientes)
-                .HasForeignKey(pi => pi.id_Ingrediente);
+                .HasForeignKey(pi => pi.Id_Ingrediente);
 
             base.OnModelCreating(builder);
 

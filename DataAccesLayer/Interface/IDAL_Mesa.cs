@@ -10,9 +10,9 @@ namespace DataAccesLayer.Interface
 {
     public interface IDAL_Mesa
     {
-        List<Mesas> getMesas();
-        bool modificar_Mesas(DTMesa dtm);
-        bool set_Mesa(DTMesa dtm);
-        byte[] cerarMesa(int id);
+        List<Mesas> GetMesas();
+        bool Modificar_Mesas(DTMesa dtm);
+        bool Set_Mesa(DTMesa dtm);
+        byte[] CerarMesa(int id);
     }
 }

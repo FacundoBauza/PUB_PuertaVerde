@@ -74,7 +74,7 @@ namespace DataAccesLayer.Implementations
         public bool existeMesa(int id_Mesa)
         {
             // Utiliza SingleOrDefault() para buscar una Mesa.
-            if (_db.Mesas.SingleOrDefault(i => i.id_Mesa == id_Mesa) != null)
+            if (_db.Mesas.SingleOrDefault(i => i.Id_Mesa == id_Mesa) != null)
                 return true;
             return false;
         }
@@ -95,18 +95,18 @@ namespace DataAccesLayer.Implementations
 
         public bool mesaEnUso(int idMesa)
         {
-            Mesas? aux = _db.Mesas.SingleOrDefault(i => i.id_Mesa == idMesa);
-            if (aux != null && aux.enUso == false)
+            Mesas? aux = _db.Mesas.SingleOrDefault(i => i.Id_Mesa == idMesa);
+            if (aux != null && aux.EnUso == false)
                 return false;
             return true;
         }
 
         public void agregarPrecioaMesa(float valor, int idMesa)
         {
-            Mesas? aux = _db.Mesas.SingleOrDefault(i => i.id_Mesa == idMesa);
+            Mesas? aux = _db.Mesas.SingleOrDefault(i => i.Id_Mesa == idMesa);
             if (aux != null)
             {
-                aux.precioTotal = valor;
+                aux.PrecioTotal = valor;
                 _db.Mesas.Update(aux);
                 _db.SaveChanges();
             }

@@ -10,7 +10,7 @@ namespace WebApi_PUB_PV.Controllers
     public class MesaController : Controller
     {
 
-        private IB_Mesa bl;
+        private readonly IB_Mesa bl;
         public MesaController(IB_Mesa _bl)
         {
             bl = _bl;
@@ -20,7 +20,7 @@ namespace WebApi_PUB_PV.Controllers
         [HttpPost("/api/agregarMesa")]
         public ActionResult<DTMesa> Post([FromBody] DTMesa value)
         {
-            MensajeRetorno x = bl.agregar_Mesa(value);
+            MensajeRetorno x = bl.Agregar_Mesa(value);
             return Ok(new StatusResponse { StatusOk = x.status, StatusMessage = x.mensaje });
         }
 
@@ -28,14 +28,14 @@ namespace WebApi_PUB_PV.Controllers
         [HttpGet("/api/listarMesas")]
         public List<DTMesa> Get()
         {
-            return bl.listar_Mesas();
+            return bl.Listar_Mesas();
         }
 
         //Eliminar
         [HttpDelete("/api/bajaMesa/{id:int}")]
         public ActionResult<bool> BajaMesa(int id)
         {
-            MensajeRetorno x = bl.baja_Mesa(id);
+            MensajeRetorno x = bl.Baja_Mesa(id);
             return Ok(new StatusResponse { StatusOk = x.status, StatusMessage = x.mensaje });
         }
 
@@ -48,9 +48,9 @@ namespace WebApi_PUB_PV.Controllers
         }
         //Cerar cuenta de la mesa
         [HttpPut("/api/cerarCuentaMesa")]
-        public ActionResult<byte[]> cerarMesa([FromBody] DTMesa Modificar)
+        public ActionResult<byte[]> CerarMesa([FromBody] DTMesa Modificar)
         {
-            return bl.cerarMesa(Modificar);
+            return bl.CerarMesa(Modificar);
         }
     }
 }
