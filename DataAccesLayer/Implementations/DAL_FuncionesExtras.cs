@@ -22,17 +22,12 @@ namespace DataAccesLayer.Implementations
     {
         private readonly DataContext _db;
         private IDAL_Casteo _cas;
+        
         public DAL_FuncionesExtras(DataContext db, IDAL_Casteo cas)
         {
             _db = db;
             _cas = cas;
         }
-
-#pragma warning disable CS8618 // Un campo que no acepta valores NULL debe contener un valor distinto de NULL al salir del constructor. Considere la posibilidad de declararlo como que admite un valor NULL.
-        public DAL_FuncionesExtras()
-        {
-        }
-#pragma warning restore CS8618 // Un campo que no acepta valores NULL debe contener un valor distinto de NULL al salir del constructor. Considere la posibilidad de declararlo como que admite un valor NULL.
 
         bool IDAL_FuncionesExtras.existeCategoria(string nombre)
         {
