@@ -1,6 +1,3 @@
-using DataAccesLayer;
-using Microsoft.EntityFrameworkCore;
-
 namespace WebApi_PUB_PV
 {
     public class Startup
@@ -20,7 +17,7 @@ namespace WebApi_PUB_PV
 
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
-       
+
         }
     }
 }

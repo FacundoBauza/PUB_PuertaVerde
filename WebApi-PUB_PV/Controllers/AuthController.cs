@@ -1,5 +1,4 @@
-﻿using BusinessLayer.Implementations;
-using BusinessLayer.Interfaces;
+﻿using BusinessLayer.Interfaces;
 using DataAccesLayer.Models;
 using Domain.DT;
 using Microsoft.AspNetCore.Authorization;
@@ -11,7 +10,6 @@ using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Text;
 using WebApi_PUB_PV.Models;
-using static System.Runtime.InteropServices.JavaScript.JSType;
 
 namespace WebApi_PUB_PV.Controllers
 {
@@ -80,7 +78,7 @@ namespace WebApi_PUB_PV.Controllers
                     else
                     {
                         return Ok(new StatusResponse { StatusOk = true, StatusMessage = "Este Usuario esta desactivado" });
-                    }       
+                    }
                 }
             }
             catch (Exception ex)
@@ -139,11 +137,11 @@ namespace WebApi_PUB_PV.Controllers
 #pragma warning disable CS8602 // Desreferencia de una referencia posiblemente NULL.
             DTUsuario response = new DTUsuario()
             {
-                Apellido = usuario.apellido,
-                Email = usuario.Email,
-                Id = usuario.Id,
-                Nombre = usuario.nombre,
-                Username = usuario.UserName,
+                apellido = usuario.apellido,
+                email = usuario.Email,
+                id = usuario.Id,
+                nombre = usuario.nombre,
+                username = usuario.UserName,
                 registro_Activo = usuario.registro_Activo
             };
 #pragma warning restore CS8602 // Desreferencia de una referencia posiblemente NULL.
@@ -159,10 +157,10 @@ namespace WebApi_PUB_PV.Controllers
         {
             return await _userManager.Users.Select(x => new DTUsuario()
             {
-                Apellido = x.apellido,
-                Nombre = x.nombre,
-                Email = x.Email,
-                Username = x.UserName,
+                apellido = x.apellido,
+                nombre = x.nombre,
+                email = x.Email,
+                username = x.UserName,
                 registro_Activo = x.registro_Activo
             }).ToListAsync();
         }

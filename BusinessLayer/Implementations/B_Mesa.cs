@@ -1,17 +1,8 @@
 ﻿using BusinessLayer.Interfaces;
-using DataAccesLayer.Implementations;
 using DataAccesLayer.Interface;
 using DataAccesLayer.Models;
 using Domain.DT;
 using Domain.Entidades;
-using iText.Kernel.Pdf;
-using iText.Layout.Element;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using static iText.StyledXmlParser.Jsoup.Select.Evaluator;
 
 namespace BusinessLayer.Implementations
 {

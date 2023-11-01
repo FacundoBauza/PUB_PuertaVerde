@@ -1,20 +1,5 @@
-﻿using System;
-using System.IO;
-using DataAccesLayer.Interface;
+﻿using DataAccesLayer.Interface;
 using DataAccesLayer.Models;
-using Domain.DT;
-using iText.Kernel.Pdf;
-using iText.Layout;
-using iText.Layout.Element;
-using Microsoft.Extensions.Logging;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using static System.Runtime.InteropServices.JavaScript.JSType;
-using Domain.Entidades;
-using Org.BouncyCastle.Crypto;
 
 namespace DataAccesLayer.Implementations
 {
@@ -22,7 +7,7 @@ namespace DataAccesLayer.Implementations
     {
         private readonly DataContext _db;
         private IDAL_Casteo _cas;
-        
+
         public DAL_FuncionesExtras(DataContext db, IDAL_Casteo cas)
         {
             _db = db;
@@ -69,7 +54,7 @@ namespace DataAccesLayer.Implementations
         public bool existeMesa(int id_Mesa)
         {
             // Utiliza SingleOrDefault() para buscar una Mesa.
-            if (_db.Mesas.SingleOrDefault(i => i.Id_Mesa == id_Mesa) != null)
+            if (_db.Mesas.SingleOrDefault(i => i.id_Mesa == id_Mesa) != null)
                 return true;
             return false;
         }
@@ -90,18 +75,18 @@ namespace DataAccesLayer.Implementations
 
         public bool mesaEnUso(int idMesa)
         {
-            Mesas? aux = _db.Mesas.SingleOrDefault(i => i.Id_Mesa == idMesa);
-            if (aux != null && aux.EnUso == false)
+            Mesas? aux = _db.Mesas.SingleOrDefault(i => i.id_Mesa == idMesa);
+            if (aux != null && aux.enUso == false)
                 return false;
             return true;
         }
 
         public void agregarPrecioaMesa(float valor, int idMesa)
         {
-            Mesas? aux = _db.Mesas.SingleOrDefault(i => i.Id_Mesa == idMesa);
+            Mesas? aux = _db.Mesas.SingleOrDefault(i => i.id_Mesa == idMesa);
             if (aux != null)
             {
-                aux.PrecioTotal = valor;
+                aux.precioTotal = valor;
                 _db.Mesas.Update(aux);
                 _db.SaveChanges();
             }

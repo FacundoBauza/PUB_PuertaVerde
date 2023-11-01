@@ -1,11 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations.Schema;
+﻿using Domain.DT;
 using System.ComponentModel.DataAnnotations;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Domain.DT;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace DataAccesLayer.Models
 {
@@ -14,22 +9,22 @@ namespace DataAccesLayer.Models
     {
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         [Key]
-        public int Id { get; set; }
+        public int id { get; set; }
 
-        public DateTime Fecha { get; set; }
-        
-        public float TotalPrecios { get; set; }
-        
-        public Boolean Estado { get; set; }
+        public DateTime fecha { get; set; }
+
+        public float totalPrecios { get; set; }
+
+        public Boolean estado { get; set; }
 
         public Cajas GetCajas()
         {
-            Cajas aux = new ()
+            Cajas aux = new()
             {
-                Id = Id,
-                Fecha = Fecha,
-                TotalPrecios = TotalPrecios,
-                Estado = Estado
+                id = id,
+                fecha = fecha,
+                totalPrecios = totalPrecios,
+                estado = estado
             };
             return aux;
         }
@@ -37,10 +32,10 @@ namespace DataAccesLayer.Models
         {
             Cajas aux = new()
             {
-                Id = p.id,
-                Fecha=p.fecha,
-                TotalPrecios = p.TotalPrecios,
-                Estado = p.estado
+                id = p.id,
+                fecha = p.fecha,
+                totalPrecios = p.totalPrecios,
+                estado = p.estado
             };
             return aux;
         }

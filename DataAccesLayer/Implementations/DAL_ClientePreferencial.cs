@@ -1,18 +1,10 @@
-﻿using System;
-using System.IO;
+﻿using DataAccesLayer.Interface;
+using DataAccesLayer.Models;
+using Domain.DT;
+using iText.Kernel.Font;
 using iText.Kernel.Pdf;
 using iText.Layout;
 using iText.Layout.Element;
-using DataAccesLayer.Interface;
-using DataAccesLayer.Models;
-using Domain.DT;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using static iText.StyledXmlParser.Jsoup.Select.Evaluator;
-using iText.Kernel.Font;
 using iText.Layout.Properties;
 
 namespace DataAccesLayer.Implementations
@@ -156,18 +148,18 @@ namespace DataAccesLayer.Implementations
                         foreach (Pedidos Pedido in _db.Pedidos.Where(x => x.id_Cli_Preferencial == id & x.pago == false).Select(x => x.GetPedido()).ToList())
                         {
                             //Traigo los productos que tiene ese pedido y los recorro
-                            foreach (Pedidos_Productos Pepr in _db.Pedidos_Productos.Where(x => x.Id_Pedido == Pedido.id_Pedido).Select(x => x.GetPedidos_Productos()).ToList())
+                            foreach (Pedidos_Productos Pepr in _db.Pedidos_Productos.Where(x => x.id_Pedido == Pedido.id_Pedido).Select(x => x.GetPedidos_Productos()).ToList())
                             {
                                 //Me traigo el producto
-                                Productos? producto = _db.Productos.SingleOrDefault(i => i.id_Producto == Pepr.Id_Producto);
+                                Productos? producto = _db.Productos.SingleOrDefault(i => i.id_Producto == Pepr.id_Producto);
                                 if (producto != null)
                                 {
                                     //me fijo si el producto ya esta en la factura
                                     foreach (DTPDF item in PDF)
                                     {
-                                        if (item.Nombre.Equals(producto.nombre))
+                                        if (item.nombre.Equals(producto.nombre))
                                             //si esta suno 1 a cantidad
-                                            item.Cantidad++;
+                                            item.cantidad++;
                                         else
                                         {
                                             //Agrego el producto
@@ -192,10 +184,10 @@ namespace DataAccesLayer.Implementations
 
                         for (int i = 0; i < PDF.Count; i++)
                         {
-                            table.AddCell(new Paragraph(PDF[i].Nombre).SetFont(font).SetFontSize(fontSize).SetTextAlignment(TextAlignment.LEFT));
-                            table.AddCell(new Paragraph(PDF[i].Cantidad.ToString()).SetFont(font).SetFontSize(fontSize).SetTextAlignment(TextAlignment.CENTER));
-                            table.AddCell(new Paragraph((PDF[i].Precio * PDF[i].Cantidad).ToString()).SetFont(font).SetFontSize(fontSize).SetTextAlignment(TextAlignment.RIGHT));
-                            totalVenta += PDF[i].Precio * PDF[i].Cantidad;
+                            table.AddCell(new Paragraph(PDF[i].nombre).SetFont(font).SetFontSize(fontSize).SetTextAlignment(TextAlignment.LEFT));
+                            table.AddCell(new Paragraph(PDF[i].cantidad.ToString()).SetFont(font).SetFontSize(fontSize).SetTextAlignment(TextAlignment.CENTER));
+                            table.AddCell(new Paragraph((PDF[i].precio * PDF[i].cantidad).ToString()).SetFont(font).SetFontSize(fontSize).SetTextAlignment(TextAlignment.RIGHT));
+                            totalVenta += PDF[i].precio * PDF[i].cantidad;
                         }
 
                         // Controla el flujo de texto para evitar desbordamientos

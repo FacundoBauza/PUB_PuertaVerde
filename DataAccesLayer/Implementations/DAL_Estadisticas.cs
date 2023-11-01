@@ -1,13 +1,6 @@
-﻿using System;
-using System.IO;
-using DataAccesLayer.Interface;
+﻿using DataAccesLayer.Interface;
 using DataAccesLayer.Models;
 using Domain.DT;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 namespace DataAccesLayer.Implementations
 {
     public class DAL_Estadisticas : IDAL_Estadisticas
@@ -26,19 +19,19 @@ namespace DataAccesLayer.Implementations
             // Consulta con una operación "join"
             var query = from Pedidos_Productos in _db.Pedidos_Productos
                         join Pedidos in _db.Pedidos
-                        on Pedidos_Productos.Id_Pedido equals Pedidos.id_Pedido
-                        where Pedidos_Productos.Id_Producto == value.Producto.id_Producto// Agregar la condición WHERE
-                                && Pedidos.fecha_ingreso >= value.Inicio
-                                && Pedidos.fecha_ingreso <= value.Fin
+                        on Pedidos_Productos.id_Pedido equals Pedidos.id_Pedido
+                        where Pedidos_Productos.id_Producto == value.producto.id_Producto// Agregar la condición WHERE
+                                && Pedidos.fecha_ingreso >= value.inicio
+                                && Pedidos.fecha_ingreso <= value.fin
                         select new
                         {
-                            id_Producto = Pedidos_Productos.Id_Producto
+                            id_Producto = Pedidos_Productos.id_Producto
                             // Agrega más campos según tus necesidades
                         };
             // Ejecuta la consulta y obtén los resultados
             var results = query.ToList();
             // Ahora puedes trabajar con los resultados
-            value.Cantidad = results.Count;
+            value.cantidad = results.Count;
             return value;
         }
 
@@ -47,7 +40,7 @@ namespace DataAccesLayer.Implementations
             List<DTProductoEstadistica> res = new();
             if (value != null)
             {
-                List<Productos> producto = _db.Productos.Where(x => x.tipo == value.Producto.tipo).Select(x => x.GetProducto()).ToList();
+                List<Productos> producto = _db.Productos.Where(x => x.tipo == value.producto.tipo).Select(x => x.GetProducto()).ToList();
                 foreach (var p in producto)
                 {
                     // Crear una nueva instancia de DTProductoEstadistica en cada iteración
@@ -56,20 +49,20 @@ namespace DataAccesLayer.Implementations
                     // Consulta con una operación "join"
                     var query = from Pedidos_Productos in _db.Pedidos_Productos
                                 join Pedidos in _db.Pedidos
-                                on Pedidos_Productos.Id_Pedido equals Pedidos.id_Pedido
-                                where Pedidos_Productos.Id_Producto == p.id_Producto
-                                        && Pedidos.fecha_ingreso >= value.Inicio
-                                        && Pedidos.fecha_ingreso <= value.Fin
+                                on Pedidos_Productos.id_Pedido equals Pedidos.id_Pedido
+                                where Pedidos_Productos.id_Producto == p.id_Producto
+                                        && Pedidos.fecha_ingreso >= value.inicio
+                                        && Pedidos.fecha_ingreso <= value.fin
                                 select new
                                 {
-                                    id_Producto = Pedidos_Productos.Id_Producto
+                                    id_Producto = Pedidos_Productos.id_Producto
                                     // Agrega más campos según tus necesidades
                                 };
                     // Ejecuta la consulta y obtén los resultados
                     var results = query.ToList();
                     // Establecer las propiedades del nuevo objeto productoEstadistica
-                    productoEstadistica.Cantidad = results.Count;
-                    productoEstadistica.Producto = _cas.GetDTProducto(p);
+                    productoEstadistica.cantidad = results.Count;
+                    productoEstadistica.producto = _cas.GetDTProducto(p);
                     res.Add(productoEstadistica);
                 }
             }
@@ -89,20 +82,20 @@ namespace DataAccesLayer.Implementations
                 // Consulta con una operación "join"
                 var query = from Pedidos_Productos in _db.Pedidos_Productos
                             join Pedidos in _db.Pedidos
-                            on Pedidos_Productos.Id_Pedido equals Pedidos.id_Pedido
-                            where Pedidos_Productos.Id_Producto == p.id_Producto
-                                    && Pedidos.fecha_ingreso >= value.Inicio
-                                    && Pedidos.fecha_ingreso <= value.Fin
+                            on Pedidos_Productos.id_Pedido equals Pedidos.id_Pedido
+                            where Pedidos_Productos.id_Producto == p.id_Producto
+                                    && Pedidos.fecha_ingreso >= value.inicio
+                                    && Pedidos.fecha_ingreso <= value.fin
                             select new
                             {
-                                id_Producto = Pedidos_Productos.Id_Producto
+                                id_Producto = Pedidos_Productos.id_Producto
                                 // Agrega más campos según tus necesidades
                             };
                 // Ejecuta la consulta y obtén los resultados
                 var results = query.ToList();
                 // Establecer las propiedades del nuevo objeto productoEstadistica
-                productoEstadistica.Cantidad = results.Count;
-                productoEstadistica.Producto = _cas.GetDTProducto(p);
+                productoEstadistica.cantidad = results.Count;
+                productoEstadistica.producto = _cas.GetDTProducto(p);
                 res.Add(productoEstadistica);
             }
             return res;

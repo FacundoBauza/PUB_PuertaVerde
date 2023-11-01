@@ -1,15 +1,9 @@
-﻿using Domain.Enums;
-using Microsoft.AspNetCore.Identity;
-using System;
-using System.Collections.Generic;
+﻿using Microsoft.AspNetCore.Identity;
 using System.ComponentModel.DataAnnotations;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace DataAccesLayer.Models
 {
-    public class Usuarios: IdentityUser
+    public class Usuarios : IdentityUser
     {
 
         [MaxLength(128), MinLength(3), Required]

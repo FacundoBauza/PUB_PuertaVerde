@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace Domain.Entidades
+﻿namespace Domain.Entidades
 {
     public class Producto
     {
@@ -12,7 +6,7 @@ namespace Domain.Entidades
         public string nombre { get; set; }
         public string descripcion { get; set; }
         public float precio { get; set; }
-        public Categoria categoria { get; set; }    
+        public Categoria categoria { get; set; }
 
 #pragma warning disable CS8618
         public Producto()
