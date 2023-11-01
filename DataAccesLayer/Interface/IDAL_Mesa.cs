@@ -13,6 +13,7 @@ namespace DataAccesLayer.Interface
         List<Mesas> getMesas();
         bool modificar_Mesas(DTMesa dtm);
         bool set_Mesa(DTMesa dtm);
-        string cerarMesa(int id);
+        byte[] cerarMesa(int id);
+        bool baja_Mesa(int id);
     }
 }

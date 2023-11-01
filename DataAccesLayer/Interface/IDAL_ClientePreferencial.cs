@@ -19,6 +19,6 @@ namespace DataAccesLayer.Interface
         List<ClientesPreferenciales> get_Cliente();
         //Baja
         bool baja_Cliente(int id);
-        string cerarCuenta(int modificar);
+        byte[] cerarCuenta(int modificar);
     }
 }

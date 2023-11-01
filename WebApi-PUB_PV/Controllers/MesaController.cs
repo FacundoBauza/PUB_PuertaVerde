@@ -48,7 +48,7 @@ namespace WebApi_PUB_PV.Controllers
         }
         //Cerar cuenta de la mesa
         [HttpPut("/api/cerarCuentaMesa")]
-        public ActionResult<string> cerarMesa([FromBody] DTMesa Modificar)
+        public ActionResult<byte[]> cerarMesa([FromBody] DTMesa Modificar)
         {
             return bl.cerarMesa(Modificar);
         }

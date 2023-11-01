@@ -19,6 +19,6 @@ namespace BusinessLayer.Interfaces
         //Baja
         MensajeRetorno baja_ClientePreferencial(int id);
         //cerrar la cuenta dejando pagos los pedidos y el saldo en 0 (si le queda saldo a favor o algo se modifica aparte)
-        string cerarCuenta(DTCliente_Preferencial modificar);
+        byte[] cerarCuenta(DTCliente_Preferencial modificar);
     }
 }
