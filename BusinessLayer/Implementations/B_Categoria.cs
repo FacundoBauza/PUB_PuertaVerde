@@ -67,7 +67,7 @@ namespace BusinessLayer.Implementations
             List<DTCategoria> dt_categorias = new List<DTCategoria>();
             foreach (Categorias c in categorias)
             {
-                dt_categorias.Add(_cas.getDTCategoria(c));
+                dt_categorias.Add(_cas.GetDTCategoria(c));
             }
 
             return dt_categorias;

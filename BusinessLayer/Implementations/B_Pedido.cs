@@ -31,24 +31,24 @@ namespace BusinessLayer.Implementations
             MensajeRetorno men = new MensajeRetorno();
             if (dtP != null)
             {
-                if (dtP.list_IdProductos != null)
+                if (dtP.List_IdProductos != null)
                 {
-                    if (!_fu.existePedido(dtP.id_Pedido))
+                    if (!_fu.existePedido(dtP.Id_Pedido))
                     {
-                        if (_fu.existeUsuario(dtP.username))
+                        if (_fu.existeUsuario(dtP.Username))
                         {
                             if (_dal.set_Cliente(dtP))
                             {
-                                if (_fu.existeClienteId(dtP.id_Cli_Preferencial))
+                                if (_fu.existeClienteId(dtP.Id_Cli_Preferencial))
                                 {
-                                    _fu.restarSaldoCliente(dtP.valorPedido, dtP.id_Cli_Preferencial);
+                                    _fu.restarSaldoCliente(dtP.ValorPedido, dtP.Id_Cli_Preferencial);
                                     men.mensaje = "El Pedido se guardo Correctamente en el cliente";
                                     men.status = true;
                                     return men;
                                 }
-                                else if (_fu.existeMesa(dtP.id_Mesa))
+                                else if (_fu.existeMesa(dtP.Id_Mesa))
                                 {
-                                    _fu.agregarPrecioaMesa(dtP.valorPedido, dtP.id_Mesa);
+                                    _fu.agregarPrecioaMesa(dtP.ValorPedido, dtP.Id_Mesa);
                                     men.mensaje = "El Pedido se guardo Correctamente en la mesa";
                                     men.status = true;
                                     return men;
@@ -97,15 +97,15 @@ namespace BusinessLayer.Implementations
             MensajeRetorno men = new MensajeRetorno();
             if (dtP != null)
             {
-                if (_fu.existePedido(dtP.id_Pedido))
+                if (_fu.existePedido(dtP.Id_Pedido))
                 {
-                    if (_fu.existeUsuario(dtP.username))
+                    if (_fu.existeUsuario(dtP.Username))
                     {
-                        if (_fu.existeMesa(dtP.id_Mesa))
+                        if (_fu.existeMesa(dtP.Id_Mesa))
                         {
                             if (_dal.update_Pedido(dtP) == true)
                             {
-                                _fu.agregarPrecioaMesa(dtP.valorPedido, dtP.id_Mesa);
+                                _fu.agregarPrecioaMesa(dtP.ValorPedido, dtP.Id_Mesa);
                                 men.mensaje = "El Pedido se actualizo Correctamente";
                                 men.status = true;
                                 return men;
@@ -151,10 +151,10 @@ namespace BusinessLayer.Implementations
             DTPedido? pedido = null;
             foreach (Pedidos x in _dal.get_Pedidos())
             {
-                pedido = _cas.castDTPedido(x);
+                pedido = _cas.CastDTPedido(x);
                 foreach (Pedidos_Productos x1 in _dal.get_ProductosPedidos(x.id_Pedido))
                 {
-                    pedido.list_IdProductos.Add(_cas.castDTPedidoProducto(x1, _dal.getProductoPedido(x1.id_Producto)));
+                    pedido.List_IdProductos.Add(_cas.CastDTPedidoProducto(x1, _dal.getProductoPedido(x1.Id_Producto)));
                 }
                 pedidos.Add(pedido);
             }
@@ -169,10 +169,10 @@ namespace BusinessLayer.Implementations
             DTPedido? pedido = null;
             foreach (Pedidos x in _dal.get_PedidosActivos())
             {
-                pedido = _cas.castDTPedido(x);
+                pedido = _cas.CastDTPedido(x);
                 foreach (Pedidos_Productos x1 in _dal.get_ProductosPedidos(x.id_Pedido))
                 {
-                    pedido.list_IdProductos.Add(_cas.castDTPedidoProducto(x1, _dal.getProductoPedido(x1.id_Producto)));
+                    pedido.List_IdProductos.Add(_cas.CastDTPedidoProducto(x1, _dal.getProductoPedido(x1.Id_Producto)));
                 }
                 pedidos.Add(pedido);
             }
@@ -183,10 +183,10 @@ namespace BusinessLayer.Implementations
             List<DTPedido> dt_Productos = new List<DTPedido>();
             foreach (Pedidos x in _dal.getPedidosPorTipo(tipo))
             {
-                DTPedido pedido = _cas.castDTPedido(x);
+                DTPedido pedido = _cas.CastDTPedido(x);
                 foreach (Pedidos_Productos x1 in _dal.get_ProductosPedidos(x.id_Pedido))
                 {
-                    pedido.list_IdProductos.Add(_cas.castDTPedidoProducto(x1, _dal.getProductoPedido(x1.id_Producto)));
+                    pedido.List_IdProductos.Add(_cas.CastDTPedidoProducto(x1, _dal.getProductoPedido(x1.Id_Producto)));
                 }
                 dt_Productos.Add(pedido);
             }
@@ -197,10 +197,10 @@ namespace BusinessLayer.Implementations
             List<DTPedido> dt_Productos = new List<DTPedido>();
             foreach (Pedidos x in _dal.getPedidosPorMesa(id))
             {
-                DTPedido pedido = _cas.castDTPedido(x);
+                DTPedido pedido = _cas.CastDTPedido(x);
                 foreach (Pedidos_Productos x1 in _dal.get_ProductosPedidos(x.id_Pedido))
                 {
-                    pedido.list_IdProductos.Add(_cas.castDTPedidoProducto(x1, _dal.getProductoPedido(x1.id_Producto)));
+                    pedido.List_IdProductos.Add(_cas.CastDTPedidoProducto(x1, _dal.getProductoPedido(x1.Id_Producto)));
                 }
                 dt_Productos.Add(pedido);
             }

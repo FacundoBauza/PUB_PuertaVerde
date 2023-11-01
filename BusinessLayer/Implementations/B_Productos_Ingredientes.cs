@@ -43,7 +43,7 @@ namespace BusinessLayer.Implementations
             List<DTIngrediente> dt_Ingredientes = new List<DTIngrediente>();
             foreach (Ingredientes i in Ingredientes)
             {
-                dt_Ingredientes.Add(_cas.getDTIngrediente(i));
+                dt_Ingredientes.Add(_cas.GetDTIngrediente(i));
             }
 
             return dt_Ingredientes;

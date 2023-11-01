@@ -104,7 +104,7 @@ builder.Services.AddSwaggerGen(c =>
             Id = "Bearer"
         }
     },
-        new string[] {}
+        Array.Empty<string>()
     }});
 });
 
@@ -145,6 +145,9 @@ builder.Services.AddTransient<IB_Estadisticas, B_Estadisticas>();
 
 builder.Services.AddTransient<IDAL_ProductoIngrediente, DAL_ProductoIngrediente>();
 builder.Services.AddTransient<IBProductos_Ingredientes,B_Productos_Ingredientes>();
+
+builder.Services.AddTransient<IDAL_Caja, DAL_Caja>();
+builder.Services.AddTransient<IB_Caja, B_Caja>();
 
 builder.Services.AddControllers();
  

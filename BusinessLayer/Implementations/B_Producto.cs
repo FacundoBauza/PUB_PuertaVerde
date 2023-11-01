@@ -65,7 +65,7 @@ namespace BusinessLayer.Implementations
             List<DTProducto> dt_Productos = new List<DTProducto>();
             foreach (Productos c in Productos)
             {
-                dt_Productos.Add(_cas.getDTProducto(c));
+                dt_Productos.Add(_cas.GetDTProducto(c));
             }
 
             return dt_Productos;
@@ -106,7 +106,7 @@ namespace BusinessLayer.Implementations
             List<DTProducto> dt_Productos = new List<DTProducto>();
             foreach (Productos c in Productos)
             {
-                dt_Productos.Add(_cas.getDTProducto(c));
+                dt_Productos.Add(_cas.GetDTProducto(c));
             }
             return dt_Productos;
         }

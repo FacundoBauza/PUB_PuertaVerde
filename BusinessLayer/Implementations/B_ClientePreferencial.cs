@@ -92,7 +92,7 @@ namespace BusinessLayer.Implementations
             foreach (ClientesPreferenciales x in _dal.get_Cliente())
             {
                 if (x.registro_Activo == true)
-                    clientes.Add(_cas.castDTCliente_Preferencial(x));
+                    clientes.Add(_cas.CastDTCliente_Preferencial(x));
             }
 
             return clientes;

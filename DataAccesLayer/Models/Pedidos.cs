@@ -39,16 +39,16 @@ namespace DataAccesLayer.Models
         {
             Pedidos aux = new Pedidos
             {
-                id_Pedido = x.id_Pedido,
-                valorPedido = x.valorPedido,
+                id_Pedido = x.Id_Pedido,
+                valorPedido = x.ValorPedido,
                 estadoProceso = true,
                 pago = false,
-                fecha_ingreso = x.fecha_ingreso,
-                numero_movil = x.numero_movil,
-                username = x.username,
-                id_Cli_Preferencial = x.id_Cli_Preferencial,
-                id_Mesa = x.id_Mesa,
-                tipo = x.tipo,
+                fecha_ingreso = x.Fecha_ingreso,
+                numero_movil = x.Numero_movil,
+                username = x.Username,
+                id_Cli_Preferencial = x.Id_Cli_Preferencial,
+                id_Mesa = x.Id_Mesa,
+                tipo = x.Tipo,
             };
 
             return aux;

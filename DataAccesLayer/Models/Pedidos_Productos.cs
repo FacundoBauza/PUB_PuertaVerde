@@ -16,31 +16,34 @@ namespace DataAccesLayer.Models
     {
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         [Key]
-        public int idPedidoProducto { get; set; }
-        public string observaciones { get; set; }
+        public int IdPedidoProducto { get; set; }
+        public string? Observaciones { get; set; }
         [ForeignKey("Pedidos")]
-        public int id_Pedido { get; set; }
+        public int Id_Pedido { get; set; }
         [ForeignKey("Productos")]
-        public int id_Producto { get; set; }
+        public int Id_Producto { get; set; }
 
 
         public static Pedidos_Productos SetPedido_Producto(int idPedido, int idProducto, string observaciones)
         {
-            Pedidos_Productos aux = new Pedidos_Productos();
-
-            aux.id_Pedido = idPedido;
-            aux.id_Producto = idProducto;
-            aux.observaciones = observaciones;
+            Pedidos_Productos aux = new()
+            {
+                Id_Pedido = idPedido,
+                Id_Producto = idProducto,
+                Observaciones = observaciones
+            };
 
             return aux;
         }
         public Pedidos_Productos GetPedidos_Productos()
         {
-            Pedidos_Productos aux = new Pedidos_Productos();
-            aux.idPedidoProducto = idPedidoProducto;
-            aux.id_Producto = id_Producto;
-            aux.id_Pedido = id_Pedido;
-            aux.observaciones = observaciones;
+            Pedidos_Productos aux = new()
+            {
+                IdPedidoProducto = IdPedidoProducto,
+                Id_Producto = Id_Producto,
+                Id_Pedido = Id_Pedido,
+                Observaciones = Observaciones
+            };
             return aux;
         }
     }

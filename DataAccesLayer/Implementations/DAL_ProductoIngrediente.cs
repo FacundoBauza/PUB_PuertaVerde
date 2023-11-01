@@ -30,8 +30,8 @@ namespace DataAccesLayer.Implementations
                 Productos_Ingredientes productoIngrediente = new();
                 productoIngrediente.Productos = producto;
                 productoIngrediente.Ingredientes = ingrediente;
-                productoIngrediente.id_Producto = productoId;
-                productoIngrediente.id_Ingrediente = ingredienteId;
+                productoIngrediente.Id_Producto = productoId;
+                productoIngrediente.Id_Ingrediente = ingredienteId;
                 // Agrega el productoIngrediente a la tabla intermedia
                 context.Productos_Ingredientes.Add(productoIngrediente);
 
@@ -52,9 +52,9 @@ namespace DataAccesLayer.Implementations
         {
             List<Ingredientes> ingredientes = new List<Ingredientes>();
             Ingredientes? ing = null;
-            List<Productos_Ingredientes> P_I = context.Productos_Ingredientes.Where(x => x.id_Producto == idProducto).Select(x => x.GetProductoIngredientes()).ToList();
+            List<Productos_Ingredientes> P_I = context.Productos_Ingredientes.Where(x => x.Id_Producto == idProducto).Select(x => x.GetProductoIngredientes()).ToList();
             foreach(Productos_Ingredientes pi in P_I){
-                ing = context.Ingredientes.Where(i => i.id_Ingrediente == pi.id_Ingrediente).FirstOrDefault();
+                ing = context.Ingredientes.Where(i => i.id_Ingrediente == pi.Id_Ingrediente).FirstOrDefault();
                 if(ing!= null)
                 ingredientes.Add(ing);
             }

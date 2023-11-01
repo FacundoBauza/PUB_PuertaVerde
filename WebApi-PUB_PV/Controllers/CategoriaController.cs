@@ -11,7 +11,7 @@ namespace WebApi_PUB_PV.Controllers
     [ApiController]
     public class CategoriaController : Controller
     {
-        private IB_Categoria bl;
+        private readonly IB_Categoria bl;
         public CategoriaController(IB_Categoria _bl)
         {
             bl = _bl;

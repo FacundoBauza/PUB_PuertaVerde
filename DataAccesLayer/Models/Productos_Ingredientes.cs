@@ -10,19 +10,21 @@ using static System.Runtime.InteropServices.JavaScript.JSType;
 namespace DataAccesLayer.Models
 {
     [Table(name: "Producto_Ingrediente")]
-    [PrimaryKey(nameof(id_Producto), nameof(id_Ingrediente))]
+    [PrimaryKey(nameof(Id_Producto), nameof(Id_Ingrediente))]
     public class Productos_Ingredientes
     {
-        public int id_Producto { get; set; }
-        public Productos Productos { get; set; }
-        public int id_Ingrediente { get; set; }
-        public Ingredientes Ingredientes { get; set; }
+        public int Id_Producto { get; set; }
+        public Productos? Productos { get; set; }
+        public int Id_Ingrediente { get; set; }
+        public Ingredientes? Ingredientes { get; set; }
 
         public Productos_Ingredientes GetProductoIngredientes()
         {
-            Productos_Ingredientes aux = new Productos_Ingredientes();
-            aux.id_Producto = id_Producto;
-            aux.id_Ingrediente = id_Ingrediente;
+            Productos_Ingredientes aux = new()
+            {
+                Id_Producto = Id_Producto,
+                Id_Ingrediente = Id_Ingrediente
+            };
             return aux;
         }
     }

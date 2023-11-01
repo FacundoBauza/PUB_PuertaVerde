@@ -8,19 +8,15 @@ namespace Domain.DT
 {
     public class DTPDF
     {
-        public string nombre { get; set; }
-        public int cantidad { get; set; }
-        public float precio { get; set; }
-
-        public DTPDF()
-        {
-        }
+        public string Nombre { get; set; }
+        public int Cantidad { get; set; }
+        public float Precio { get; set; }
 
         public DTPDF(string nombre, int cantidad, float precio)
         {
-            this.nombre = nombre;
-            this.cantidad = cantidad;
-            this.precio = precio;
+            this.Nombre = nombre;
+            this.Cantidad = cantidad;
+            this.Precio = precio;
         }
     }
 }

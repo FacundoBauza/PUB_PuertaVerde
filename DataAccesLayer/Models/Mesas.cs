@@ -15,28 +15,32 @@ namespace DataAccesLayer.Models
     {
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         [Key]
-        public int id_Mesa { get; set; }
-        public bool enUso { get; set; }
-        public bool registro_Activo { get; set; }
-        public float precioTotal { get; set; }
+        public int Id_Mesa { get; set; }
+        public bool EnUso { get; set; }
+        public bool Registro_Activo { get; set; }
+        public float PrecioTotal { get; set; }
 
         internal static Mesas SetMesa(DTMesa p)
         {
-            Mesas aux = new Mesas();
-            aux.id_Mesa = p.id_Mesa;
-            aux.enUso = p.enUso;
-            aux.precioTotal = p.precioTotal;
-            aux.registro_Activo = true;
+            Mesas aux = new()
+            {
+                Id_Mesa = p.id_Mesa,
+                EnUso = p.enUso,
+                PrecioTotal = p.precioTotal,
+                Registro_Activo = true
+            };
             return aux;
         }
 
         public Mesas GetMesa()
         {
-            Mesas aux = new Mesas();
-            aux.id_Mesa = id_Mesa;
-            aux.enUso = enUso;
-            aux.registro_Activo = registro_Activo;
-            aux.precioTotal = precioTotal;
+            Mesas aux = new()
+            {
+                Id_Mesa = Id_Mesa,
+                EnUso = EnUso,
+                Registro_Activo = Registro_Activo,
+                PrecioTotal = PrecioTotal
+            };
             return aux;
         }
     }
