@@ -32,6 +32,16 @@ namespace BusinessLayer.Implementations
             return dt_Caja;
         }
 
+        public List<DTCaja> GetCajasactivas()
+        {
+            List<DTCaja> dt_Caja = new();
+            foreach (Cajas c in _dal.GetCajaactivas())
+            {
+                dt_Caja.Add(_cas.GetDTCaja(c));
+            }
+            return dt_Caja;
+        }
+
         public MensajeRetorno Modificar_Cajas(Domain.DT.DTCaja dtc)
         {
             MensajeRetorno men = new();

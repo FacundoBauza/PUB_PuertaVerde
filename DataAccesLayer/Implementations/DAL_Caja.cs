@@ -65,5 +65,10 @@ namespace DataAccesLayer.Implementations
             throw new NotImplementedException();
         }
 
+        public List<Cajas> GetCajaactivas()
+        {
+            //busca todas las cajas activas y las debuelve
+            return _db.Cajas.Where(x => x.estado).Select(x => x.GetCajas()).ToList();
+        }
     }
 }

@@ -9,6 +9,7 @@ namespace DataAccesLayer.Interface
         bool Set_Caja(DTCaja dtc);
         //Listar
         List<Cajas> GetCaja();
+        List<Cajas> GetCajaactivas();
         //Modificar
         public bool Modificar_Cajas(DTCaja dtc);
         //Baja
