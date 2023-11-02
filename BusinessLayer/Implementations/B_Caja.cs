@@ -32,6 +32,16 @@ namespace BusinessLayer.Implementations
             return dt_Caja;
         }
 
+        public List<DTCaja> GetCajasactivas()
+        {
+            List<DTCaja> dt_Caja = new();
+            foreach (Cajas c in _dal.GetCajaactivas())
+            {
+                dt_Caja.Add(_cas.GetDTCaja(c));
+            }
+            return dt_Caja;
+        }
+
         public MensajeRetorno Modificar_Cajas(Domain.DT.DTCaja dtc)
         {
             MensajeRetorno men = new();
@@ -61,21 +71,12 @@ namespace BusinessLayer.Implementations
             MensajeRetorno men = new();
             if (dtc != null)
             {
-                if (_dal.Set_Caja(dtc) == true)
-                {
-                    men.mensaje = "La caja se guardo correctamente";
-                    men.status = true;
-                    return men;
-                }
-                else
-                {
-                    men.Exepcion_no_Controlada();
-                    return men;
-                }
+                men = _dal.Set_Caja(dtc);
+                return men;
             }
             else
             {
-                men.mensaje = "Ya existe la Caja";
+                men.mensaje = "DTNULO";
                 men.status = false;
                 return men;
             }

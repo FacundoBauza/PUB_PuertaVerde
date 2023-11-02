@@ -39,6 +39,12 @@ namespace WebApi_PUB_PV.Controllers
             return bl.GetCajas();
         }
 
+        //Listar activa
+        [HttpGet("/api/listarCajaavtiva")]
+        public List<DTCaja> Getactivas()
+        {
+            return bl.GetCajasactivas();
+        }
         //Eliminar
         [HttpDelete("/api/bajaCaja/{id:int}")]
         public ActionResult<bool> BajaCaja(int id)
