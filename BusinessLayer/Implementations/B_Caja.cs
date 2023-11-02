@@ -71,21 +71,12 @@ namespace BusinessLayer.Implementations
             MensajeRetorno men = new();
             if (dtc != null)
             {
-                if (_dal.Set_Caja(dtc) == true)
-                {
-                    men.mensaje = "La caja se guardo correctamente";
-                    men.status = true;
-                    return men;
-                }
-                else
-                {
-                    men.Exepcion_no_Controlada();
-                    return men;
-                }
+                men = _dal.Set_Caja(dtc);
+                return men;
             }
             else
             {
-                men.mensaje = "Ya existe la Caja";
+                men.mensaje = "DTNULO";
                 men.status = false;
                 return men;
             }

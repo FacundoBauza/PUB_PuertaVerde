@@ -1,6 +1,7 @@
 ﻿using DataAccesLayer.Interface;
 using DataAccesLayer.Models;
 using Domain.DT;
+using Domain.Entidades;
 
 namespace DataAccesLayer.Implementations
 {
@@ -13,24 +14,36 @@ namespace DataAccesLayer.Implementations
             _db = db;
         }
 
-        public bool Set_Caja(DTCaja dtc)
+        public MensajeRetorno Set_Caja(DTCaja dtc)
         {
+            MensajeRetorno ret = new();
             //Castea el DT en tipo Caja
             Cajas aux = Cajas.SetCajas(dtc);
             try
             {
-                //Agrega la Mesas
-                _db.Cajas.Add(aux);
-                // Guarda los cambios en la base de datos.
-                _db.SaveChanges();
+                if (!_db.Cajas.Where(x => x.estado).Any())
+                {
+                    //Agrega la Mesas
+                    _db.Cajas.Add(aux);
+                    // Guarda los cambios en la base de datos.
+                    _db.SaveChanges();
+                    ret.mensaje = "Caja agregada con exito";
+                }
+                else {
+                    ret.mensaje = "Ya hay na caja activa";
+                    ret.status = false;
+                    return ret;
+                }
             }
             catch
             {
                 //si ocurrio algun error retorna false
-                return false;
+                ret.Exepcion_no_Controlada();
+                return ret;
             }
             //todo bien y retorna true
-            return true;
+            ret.status = true;
+            return ret;
         }
         public bool Modificar_Cajas(DTCaja dtc)
         {

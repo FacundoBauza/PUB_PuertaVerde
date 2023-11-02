@@ -1,12 +1,13 @@
 ﻿using DataAccesLayer.Models;
 using Domain.DT;
+using Domain.Entidades;
 
 namespace DataAccesLayer.Interface
 {
     public interface IDAL_Caja
     {
         //Agregar
-        bool Set_Caja(DTCaja dtc);
+        MensajeRetorno Set_Caja(DTCaja dtc);
         //Listar
         List<Cajas> GetCaja();
         List<Cajas> GetCajaactivas();
