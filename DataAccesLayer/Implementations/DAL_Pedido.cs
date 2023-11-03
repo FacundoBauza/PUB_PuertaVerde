@@ -139,5 +139,12 @@ namespace DataAccesLayer.Implementations
         {
             return _db.Pedidos.Where(x => x.id_Mesa == id & !x.pago).Select(x => x.GetPedido()).ToList();
         }
+
+        public Pedidos get_Pedido(int id)
+        {
+#pragma warning disable CS8603 // Posible tipo de valor devuelto de referencia nulo
+            return _db.Pedidos.FirstOrDefault(p => p.id_Pedido == id);
+#pragma warning restore CS8603 // Posible tipo de valor devuelto de referencia nulo
+        }
     }
 }

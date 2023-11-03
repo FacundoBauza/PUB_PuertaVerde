@@ -17,5 +17,6 @@ namespace BusinessLayer.Interfaces
         //Baja
         MensajeRetorno baja_Pedido(int id);
         MensajeRetorno finalizar_Pedido(int id);
+        DTPedido Pedido(int id);
     }
 }

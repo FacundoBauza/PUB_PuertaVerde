@@ -61,6 +61,7 @@ namespace DataAccesLayer.Implementations
             {
                 id_Mesa = m.id_Mesa,
                 enUso = m.enUso,
+                nombre = m.nombre,
                 precioTotal = m.precioTotal
             };
             return aux;

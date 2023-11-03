@@ -1,5 +1,6 @@
 ﻿using DataAccesLayer.Models;
 using Domain.DT;
+using Domain.Entidades;
 
 namespace DataAccesLayer.Interface
 {
@@ -9,5 +10,6 @@ namespace DataAccesLayer.Interface
         bool Modificar_Mesas(DTMesa dtm);
         bool Set_Mesa(DTMesa dtm);
         byte[] CerarMesa(int id);
+        bool Baja_Mesa(int id);
     }
 }

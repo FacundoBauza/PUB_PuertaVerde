@@ -10,6 +10,7 @@ namespace DataAccesLayer.Models
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         [Key]
         public int id_Mesa { get; set; }
+        public string? nombre { get; set; }
         public bool enUso { get; set; }
         public bool registro_Activo { get; set; }
         public float precioTotal { get; set; }
@@ -21,7 +22,8 @@ namespace DataAccesLayer.Models
                 id_Mesa = p.id_Mesa,
                 enUso = p.enUso,
                 precioTotal = p.precioTotal,
-                registro_Activo = true
+                registro_Activo = true,
+                nombre = p.nombre
             };
             return aux;
         }
@@ -33,7 +35,8 @@ namespace DataAccesLayer.Models
                 id_Mesa = id_Mesa,
                 enUso = enUso,
                 registro_Activo = registro_Activo,
-                precioTotal = precioTotal
+                precioTotal = precioTotal,
+                nombre = nombre
             };
             return aux;
         }
