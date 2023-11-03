@@ -1,6 +1,7 @@
 ﻿using DataAccesLayer.Interface;
 using DataAccesLayer.Models;
 using Domain.DT;
+using Domain.Entidades;
 using iText.Kernel.Font;
 using iText.Kernel.Pdf;
 using iText.Layout;
@@ -19,7 +20,7 @@ namespace DataAccesLayer.Implementations
 
         public List<Mesas> GetMesas()
         {
-            return _db.Mesas.Select(x => x.GetMesa()).ToList();
+            return _db.Mesas.Where(x  => x.registro_Activo).Select(x => x.GetMesa()).ToList();
         }
 
         public bool Modificar_Mesas(DTMesa dtm)
@@ -33,6 +34,7 @@ namespace DataAccesLayer.Implementations
                     // Modifica las propiedades de la mesa.
                     MesaEncontrada.enUso = dtm.enUso;
                     MesaEncontrada.precioTotal = dtm.precioTotal;
+                    MesaEncontrada.nombre = dtm.nombre;
                     // Guarda los cambios en la base de datos.
                     _db.Mesas.Update(MesaEncontrada);
                     _db.SaveChanges();
@@ -194,6 +196,28 @@ namespace DataAccesLayer.Implementations
             //Retorna el pdf
             //return Convert.ToBase64String(pdfBytes);
             return stream.ToArray();
+        }
+
+        public bool Baja_Mesa(int id)
+        {
+            // Utiliza SingleOrDefault() para buscar una Mesa.
+            var MesaEncontrada = _db.Mesas.SingleOrDefault(i => i.id_Mesa == id);
+            if (MesaEncontrada != null)
+            {
+                try
+                {
+                    // Modifica las propiedades de la mesa.
+                    MesaEncontrada.registro_Activo = false;
+                    // Guarda los cambios en la base de datos.
+                    _db.Mesas.Update(MesaEncontrada);
+                    _db.SaveChanges();
+                    //retota que todo se hizo corectamente
+                    return true;
+                }
+                catch { }
+            }
+            //no se pudo encontrar la mesa y retorna false
+            return false;
         }
     }
 }

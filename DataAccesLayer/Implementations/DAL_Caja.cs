@@ -28,6 +28,8 @@ namespace DataAccesLayer.Implementations
                     // Guarda los cambios en la base de datos.
                     _db.SaveChanges();
                     ret.mensaje = "Caja agregada con exito";
+                    ret.status = true;
+                    return ret;
                 }
                 else {
                     ret.mensaje = "Ya hay na caja activa";
@@ -41,9 +43,6 @@ namespace DataAccesLayer.Implementations
                 ret.Exepcion_no_Controlada();
                 return ret;
             }
-            //todo bien y retorna true
-            ret.status = true;
-            return ret;
         }
         public bool Modificar_Cajas(DTCaja dtc)
         {

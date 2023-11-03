@@ -22,7 +22,7 @@ namespace BusinessLayer.Implementations
         //Agregar
         MensajeRetorno IB_Pedido.agregar_Pedido(DTPedido dtP)
         {
-            MensajeRetorno men = new MensajeRetorno();
+            MensajeRetorno men = new();
             if (dtP != null)
             {
                 if (dtP.list_IdProductos != null)
@@ -230,6 +230,16 @@ namespace BusinessLayer.Implementations
                 men.Exepcion_no_Controlada();
                 return men;
             }
+        }
+
+        public DTPedido Pedido(int id)
+        {
+            DTPedido? pedido = _cas.CastDTPedido(_dal.get_Pedido(id));
+            foreach (Pedidos_Productos x1 in _dal.get_ProductosPedidos(id))
+            {
+                pedido.list_IdProductos.Add(_cas.CastDTPedidoProducto(x1, _dal.getProductoPedido(x1.id_Producto)));
+            }
+            return pedido;
         }
     }
 }

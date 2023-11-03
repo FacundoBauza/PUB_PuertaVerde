@@ -90,7 +90,15 @@ namespace BusinessLayer.Implementations
 
         public MensajeRetorno Baja_Mesa(int id)
         {
-            throw new NotImplementedException();
+            MensajeRetorno men = new();
+            if (_dal.Baja_Mesa(id))
+            {
+                men.mensaje = "mesa borrada con exito";
+                men.status = true;
+            }
+            else
+                men.Exepcion_no_Controlada();
+            return men;
         }
 
         public byte[] CerarMesa(DTMesa modificar)

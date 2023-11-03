@@ -15,15 +15,19 @@ namespace DataAccesLayer.Implementations
         public List<Productos> getProducto()
         {
             //return _db.Productos.Select(x => x.GetProducto()).ToList(); 
+#pragma warning disable CS8602 // Desreferencia de una referencia posiblemente NULL.
             return _db.Productos
-                .Where(producto => producto.ProductoIngredientes.All(ingrediente => ingrediente.ingredientes.stock > 0))
+                .Where(producto => producto.ProductoIngredientes.All(i => i.ingredientes.stock > 0))
                 .ToList();// ahora retorna  la lista de productos con stock en todos sus ingredientes.
+#pragma warning restore CS8602 // Desreferencia de una referencia posiblemente NULL.
 
         }
 
         public List<Productos> getProductoPorTipo(Domain.Enums.Categoria tipo)
         {
-            return _db.Productos.Where(x => x.ProductoIngredientes.All(ingrediente => ingrediente.ingredientes.stock > 0) & x.tipo == tipo).Select(x => x.GetProducto()).ToList();
+#pragma warning disable CS8602 // Desreferencia de una referencia posiblemente NULL.
+            return _db.Productos.Where(x => x.ProductoIngredientes.All(i => i.ingredientes.stock > 0) & x.tipo == tipo).Select(x => x.GetProducto()).ToList();
+#pragma warning restore CS8602 // Desreferencia de una referencia posiblemente NULL.
         }
 
         public bool modificar_Producto(DTProducto dtp)
