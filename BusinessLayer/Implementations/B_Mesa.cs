@@ -1,17 +1,26 @@
 ﻿using BusinessLayer.Interfaces;
+using DataAccesLayer.Implementations;
 using DataAccesLayer.Interface;
 using DataAccesLayer.Models;
 using Domain.DT;
 using Domain.Entidades;
+using iText.Kernel.Pdf;
+using iText.Layout.Element;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+using static iText.StyledXmlParser.Jsoup.Select.Evaluator;
 
 namespace BusinessLayer.Implementations
 {
     public class B_Mesa : IB_Mesa
     {
 
-        private readonly IDAL_Mesa _dal;
-        private readonly IDAL_Casteo _cas;
-        private readonly IDAL_FuncionesExtras _fu;
+        private IDAL_Mesa _dal;
+        private IDAL_Casteo _cas;
+        private IDAL_FuncionesExtras _fu;
 
         public B_Mesa(IDAL_Mesa dal, IDAL_Casteo cas, IDAL_FuncionesExtras fu)
         {
@@ -21,7 +30,7 @@ namespace BusinessLayer.Implementations
         }
         public MensajeRetorno Agregar_Mesa(DTMesa dtm)
         {
-            MensajeRetorno men = new();
+            MensajeRetorno men = new MensajeRetorno();
             if (dtm != null)
             {
                 if (!_fu.existeMesa(dtm.id_Mesa))
@@ -55,7 +64,7 @@ namespace BusinessLayer.Implementations
         public List<DTMesa> Listar_Mesas()
         {
             List<Mesas> Mesas = _dal.GetMesas();
-            List<DTMesa> dt_Mesas = new();
+            List<DTMesa> dt_Mesas = new List<DTMesa>();
             foreach (Mesas m in Mesas)
             {
                 dt_Mesas.Add(_cas.GetDTMesa(m));
@@ -66,7 +75,7 @@ namespace BusinessLayer.Implementations
 
         public MensajeRetorno Modificar_Mesa(DTMesa dtm)
         {
-            MensajeRetorno men = new();
+            MensajeRetorno men = new MensajeRetorno();
             if (dtm != null)
             {
                 if (_dal.Modificar_Mesas(dtm) == true)
@@ -90,16 +99,20 @@ namespace BusinessLayer.Implementations
 
         public MensajeRetorno Baja_Mesa(int id)
         {
-            MensajeRetorno men = new();
-            if (_dal.Baja_Mesa(id))
+            MensajeRetorno men = new MensajeRetorno();
+            if (_dal.Baja_Mesa(id) == true)
             {
-                men.mensaje = "mesa borrada con exito";
+                men.mensaje = "La mesa se dio de baja correctamente";
                 men.status = true;
+                return men;
             }
             else
+            {
                 men.Exepcion_no_Controlada();
-            return men;
+                return men;
+            }
         }
+
 
         public byte[] CerarMesa(DTMesa modificar)
         {
