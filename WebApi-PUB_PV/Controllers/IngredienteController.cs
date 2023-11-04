@@ -33,9 +33,9 @@ namespace WebApi_PUB_PV.Controllers
 
         //Eliminar
         [HttpDelete("/api/bajaIngrediente/{id:int}")]
-        public ActionResult<bool> Delete(int id)
+        public ActionResult<MensajeRetorno> Delete(int id)
         {
-            return false; // Ok(bl.eliminar_Evento(id));
+            return bl.Eliminar_Ingredente(id);
         }
 
         //Modificar
