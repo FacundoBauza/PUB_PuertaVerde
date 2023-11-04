@@ -52,6 +52,11 @@ namespace BusinessLayer.Implementations
             }
         }
 
+        public MensajeRetorno Eliminar_Ingredente(int id)
+        {
+            return _dal.Eliminar_Ingredente(id);
+        }
+
         public List<DTIngrediente> Listar_Ingrediente()
         {
             List<Ingredientes> Ingredientes = _dal.getIngrediente();

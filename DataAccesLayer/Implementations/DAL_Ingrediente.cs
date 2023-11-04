@@ -1,7 +1,7 @@
 ﻿using DataAccesLayer.Interface;
 using DataAccesLayer.Models;
 using Domain.DT;
-
+using Domain.Entidades;
 
 namespace DataAccesLayer.Implementations
 {
@@ -11,6 +11,33 @@ namespace DataAccesLayer.Implementations
         public DAL_Ingrediente(DataContext db)
         {
             _db = db;
+        }
+
+        public MensajeRetorno Eliminar_Ingredente(int id)
+        {
+            MensajeRetorno msg = new();
+            if (_db.Productos_Ingredientes.Where(p=>p.id_Ingrediente==id).Any())
+            {
+                msg.status = false;
+                msg.mensaje = "El ingrediente pertenece a un producto por lo que no es posible eliminarlo";
+            }
+            else
+            {
+                try
+                {
+                    Ingredientes? ing = _db.Ingredientes. FirstOrDefault(x => x.id_Ingrediente == id);
+                    if (ing != null) { 
+                    _db.Ingredientes.Remove(ing);
+                    msg.status = true;
+                    msg.mensaje = "El ingrediente fue eliminado";
+                    _db.SaveChanges();
+                    }
+                }
+                catch {
+                    msg.Exepcion_no_Controlada();
+                }
+            }
+            return msg;
         }
 
         public List<Ingredientes> getIngrediente()
@@ -29,6 +56,7 @@ namespace DataAccesLayer.Implementations
                     // Modifica las propiedades del ingrediente.
                     ingredienteEncontrado.stock = dti.stock;
                     ingredienteEncontrado.id_Categoria = dti.id_Categoria;
+                    ingredienteEncontrado.nombre = dti.nombre;
                     // Guarda los cambios en la base de datos.
                     _db.Update(ingredienteEncontrado);
                     _db.SaveChanges();

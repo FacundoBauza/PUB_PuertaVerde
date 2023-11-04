@@ -1,5 +1,6 @@
 ﻿using DataAccesLayer.Models;
 using Domain.DT;
+using Domain.Entidades;
 
 namespace DataAccesLayer.Interface
 {
@@ -13,6 +14,7 @@ namespace DataAccesLayer.Interface
 
         //Modificar
         bool modificar_Ingrediente(DTIngrediente dti);
+        MensajeRetorno Eliminar_Ingredente(int id);
     }
 }
 

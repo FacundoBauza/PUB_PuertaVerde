@@ -7,6 +7,8 @@ namespace BusinessLayer.Interfaces
     {
         //Agregar
         MensajeRetorno Agregar_Ingrediente(DTIngrediente dti);
+        //Eliminar
+        MensajeRetorno Eliminar_Ingredente(int id);
 
         //Listar
         List<DTIngrediente> Listar_Ingrediente();
