@@ -1,26 +1,17 @@
 ﻿using BusinessLayer.Interfaces;
-using DataAccesLayer.Implementations;
 using DataAccesLayer.Interface;
 using DataAccesLayer.Models;
 using Domain.DT;
 using Domain.Entidades;
-using iText.Kernel.Pdf;
-using iText.Layout.Element;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using static iText.StyledXmlParser.Jsoup.Select.Evaluator;
 
 namespace BusinessLayer.Implementations
 {
     public class B_Mesa : IB_Mesa
     {
 
-        private IDAL_Mesa _dal;
-        private IDAL_Casteo _cas;
-        private IDAL_FuncionesExtras _fu;
+        private readonly IDAL_Mesa _dal;
+        private readonly IDAL_Casteo _cas;
+        private readonly IDAL_FuncionesExtras _fu;
 
         public B_Mesa(IDAL_Mesa dal, IDAL_Casteo cas, IDAL_FuncionesExtras fu)
         {
@@ -28,14 +19,14 @@ namespace BusinessLayer.Implementations
             _cas = cas;
             _fu = fu;
         }
-        public MensajeRetorno agregar_Mesa(DTMesa dtm)
+        public MensajeRetorno Agregar_Mesa(DTMesa dtm)
         {
-            MensajeRetorno men = new MensajeRetorno();
+            MensajeRetorno men = new();
             if (dtm != null)
             {
                 if (!_fu.existeMesa(dtm.id_Mesa))
                 {
-                    if (_dal.set_Mesa(dtm) == true)
+                    if (_dal.Set_Mesa(dtm) == true)
                     {
                         men.mensaje = "La mesa se guardo correctamente";
                         men.status = true;
@@ -61,13 +52,13 @@ namespace BusinessLayer.Implementations
             }
         }
 
-        public List<DTMesa> listar_Mesas()
+        public List<DTMesa> Listar_Mesas()
         {
-            List<Mesas> Mesas = _dal.getMesas();
-            List<DTMesa> dt_Mesas = new List<DTMesa>();
+            List<Mesas> Mesas = _dal.GetMesas();
+            List<DTMesa> dt_Mesas = new();
             foreach (Mesas m in Mesas)
             {
-                dt_Mesas.Add(_cas.getDTMesa(m));
+                dt_Mesas.Add(_cas.GetDTMesa(m));
             }
 
             return dt_Mesas;
@@ -75,10 +66,10 @@ namespace BusinessLayer.Implementations
 
         public MensajeRetorno Modificar_Mesa(DTMesa dtm)
         {
-            MensajeRetorno men = new MensajeRetorno();
+            MensajeRetorno men = new();
             if (dtm != null)
             {
-                if (_dal.modificar_Mesas(dtm) == true)
+                if (_dal.Modificar_Mesas(dtm) == true)
                 {
                     men.mensaje = "La mesa se guardo correctamente";
                     men.status = true;
@@ -97,25 +88,22 @@ namespace BusinessLayer.Implementations
             }
         }
 
-        public MensajeRetorno baja_Mesa(int id)
+        public MensajeRetorno Baja_Mesa(int id)
         {
-            MensajeRetorno men = new MensajeRetorno();
-            if (_dal.baja_Mesa(id) == true)
+            MensajeRetorno men = new();
+            if (_dal.Baja_Mesa(id))
             {
-                men.El_Cliente_se_quito_Correctamente();
-                return men;
+                men.mensaje = "mesa borrada con exito";
+                men.status = true;
             }
             else
-            {
                 men.Exepcion_no_Controlada();
-                return men;
-            }
+            return men;
         }
 
-
-        public byte[] cerarMesa(DTMesa modificar)
+        public byte[] CerarMesa(DTMesa modificar)
         {
-            return _dal.cerarMesa(modificar.id_Mesa);
+            return _dal.CerarMesa(modificar.id_Mesa);
         }
     }
 }

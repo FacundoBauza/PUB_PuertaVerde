@@ -1,15 +1,8 @@
 ﻿using BusinessLayer.Interfaces;
-using DataAccesLayer.Implementations;
 using DataAccesLayer.Interface;
 using DataAccesLayer.Models;
 using Domain.DT;
 using Domain.Entidades;
-using Domain.Enums;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace BusinessLayer.Implementations
 {
@@ -67,7 +60,7 @@ namespace BusinessLayer.Implementations
             List<DTProducto> dt_Productos = new List<DTProducto>();
             foreach (Productos c in Productos)
             {
-                dt_Productos.Add(_cas.getDTProducto(c));
+                dt_Productos.Add(_cas.GetDTProducto(c));
             }
 
             return dt_Productos;
@@ -108,7 +101,7 @@ namespace BusinessLayer.Implementations
             List<DTProducto> dt_Productos = new List<DTProducto>();
             foreach (Productos c in Productos)
             {
-                dt_Productos.Add(_cas.getDTProducto(c));
+                dt_Productos.Add(_cas.GetDTProducto(c));
             }
             return dt_Productos;
         }

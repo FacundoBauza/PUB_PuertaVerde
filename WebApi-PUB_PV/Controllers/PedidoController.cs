@@ -1,7 +1,6 @@
 ﻿using BusinessLayer.Interfaces;
 using Domain.DT;
 using Domain.Entidades;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using WebApi_PUB_PV.Models;
 
@@ -32,6 +31,13 @@ namespace WebApi_PUB_PV.Controllers
         }
 
         //Listar
+        [HttpGet("/api/Pedido{id:int}")]
+        public DTPedido GetPedido(int id)
+        {
+            return bl.Pedido(id);
+        }
+
+        //Listar
         [HttpGet("/api/listarPedidos")]
         public List<DTPedido> Get()
         {
@@ -47,14 +53,14 @@ namespace WebApi_PUB_PV.Controllers
 
         //Listar
         [HttpGet("/api/listarPedidosPorTipo{tipo}")]
-        public List<DTPedido> GetProductosPorTipo(Domain.Enums.Categoria tipo)
+        public List<DTPedido> GetPedidosPorTipo(Domain.Enums.Categoria tipo)
         {
             return bl.listar_PedidosPorTipo(tipo);
         }
 
         //Listar
         [HttpGet("/api/listarPedidosPorMesa{id}")]
-        public List<DTPedido> GetProductosPorTipo(int id)
+        public List<DTPedido> GetPedidosPorMesa(int id)
         {
             return bl.listar_PedidosPorMesa(id);
         }

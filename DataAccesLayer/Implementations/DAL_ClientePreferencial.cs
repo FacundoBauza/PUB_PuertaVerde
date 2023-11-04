@@ -1,17 +1,11 @@
-﻿using System;
-using System.IO;
+﻿using DataAccesLayer.Interface;
+using DataAccesLayer.Models;
+using Domain.DT;
+using iText.Kernel.Font;
 using iText.Kernel.Pdf;
 using iText.Layout;
 using iText.Layout.Element;
-using DataAccesLayer.Interface;
-using DataAccesLayer.Models;
-using Domain.DT;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using static iText.StyledXmlParser.Jsoup.Select.Evaluator;
+using iText.Layout.Properties;
 
 namespace DataAccesLayer.Implementations
 {
@@ -118,14 +112,11 @@ namespace DataAccesLayer.Implementations
                         total += producto.precio;
                     }
                 }
-                Pedidos? aux = _db.Pedidos.FirstOrDefault(pe => pe.id_Pedido == Pedido.id_Pedido);
-                if (aux != null)
-                {
-                    aux.pago = true;
-                    aux.estadoProceso = false;
-                    _db.Pedidos.Update(aux);
-                    _db.SaveChanges();
-                }
+                // Convierte el PDF en un arreglo de bytes
+                //byte[] pdfBytes = stream.ToArray();
+                //Retorna el pdf
+                //return Convert.ToBase64String(pdfBytes);
+                return stream.ToArray();
             }
             factura += Environment.NewLine + "      TOTAL: " + total;
 #pragma warning restore CS8604

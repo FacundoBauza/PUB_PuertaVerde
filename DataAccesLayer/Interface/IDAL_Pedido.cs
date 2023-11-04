@@ -1,11 +1,6 @@
 ﻿using DataAccesLayer.Models;
 using Domain.DT;
 using Domain.Enums;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace DataAccesLayer.Interface
 {
@@ -28,5 +23,6 @@ namespace DataAccesLayer.Interface
         bool finalizar_Pedido(int id);
         List<Pedidos> getPedidosPorTipo(Categoria tipo);
         List<Pedidos> getPedidosPorMesa(int id);
+        Pedidos get_Pedido(int id);
     }
 }

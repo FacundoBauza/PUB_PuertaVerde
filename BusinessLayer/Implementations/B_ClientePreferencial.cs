@@ -3,11 +3,6 @@ using DataAccesLayer.Interface;
 using DataAccesLayer.Models;
 using Domain.DT;
 using Domain.Entidades;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace BusinessLayer.Implementations
 {
@@ -92,7 +87,7 @@ namespace BusinessLayer.Implementations
             foreach (ClientesPreferenciales x in _dal.get_Cliente())
             {
                 if (x.registro_Activo == true)
-                    clientes.Add(_cas.castDTCliente_Preferencial(x));
+                    clientes.Add(_cas.CastDTCliente_Preferencial(x));
             }
 
             return clientes;

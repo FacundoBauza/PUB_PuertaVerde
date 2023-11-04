@@ -1,20 +1,5 @@
-﻿using System;
-using System.IO;
-using DataAccesLayer.Interface;
+﻿using DataAccesLayer.Interface;
 using DataAccesLayer.Models;
-using Domain.DT;
-using iText.Kernel.Pdf;
-using iText.Layout;
-using iText.Layout.Element;
-using Microsoft.Extensions.Logging;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using static System.Runtime.InteropServices.JavaScript.JSType;
-using Domain.Entidades;
-using Org.BouncyCastle.Crypto;
 
 namespace DataAccesLayer.Implementations
 {
@@ -22,17 +7,12 @@ namespace DataAccesLayer.Implementations
     {
         private readonly DataContext _db;
         private IDAL_Casteo _cas;
+
         public DAL_FuncionesExtras(DataContext db, IDAL_Casteo cas)
         {
             _db = db;
             _cas = cas;
         }
-
-#pragma warning disable CS8618 // Un campo que no acepta valores NULL debe contener un valor distinto de NULL al salir del constructor. Considere la posibilidad de declararlo como que admite un valor NULL.
-        public DAL_FuncionesExtras()
-        {
-        }
-#pragma warning restore CS8618 // Un campo que no acepta valores NULL debe contener un valor distinto de NULL al salir del constructor. Considere la posibilidad de declararlo como que admite un valor NULL.
 
         bool IDAL_FuncionesExtras.existeCategoria(string nombre)
         {

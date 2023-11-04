@@ -3,12 +3,6 @@ using DataAccesLayer.Interface;
 using DataAccesLayer.Models;
 using Domain.DT;
 using Domain.Entidades;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Runtime.Intrinsics.X86;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace BusinessLayer.Implementations
 {
@@ -28,7 +22,7 @@ namespace BusinessLayer.Implementations
         //Agregar
         MensajeRetorno IB_Pedido.agregar_Pedido(DTPedido dtP)
         {
-            MensajeRetorno men = new MensajeRetorno();
+            MensajeRetorno men = new();
             if (dtP != null)
             {
                 if (dtP.list_IdProductos != null)
@@ -151,10 +145,10 @@ namespace BusinessLayer.Implementations
             DTPedido? pedido = null;
             foreach (Pedidos x in _dal.get_Pedidos())
             {
-                pedido = _cas.castDTPedido(x);
+                pedido = _cas.CastDTPedido(x);
                 foreach (Pedidos_Productos x1 in _dal.get_ProductosPedidos(x.id_Pedido))
                 {
-                    pedido.list_IdProductos.Add(_cas.castDTPedidoProducto(x1, _dal.getProductoPedido(x1.id_Producto)));
+                    pedido.list_IdProductos.Add(_cas.CastDTPedidoProducto(x1, _dal.getProductoPedido(x1.id_Producto)));
                 }
                 pedidos.Add(pedido);
             }
@@ -169,10 +163,10 @@ namespace BusinessLayer.Implementations
             DTPedido? pedido = null;
             foreach (Pedidos x in _dal.get_PedidosActivos())
             {
-                pedido = _cas.castDTPedido(x);
+                pedido = _cas.CastDTPedido(x);
                 foreach (Pedidos_Productos x1 in _dal.get_ProductosPedidos(x.id_Pedido))
                 {
-                    pedido.list_IdProductos.Add(_cas.castDTPedidoProducto(x1, _dal.getProductoPedido(x1.id_Producto)));
+                    pedido.list_IdProductos.Add(_cas.CastDTPedidoProducto(x1, _dal.getProductoPedido(x1.id_Producto)));
                 }
                 pedidos.Add(pedido);
             }
@@ -183,10 +177,10 @@ namespace BusinessLayer.Implementations
             List<DTPedido> dt_Productos = new List<DTPedido>();
             foreach (Pedidos x in _dal.getPedidosPorTipo(tipo))
             {
-                DTPedido pedido = _cas.castDTPedido(x);
+                DTPedido pedido = _cas.CastDTPedido(x);
                 foreach (Pedidos_Productos x1 in _dal.get_ProductosPedidos(x.id_Pedido))
                 {
-                    pedido.list_IdProductos.Add(_cas.castDTPedidoProducto(x1, _dal.getProductoPedido(x1.id_Producto)));
+                    pedido.list_IdProductos.Add(_cas.CastDTPedidoProducto(x1, _dal.getProductoPedido(x1.id_Producto)));
                 }
                 dt_Productos.Add(pedido);
             }
@@ -197,10 +191,10 @@ namespace BusinessLayer.Implementations
             List<DTPedido> dt_Productos = new List<DTPedido>();
             foreach (Pedidos x in _dal.getPedidosPorMesa(id))
             {
-                DTPedido pedido = _cas.castDTPedido(x);
+                DTPedido pedido = _cas.CastDTPedido(x);
                 foreach (Pedidos_Productos x1 in _dal.get_ProductosPedidos(x.id_Pedido))
                 {
-                    pedido.list_IdProductos.Add(_cas.castDTPedidoProducto(x1, _dal.getProductoPedido(x1.id_Producto)));
+                    pedido.list_IdProductos.Add(_cas.CastDTPedidoProducto(x1, _dal.getProductoPedido(x1.id_Producto)));
                 }
                 dt_Productos.Add(pedido);
             }
@@ -222,7 +216,6 @@ namespace BusinessLayer.Implementations
                 return men;
             }
         }
-
         public MensajeRetorno finalizar_Pedido(int id)
         {
             MensajeRetorno men = new MensajeRetorno();
@@ -237,6 +230,16 @@ namespace BusinessLayer.Implementations
                 men.Exepcion_no_Controlada();
                 return men;
             }
+        }
+
+        public DTPedido Pedido(int id)
+        {
+            DTPedido? pedido = _cas.CastDTPedido(_dal.get_Pedido(id));
+            foreach (Pedidos_Productos x1 in _dal.get_ProductosPedidos(id))
+            {
+                pedido.list_IdProductos.Add(_cas.CastDTPedidoProducto(x1, _dal.getProductoPedido(x1.id_Producto)));
+            }
+            return pedido;
         }
     }
 }

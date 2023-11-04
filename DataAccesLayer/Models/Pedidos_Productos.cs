@@ -1,13 +1,5 @@
-﻿using Domain.DT;
-using Domain.Entidades;
-using Microsoft.EntityFrameworkCore;
-using System;
-using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
+﻿using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace DataAccesLayer.Models
 {
@@ -17,7 +9,7 @@ namespace DataAccesLayer.Models
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         [Key]
         public int idPedidoProducto { get; set; }
-        public string observaciones { get; set; }
+        public string? observaciones { get; set; }
         [ForeignKey("Pedidos")]
         public int id_Pedido { get; set; }
         [ForeignKey("Productos")]
@@ -26,21 +18,24 @@ namespace DataAccesLayer.Models
 
         public static Pedidos_Productos SetPedido_Producto(int idPedido, int idProducto, string observaciones)
         {
-            Pedidos_Productos aux = new Pedidos_Productos();
-
-            aux.id_Pedido = idPedido;
-            aux.id_Producto = idProducto;
-            aux.observaciones = observaciones;
+            Pedidos_Productos aux = new()
+            {
+                id_Pedido = idPedido,
+                id_Producto = idProducto,
+                observaciones = observaciones
+            };
 
             return aux;
         }
         public Pedidos_Productos GetPedidos_Productos()
         {
-            Pedidos_Productos aux = new Pedidos_Productos();
-            aux.idPedidoProducto = idPedidoProducto;
-            aux.id_Producto = id_Producto;
-            aux.id_Pedido = id_Pedido;
-            aux.observaciones = observaciones;
+            Pedidos_Productos aux = new()
+            {
+                idPedidoProducto = idPedidoProducto,
+                id_Producto = id_Producto,
+                id_Pedido = id_Pedido,
+                observaciones = observaciones
+            };
             return aux;
         }
     }

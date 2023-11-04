@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace Domain.Entidades
+﻿namespace Domain.Entidades
 {
     public class ClientePreferencial
     {
@@ -21,7 +15,7 @@ namespace Domain.Entidades
         {
         }
 
-        public ClientePreferencial(int id_Cli_Preferencial, string nombre, string apellido, string telefono,  float saldo, int fichasCanje, bool registro_Activo)
+        public ClientePreferencial(int id_Cli_Preferencial, string nombre, string apellido, string telefono, float saldo, int fichasCanje, bool registro_Activo)
         {
             this.id_Cli_Preferencial = id_Cli_Preferencial;
             this.nombre = nombre;

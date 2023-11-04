@@ -1,9 +1,8 @@
-﻿using Domain.DT;
+﻿using BusinessLayer.Interfaces;
+using Domain.DT;
 using Domain.Entidades;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using WebApi_PUB_PV.Models;
-using BusinessLayer.Interfaces;
 
 namespace WebApi_PUB_PV.Controllers
 {
@@ -38,7 +37,7 @@ namespace WebApi_PUB_PV.Controllers
         {
             return false; // Ok(bl.eliminar_Evento(id));
         }
-        
+
         //Modificar
         [HttpPut("/api/modificarIngrediente")]
         public ActionResult<DTIngrediente> Put([FromBody] DTIngrediente Modificar)

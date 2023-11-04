@@ -1,18 +1,10 @@
 ﻿using DataAccesLayer.Interface;
 using DataAccesLayer.Models;
 using Domain.DT;
-using Domain.Entidades;
-using Domain.Enums;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Runtime.Intrinsics.X86;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace DataAccesLayer.Implementations
 {
-    public class DAL_Producto: IDAL_Producto
+    public class DAL_Producto : IDAL_Producto
     {
         private readonly DataContext _db;
         public DAL_Producto(DataContext db)
@@ -23,21 +15,25 @@ namespace DataAccesLayer.Implementations
         public List<Productos> getProducto()
         {
             //return _db.Productos.Select(x => x.GetProducto()).ToList(); 
+#pragma warning disable CS8602 // Desreferencia de una referencia posiblemente NULL.
             return _db.Productos
-                .Where(producto => producto.ProductoIngredientes.All(ingrediente => ingrediente.Ingredientes.stock >0))
+                .Where(producto => producto.ProductoIngredientes.All(i => i.ingredientes.stock > 0))
                 .ToList();// ahora retorna  la lista de productos con stock en todos sus ingredientes.
+#pragma warning restore CS8602 // Desreferencia de una referencia posiblemente NULL.
 
         }
 
         public List<Productos> getProductoPorTipo(Domain.Enums.Categoria tipo)
         {
-            return _db.Productos.Where(x => x.ProductoIngredientes.All(ingrediente => ingrediente.Ingredientes.stock > 0) & x.tipo == tipo).Select(x => x.GetProducto()).ToList();
+#pragma warning disable CS8602 // Desreferencia de una referencia posiblemente NULL.
+            return _db.Productos.Where(x => x.ProductoIngredientes.All(i => i.ingredientes.stock > 0) & x.tipo == tipo).Select(x => x.GetProducto()).ToList();
+#pragma warning restore CS8602 // Desreferencia de una referencia posiblemente NULL.
         }
 
         public bool modificar_Producto(DTProducto dtp)
         {
             // Utiliza SingleOrDefault() para buscar un Producto por nombre.
-            var ProductoEncontrado = _db.Productos.SingleOrDefault(i => i.id_Producto== dtp.id_Producto);
+            var ProductoEncontrado = _db.Productos.SingleOrDefault(i => i.id_Producto == dtp.id_Producto);
             if (ProductoEncontrado != null)
             {
                 // Modifica las propiedades del Producto.

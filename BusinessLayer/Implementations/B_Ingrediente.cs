@@ -3,13 +3,6 @@ using DataAccesLayer.Interface;
 using DataAccesLayer.Models;
 using Domain.DT;
 using Domain.Entidades;
-using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.Logging;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace BusinessLayer.Implementations
 {
@@ -65,7 +58,7 @@ namespace BusinessLayer.Implementations
             List<DTIngrediente> dt_Ingredientes = new List<DTIngrediente>();
             foreach (Ingredientes c in Ingredientes)
             {
-                dt_Ingredientes.Add(_cas.getDTIngrediente(c));
+                dt_Ingredientes.Add(_cas.GetDTIngrediente(c));
             }
 
             return dt_Ingredientes;

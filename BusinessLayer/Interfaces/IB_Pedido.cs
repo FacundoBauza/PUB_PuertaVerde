@@ -1,10 +1,5 @@
 ﻿using Domain.DT;
 using Domain.Entidades;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace BusinessLayer.Interfaces
 {
@@ -22,5 +17,6 @@ namespace BusinessLayer.Interfaces
         //Baja
         MensajeRetorno baja_Pedido(int id);
         MensajeRetorno finalizar_Pedido(int id);
+        DTPedido Pedido(int id);
     }
 }

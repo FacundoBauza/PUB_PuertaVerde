@@ -1,7 +1,6 @@
 ﻿using BusinessLayer.Interfaces;
 using Domain.DT;
 using Domain.Entidades;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using WebApi_PUB_PV.Models;
 
@@ -47,7 +46,7 @@ namespace WebApi_PUB_PV.Controllers
         }
         //Cerar cuenta del Cliente Preferencial
         [HttpPut("/api/cerarCuentaCliente")]
-        public ActionResult<byte[]> cerarMesa([FromBody] DTCliente_Preferencial Modificar)
+        public ActionResult<byte[]> cerarCuenta([FromBody] DTCliente_Preferencial Modificar)
         {
             return bl.cerarCuenta(Modificar);
         }

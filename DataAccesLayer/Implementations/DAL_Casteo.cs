@@ -1,69 +1,75 @@
 ﻿using DataAccesLayer.Interface;
 using DataAccesLayer.Models;
 using Domain.DT;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace DataAccesLayer.Implementations
 {
     public class DAL_Casteo : IDAL_Casteo
     {
-        DTIngrediente IDAL_Casteo.getDTIngrediente(Ingredientes x)
+        DTIngrediente IDAL_Casteo.GetDTIngrediente(Ingredientes x)
         {
-            DTIngrediente aux = new DTIngrediente();
-            aux.id_Ingrediente = x.id_Ingrediente;
-            aux.nombre = x.nombre;
-            aux.stock = x.stock;
-            aux.id_Categoria = x.id_Categoria;
+            DTIngrediente aux = new()
+            {
+                id_Ingrediente = x.id_Ingrediente,
+                nombre = x.nombre,
+                stock = x.stock,
+                id_Categoria = x.id_Categoria
+            };
             return aux;
         }
 
-        DTProducto IDAL_Casteo.getDTProducto(Productos c)
+        DTProducto IDAL_Casteo.GetDTProducto(Productos c)
         {
-            DTProducto aux = new DTProducto();
-            aux.id_Producto = c.id_Producto;
-            aux.nombre = c.nombre;
-            aux.precio = c.precio;
-            aux.descripcion = c.descripcion;
-            aux.tipo = c.tipo;
+            DTProducto aux = new()
+            {
+                id_Producto = c.id_Producto,
+                nombre = c.nombre,
+                precio = c.precio,
+                descripcion = c.descripcion,
+                tipo = c.tipo
+            };
             return aux;
         }
 
-        DTCategoria IDAL_Casteo.getDTCategoria(Categorias x)
+        DTCategoria IDAL_Casteo.GetDTCategoria(Categorias x)
         {
-            DTCategoria aux = new DTCategoria();
-            aux.id_Categoria = x.id_Categoria;
-            aux.nombre = x.nombre;
+            DTCategoria aux = new()
+            {
+                id_Categoria = x.id_Categoria,
+                nombre = x.nombre
+            };
             return aux;
         }
 
-        DTCliente_Preferencial IDAL_Casteo.castDTCliente_Preferencial(ClientesPreferenciales x)
+        DTCliente_Preferencial IDAL_Casteo.CastDTCliente_Preferencial(ClientesPreferenciales x)
         {
-            DTCliente_Preferencial aux = new DTCliente_Preferencial();
-            aux.id_Cli_Preferencial = x.id_Cli_Preferencial;
-            aux.nombre = x.nombre;
-            aux.apellido = x.apellido;
-            aux.telefono = x.telefono;
-            aux.saldo = x.saldo;
-            aux.fichasCanje = x.fichasCanje;
+            DTCliente_Preferencial aux = new()
+            {
+                id_Cli_Preferencial = x.id_Cli_Preferencial,
+                nombre = x.nombre,
+                apellido = x.apellido,
+                telefono = x.telefono,
+                saldo = x.saldo,
+                fichasCanje = x.fichasCanje
+            };
             return aux;
         }
 
-        public DTMesa getDTMesa(Mesas m)
+        public DTMesa GetDTMesa(Mesas m)
         {
-            DTMesa aux = new DTMesa();
-            aux.id_Mesa = m.id_Mesa;
-            aux.enUso = m.enUso;
-            aux.precioTotal = m.precioTotal;
+            DTMesa aux = new()
+            {
+                id_Mesa = m.id_Mesa,
+                enUso = m.enUso,
+                nombre = m.nombre,
+                precioTotal = m.precioTotal
+            };
             return aux;
         }
 
-        public DTPedido castDTPedido(Pedidos p)
+        public DTPedido CastDTPedido(Pedidos p)
         {
-            DTPedido aux = new DTPedido
+            DTPedido aux = new()
             {
                 id_Pedido = p.id_Pedido,
                 valorPedido = p.valorPedido,
@@ -79,14 +85,30 @@ namespace DataAccesLayer.Implementations
             return aux;
         }
 
-        public DTProducto_Observaciones castDTPedidoProducto(Pedidos_Productos pp, Productos p)
+        public DTProducto_Observaciones CastDTPedidoProducto(Pedidos_Productos pp, Productos p)
         {
-            DTProducto_Observaciones aux = new DTProducto_Observaciones();
-            aux.id_Producto = p.id_Producto;
-            aux.nombreProducto = p.nombre;
-            aux.observaciones = pp.observaciones;
-            aux.tipo = p.tipo;
+#pragma warning disable CS8601 // Posible asignación de referencia nula
+            DTProducto_Observaciones aux = new()
+            {
+                id_Producto = p.id_Producto,
+                nombreProducto = p.nombre,
+                observaciones = pp.observaciones,
+                tipo = p.tipo
+            };
+#pragma warning restore CS8601 // Posible asignación de referencia nula
             return aux;
+        }
+
+        public DTCaja GetDTCaja(Cajas c)
+        {
+            DTCaja dtc = new()
+            {
+                id = c.id,
+                estado = c.estado,
+                fecha = c.fecha,
+                totalPrecios = c.totalPrecios
+            };
+            return dtc;
         }
     }
 }

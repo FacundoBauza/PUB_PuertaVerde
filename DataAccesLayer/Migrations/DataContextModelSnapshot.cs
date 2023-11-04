@@ -22,6 +22,28 @@ namespace DataAccesLayer.Migrations
 
             NpgsqlModelBuilderExtensions.UseIdentityByDefaultColumns(modelBuilder);
 
+            modelBuilder.Entity("DataAccesLayer.Models.Cajas", b =>
+                {
+                    b.Property<int>("id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("integer");
+
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("id"));
+
+                    b.Property<bool>("estado")
+                        .HasColumnType("boolean");
+
+                    b.Property<DateTime>("fecha")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<float>("totalPrecios")
+                        .HasColumnType("real");
+
+                    b.HasKey("id");
+
+                    b.ToTable("Cajas");
+                });
+
             modelBuilder.Entity("DataAccesLayer.Models.Categorias", b =>
                 {
                     b.Property<int>("id_Categoria")
@@ -110,6 +132,10 @@ namespace DataAccesLayer.Migrations
                     b.Property<bool>("enUso")
                         .HasColumnType("boolean");
 
+                    b.Property<string>("nombre")
+                        .IsRequired()
+                        .HasColumnType("text");
+
                     b.Property<float>("precioTotal")
                         .HasColumnType("real");
 
@@ -179,7 +205,6 @@ namespace DataAccesLayer.Migrations
                         .HasColumnType("integer");
 
                     b.Property<string>("observaciones")
-                        .IsRequired()
                         .HasColumnType("text");
 
                     b.HasKey("idPedidoProducto");
@@ -444,21 +469,21 @@ namespace DataAccesLayer.Migrations
 
             modelBuilder.Entity("DataAccesLayer.Models.Productos_Ingredientes", b =>
                 {
-                    b.HasOne("DataAccesLayer.Models.Ingredientes", "Ingredientes")
+                    b.HasOne("DataAccesLayer.Models.Ingredientes", "ingredientes")
                         .WithMany("ProductoIngredientes")
                         .HasForeignKey("id_Ingrediente")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("DataAccesLayer.Models.Productos", "Productos")
+                    b.HasOne("DataAccesLayer.Models.Productos", "productos")
                         .WithMany("ProductoIngredientes")
                         .HasForeignKey("id_Producto")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.Navigation("Ingredientes");
+                    b.Navigation("ingredientes");
 
-                    b.Navigation("Productos");
+                    b.Navigation("productos");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
