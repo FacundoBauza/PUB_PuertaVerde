@@ -2,6 +2,8 @@
 using Domain.DT;
 using Domain.Entidades;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.SignalR;
+using SignalR;
 using WebApi_PUB_PV.Models;
 
 namespace WebApi_PUB_PV.Controllers
@@ -9,16 +11,22 @@ namespace WebApi_PUB_PV.Controllers
     public class PedidoController : Controller
     {
         private IB_Pedido bl;
-        public PedidoController(IB_Pedido _bl)
+        private IHubContext<ChatHub> _hub;
+        public PedidoController(IB_Pedido _bl, IHubContext<ChatHub> hub)
         {
             bl = _bl;
+            _hub = hub;
         }
 
         //Agregar
         [HttpPost("/api/agregarPedido")]
-        public ActionResult<DTPedido> Post([FromBody] DTPedido value)
+        public async Task<ActionResult<DTPedido>> Post([FromBody] DTPedido value)
         {
             MensajeRetorno x = bl.agregar_Pedido(value);
+            if (value.tipo == Domain.Enums.Categoria.comida || value.tipo == Domain.Enums.Categoria.licuado)
+            {
+                await _hub.Clients.All.SendAsync("NewPedido", "Pedido", "Se ha actualizado un pedido");
+            }
             return Ok(new StatusResponse { StatusOk = x.status, StatusMessage = x.mensaje });
         }
 
@@ -27,6 +35,10 @@ namespace WebApi_PUB_PV.Controllers
         public ActionResult<DTPedido> Put([FromBody] DTPedido value)
         {
             MensajeRetorno x = bl.actualizar_Pedido(value);
+            if(value.tipo == Domain.Enums.Categoria.comida || value.tipo == Domain.Enums.Categoria.licuado)
+            {
+                _hub.Clients.All.SendAsync("ClosePedido", "Pedido de la mesa"+value.id_Mesa+" terminado");
+            }   
             return Ok(new StatusResponse { StatusOk = x.status, StatusMessage = x.mensaje });
         }
 
