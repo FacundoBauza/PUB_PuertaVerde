@@ -103,11 +103,12 @@ namespace WebApi_PUB_PV.Controllers
         public async Task<IActionResult> Register([FromBody] RegisterModel model)
         {
             var userExists = await _userManager.FindByNameAsync(model.Email);
-            if (userExists != null)
+            if (userExists != null && userExists.registro_Activo == true)
                 return StatusCode(StatusCodes.Status500InternalServerError, new StatusResponse { StatusOk = false, StatusMessage = "El usuario ya existe!" });
 
             Usuarios user = new()
             {
+                registro_Activo = true,
                 Email = model.Email,
                 SecurityStamp = Guid.NewGuid().ToString(),
                 UserName = model.Email,
@@ -130,7 +131,7 @@ namespace WebApi_PUB_PV.Controllers
 
         [HttpGet]
         [Route("Usuario")]
-        [Authorize(Roles = "USER")]
+        //[Authorize(Roles = "USER")]
         public async Task<ActionResult<DTUsuario>> GetInformacionUsuario()
         {
             string username = User.FindFirstValue(ClaimTypes.NameIdentifier);
@@ -154,7 +155,7 @@ namespace WebApi_PUB_PV.Controllers
 
         [HttpGet]
         [Route("Usuarios")]
-        [Authorize(Roles = "ADMIN")]
+        //[Authorize(Roles = "ADMIN")]
         public async Task<ActionResult<IEnumerable<DTUsuario>>> GetUsuarios()
         {
             return await _userManager.Users.Select(x => new DTUsuario()
@@ -167,8 +168,29 @@ namespace WebApi_PUB_PV.Controllers
             }).ToListAsync();
         }
 
+        [HttpGet]
+        [Route("listarUsuarios")]
+        //[Authorize(Roles = "ADMIN")]
+        public async Task<ActionResult<IEnumerable<DTUsuarioInfo>>> listarUsuarios()
+        {
+            // Filtra los usuarios cuyo campo registroActivo sea true
+            var usuariosActivos = await _userManager.Users
+                .Where(user => user.registro_Activo)
+                .Select(x => new DTUsuarioInfo()
+                {
+                    apellido = x.apellido,
+                    nombre = x.nombre,
+                    email = x.Email,
+                    password = x.PasswordHash
+                })
+                .ToListAsync();
+
+            return usuariosActivos;
+        }
+
+
         [HttpPost]
-        [Authorize(Roles = "ADMIN")]
+        //[Authorize(Roles = "ADMIN")]
         [Route("AddRole")]
         [ProducesResponseType(typeof(StatusResponse), 200)]
         public async Task<IActionResult> AddRole([FromBody] AddRoleModel model)
@@ -189,9 +211,24 @@ namespace WebApi_PUB_PV.Controllers
 
         [HttpGet]
         [Route("ObtenerRoles")]
-        public async Task<List<string>> GetRol(string username)
+        public async Task<List<DTRol>> GetRol(string username)
         {
-            return (List<string>)await _userManager.GetRolesAsync(await _userManager.FindByNameAsync(username));
+            List<DTRol> list = new List<DTRol>();
+            foreach(string s in (List<string>)await _userManager.GetRolesAsync(await _userManager.FindByNameAsync(username)))
+            {
+                if (s.Equals("USER")) 
+                    list.Add(new DTRol(1, s));
+                else if (s.Equals("ADMIN"))
+                    list.Add(new DTRol(2, s));
+                else if (s.Equals("COCINA"))
+                    list.Add(new DTRol(3, s));
+                else if (s.Equals("CAJA"))
+                    list.Add(new DTRol(4, s));
+                else if (s.Equals("MOZO"))
+                    list.Add(new DTRol(5, s));
+            }
+
+            return list;
         }
 
         private void foreache(string v, object x, Task<IList<string>> task)
@@ -219,9 +256,9 @@ namespace WebApi_PUB_PV.Controllers
             return token;
         }
 
-        [HttpPost]
-        [Authorize(Roles = "ADMIN")]
-        [Route("BajaUsuario")]
+        [HttpDelete]
+        //[Authorize(Roles = "ADMIN")]
+        [Route("BajaUsuario/{username}")]
         [ProducesResponseType(typeof(StatusResponse), 200)]
         public async Task<IActionResult> UpdateUser(string username)
         {
@@ -235,6 +272,47 @@ namespace WebApi_PUB_PV.Controllers
             await _userManager.UpdateAsync(userExists);
 
             return Ok(new StatusResponse { StatusOk = true, StatusMessage = "Usuario dado de Baja correctamente!" });
+        }
+
+        [HttpPut]
+        //[Authorize(Roles = "ADMIN")]
+        [Route("modificarUsuario")]
+        [ProducesResponseType(typeof(StatusResponse), 200)]
+        public async Task<IActionResult> modificarUser([FromBody] DTUsuarioInfo dtuser)
+        {
+            var userExists = await _userManager.FindByNameAsync(dtuser.email);
+            if (userExists == null)
+                return StatusCode(StatusCodes.Status500InternalServerError, new StatusResponse { StatusOk = false, StatusMessage = "No existe un usuario con username " + dtuser.email });
+
+            userExists.nombre = dtuser.nombre;
+            userExists.apellido = dtuser.apellido;
+
+            //Actulizar User
+            await _userManager.UpdateAsync(userExists);
+
+            return Ok(new StatusResponse { StatusOk = true, StatusMessage = "Usuario modificado correctamente!" });
+        }
+
+        [HttpDelete]
+        //[Authorize(Roles = "ADMIN")]
+        [Route("BajaRole")]
+        [ProducesResponseType(typeof(StatusResponse), 200)]
+        public async Task<IActionResult> BajaRole([FromBody] AddRoleModel model)
+        {
+            var userExists = await _userManager.FindByNameAsync(model.UserName);
+            if (userExists == null)
+                return StatusCode(StatusCodes.Status500InternalServerError, new StatusResponse { StatusOk = false, StatusMessage = "No existe un usuario con username " + model.UserName });
+
+            var roleExists = await _roleManager.FindByNameAsync(model.RoleName);
+            if (roleExists.Name == "USER")
+                return StatusCode(StatusCodes.Status500InternalServerError, new StatusResponse { StatusOk = false, StatusMessage = "No se puede eliminar el Rol User" + model.RoleName });
+            if (roleExists == null)
+                return StatusCode(StatusCodes.Status500InternalServerError, new StatusResponse { StatusOk = false, StatusMessage = "No existe un role con roleName " + model.RoleName });
+
+            // Quitar Rol al User
+            await _userManager.RemoveFromRoleAsync(userExists, roleExists.Name);
+
+            return Ok(new StatusResponse { StatusOk = true, StatusMessage = "Rol quitado del usuario correctamente!" });
         }
     }
 }
