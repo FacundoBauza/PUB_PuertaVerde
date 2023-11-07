@@ -35,7 +35,8 @@ namespace WebApi_PUB_PV.Controllers
         [HttpDelete("/api/bajaIngrediente/{id:int}")]
         public ActionResult<MensajeRetorno> Delete(int id)
         {
-            return bl.Eliminar_Ingredente(id);
+            MensajeRetorno x = bl.Eliminar_Ingredente(id);
+            return Ok(new StatusResponse { StatusOk = x.status, StatusMessage = x.mensaje });
         }
 
         //Modificar
