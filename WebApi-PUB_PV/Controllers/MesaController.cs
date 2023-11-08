@@ -17,10 +17,18 @@ namespace WebApi_PUB_PV.Controllers
 
         //Agregar
         [HttpPost("/api/agregarMesa")]
-        public ActionResult<DTMesa> Post([FromBody] DTMesa value)
+        public IActionResult Post([FromBody] DTMesa value)
         {
-            MensajeRetorno x = bl.Agregar_Mesa(value);
-            return Ok(new StatusResponse { StatusOk = x.status, StatusMessage = x.mensaje });
+            MensajeRetorno mensajeRetorno = bl.Agregar_Mesa(value);
+
+            //if (mensajeRetorno.status)
+            //{
+                return Ok(new StatusResponse { StatusOk = true, StatusMessage = mensajeRetorno.mensaje });
+            //}
+            /*else
+            {
+                return BadRequest(new StatusResponse { StatusOk = false, StatusMessage = mensajeRetorno.mensaje });
+            }*/
         }
 
         //Listar
