@@ -21,14 +21,14 @@ namespace WebApi_PUB_PV.Controllers
         {
             MensajeRetorno mensajeRetorno = bl.Agregar_Mesa(value);
 
-            //if (mensajeRetorno.status)
-            //{
+            if (mensajeRetorno.status)
+            {
                 return Ok(new StatusResponse { StatusOk = true, StatusMessage = mensajeRetorno.mensaje });
-            //}
-            /*else
+            }
+            else
             {
                 return BadRequest(new StatusResponse { StatusOk = false, StatusMessage = mensajeRetorno.mensaje });
-            }*/
+            }
         }
 
         //Listar
