@@ -214,7 +214,11 @@ namespace DataAccesLayer.Implementations
                     //retota que todo se hizo corectamente
                     return true;
                 }
-                catch { }
+                catch
+                {
+                    //error retorna false
+                    return false;
+                }
             }
             //no se pudo encontrar la mesa y retorna false
             return false;
