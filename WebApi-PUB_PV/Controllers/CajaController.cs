@@ -18,7 +18,7 @@ namespace WebApi_PUB_PV.Controllers
         }
         //Agregar
         [HttpPost("/api/agregarCaja")]
-        public ActionResult<DTCategoria> Post([FromBody] DTCaja value)
+        public ActionResult<MensajeRetorno> Post([FromBody] DTCaja value)
         {
             MensajeRetorno x = bl.Set_Cajas(value);
             return Ok(new StatusResponse { StatusOk = x.status, StatusMessage = x.mensaje });
@@ -26,7 +26,7 @@ namespace WebApi_PUB_PV.Controllers
 
         //modificar
         [HttpPut("/api/listarCajas")]
-        public ActionResult<DTCategoria> Put([FromBody] DTCaja Modificar)
+        public ActionResult<MensajeRetorno> Put([FromBody] DTCaja Modificar)
         {
             MensajeRetorno x = bl.Modificar_Cajas(Modificar);
             return Ok(new StatusResponse { StatusOk = x.status, StatusMessage = x.mensaje });

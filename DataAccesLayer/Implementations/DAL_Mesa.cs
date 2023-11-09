@@ -220,26 +220,5 @@ namespace DataAccesLayer.Implementations
             return false;
         }
 
-        public bool baja_Mesa(int id)
-        {
-            Mesas? aux = null;
-            aux = _db.Mesas.FirstOrDefault(me => me.id_Mesa == id);
-            if (aux != null)
-            {
-                try
-                {
-                    aux.registro_Activo = false;
-                    _db.Update(aux);
-                    _db.SaveChanges();
-                }
-                catch
-                {
-                    return false;
-                }
-                return true;
-            }
-            return false;
-        }
-
     }
 }
