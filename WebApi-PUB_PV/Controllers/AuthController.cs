@@ -125,6 +125,7 @@ namespace WebApi_PUB_PV.Controllers
             await _userManager.AddToRoleAsync(user, "USER");
 
             return Ok(new StatusResponse { StatusOk = true, StatusMessage = "Usuario creado correctamente!" });
+        
         }
 
         [HttpGet]
@@ -206,34 +207,6 @@ namespace WebApi_PUB_PV.Controllers
 
             return Ok(new StatusResponse { StatusOk = true, StatusMessage = "Rol agregado al usuario correctamente!" });
         }
-
-        [HttpGet]
-        [Route("ObtenerRoles")]
-        public async Task<List<DTRol>> GetRol(string username)
-        {
-            List<DTRol> list = new List<DTRol>();
-            foreach(string s in (List<string>)await _userManager.GetRolesAsync(await _userManager.FindByNameAsync(username)))
-            {
-                if (s.Equals("USER")) 
-                    list.Add(new DTRol(1, s));
-                else if (s.Equals("ADMIN"))
-                    list.Add(new DTRol(2, s));
-                else if (s.Equals("COCINA"))
-                    list.Add(new DTRol(3, s));
-                else if (s.Equals("CAJA"))
-                    list.Add(new DTRol(4, s));
-                else if (s.Equals("MOZO"))
-                    list.Add(new DTRol(5, s));
-            }
-
-            return list;
-        }
-
-        private void foreache(string v, object x, Task<IList<string>> task)
-        {
-            throw new NotImplementedException();
-        }
-
 
         private JwtSecurityToken GetToken(List<Claim> authClaims)
         {

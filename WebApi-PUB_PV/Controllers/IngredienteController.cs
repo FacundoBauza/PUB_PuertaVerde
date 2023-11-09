@@ -18,10 +18,18 @@ namespace WebApi_PUB_PV.Controllers
 
         //Agregar
         [HttpPost("/api/agregarIngrediente")]
-        public ActionResult<DTIngrediente> Post([FromBody] DTIngrediente value)
+        public IActionResult Post([FromBody] DTIngrediente value)
         {
-            MensajeRetorno x = bl.Agregar_Ingrediente(value);
-            return Ok(new StatusResponse { StatusOk = x.status, StatusMessage = x.mensaje });
+            MensajeRetorno mensajeRetorno = bl.Agregar_Ingrediente(value);
+
+            if (mensajeRetorno.status)
+            {
+                return Ok(new StatusResponse { StatusOk = true, StatusMessage = mensajeRetorno.mensaje });
+            }
+            else
+            {
+                return BadRequest(new StatusResponse { StatusOk = false, StatusMessage = mensajeRetorno.mensaje });
+            }
         }
 
         //Listar

@@ -1,6 +1,6 @@
 namespace Testing_PV
 {
-    public class Tests
+    public class Test_Usuario
     {
         [SetUp]
         public void Setup()
