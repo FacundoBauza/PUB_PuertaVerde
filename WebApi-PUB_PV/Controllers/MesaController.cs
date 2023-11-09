@@ -67,6 +67,22 @@ namespace WebApi_PUB_PV.Controllers
                 return BadRequest(new StatusResponse { StatusOk = false, StatusMessage = x.mensaje });
             }
         }
+
+        //Modificar
+        [HttpPut("/api/modificarprecio")]
+        public IActionResult PutPrecio([FromBody] DTMesa Modificar)
+        {
+            MensajeRetorno x = bl.Modificar_Precio_Mesa(Modificar);
+            if (x.status)
+            {
+                return Ok(new StatusResponse { StatusOk = true, StatusMessage = x.mensaje });
+            }
+            else
+            {
+                return BadRequest(new StatusResponse { StatusOk = false, StatusMessage = x.mensaje });
+            }
+        }
+
         //Cerar cuenta de la mesa
         [HttpPut("/api/cerarCuentaMesa")]
         public ActionResult<byte[]> CerarMesa([FromBody] DTMesa Modificar)
