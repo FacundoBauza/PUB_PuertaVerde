@@ -21,14 +21,14 @@ namespace WebApi_PUB_PV.Controllers
         {
             MensajeRetorno mensajeRetorno = bl.Agregar_Mesa(value);
 
-            //if (mensajeRetorno.status)
-            //{
+            if (mensajeRetorno.status)
+            {
                 return Ok(new StatusResponse { StatusOk = true, StatusMessage = mensajeRetorno.mensaje });
-            //}
-            /*else
+            }
+            else
             {
                 return BadRequest(new StatusResponse { StatusOk = false, StatusMessage = mensajeRetorno.mensaje });
-            }*/
+            }
         }
 
         //Listar
@@ -40,19 +40,49 @@ namespace WebApi_PUB_PV.Controllers
 
         //Eliminar
         [HttpDelete("/api/bajaMesa/{id:int}")]
-        public ActionResult<bool> BajaMesa(int id)
+        public IActionResult BajaMesa(int id)
         {
             MensajeRetorno x = bl.Baja_Mesa(id);
-            return Ok(new StatusResponse { StatusOk = x.status, StatusMessage = x.mensaje });
+            if (x.status)
+            {
+                return Ok(new StatusResponse { StatusOk = true, StatusMessage = x.mensaje });
+            }
+            else
+            {
+                return BadRequest(new StatusResponse { StatusOk = false, StatusMessage = x.mensaje });
+            }
         }
 
         //Modificar
         [HttpPut("/api/modificarMesa")]
-        public ActionResult<DTMesa> Put([FromBody] DTMesa Modificar)
+        public IActionResult Put([FromBody] DTMesa Modificar)
         {
             MensajeRetorno x = bl.Modificar_Mesa(Modificar);
-            return Ok(new StatusResponse { StatusOk = x.status, StatusMessage = x.mensaje });
+            if (x.status)
+            {
+                return Ok(new StatusResponse { StatusOk = true, StatusMessage = x.mensaje });
+            }
+            else
+            {
+                return BadRequest(new StatusResponse { StatusOk = false, StatusMessage = x.mensaje });
+            }
         }
+
+        //Modificar
+        [HttpPut("/api/modificarprecio")]
+        public IActionResult PutPrecio([FromBody] DTMesa Modificar)
+        {
+            MensajeRetorno x = bl.Modificar_Precio_Mesa(Modificar);
+            if (x.status)
+            {
+                return Ok(new StatusResponse { StatusOk = true, StatusMessage = x.mensaje });
+            }
+            else
+            {
+                return BadRequest(new StatusResponse { StatusOk = false, StatusMessage = x.mensaje });
+            }
+        }
+
         //Cerar cuenta de la mesa
         [HttpPut("/api/cerarCuentaMesa")]
         public ActionResult<byte[]> CerarMesa([FromBody] DTMesa Modificar)

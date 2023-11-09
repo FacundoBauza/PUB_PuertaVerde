@@ -118,5 +118,30 @@ namespace BusinessLayer.Implementations
         {
             return _dal.CerarMesa(modificar.id_Mesa);
         }
+
+        public MensajeRetorno Modificar_Precio_Mesa(DTMesa modificar)
+        {
+            MensajeRetorno men = new MensajeRetorno();
+            if (modificar != null)
+            {
+                if (_dal.Modificar_Precio_Mesas(modificar) == true)
+                {
+                    men.mensaje = "La mesa se guardo correctamente";
+                    men.status = true;
+                    return men;
+                }
+                else
+                {
+                    men.Exepcion_no_Controlada();
+                    return men;
+                }
+            }
+            else
+            {
+                men.Objeto_Nulo();
+                return men;
+            }
+
+        }
     }
 }

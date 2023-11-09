@@ -220,26 +220,26 @@ namespace DataAccesLayer.Implementations
             return false;
         }
 
-        public bool baja_Mesa(int id)
+        public bool Modificar_Precio_Mesas(DTMesa modificar)
         {
-            Mesas? aux = null;
-            aux = _db.Mesas.FirstOrDefault(me => me.id_Mesa == id);
-            if (aux != null)
+            // Utiliza SingleOrDefault() para buscar una Mesa.
+            var MesaEncontrada = _db.Mesas.SingleOrDefault(i => i.id_Mesa == modificar.id_Mesa);
+            if (MesaEncontrada != null)
             {
                 try
                 {
-                    aux.registro_Activo = false;
-                    _db.Update(aux);
+                    // Modifica las propiedades de la mesa.
+                    MesaEncontrada.precioTotal = modificar.precioTotal;
+                    // Guarda los cambios en la base de datos.
+                    _db.Mesas.Update(MesaEncontrada);
                     _db.SaveChanges();
+                    //retota que todo se hizo corectamente
+                    return true;
                 }
-                catch
-                {
-                    return false;
-                }
-                return true;
+                catch { }
             }
+            //no se pudo encontrar la mesa y retorna false 
             return false;
         }
-
     }
 }
