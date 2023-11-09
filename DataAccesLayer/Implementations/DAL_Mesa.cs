@@ -238,7 +238,7 @@ namespace DataAccesLayer.Implementations
                 }
                 catch { }
             }
-            //no se pudo encontrar la mesa y retorna false
+            //no se pudo encontrar la mesa y retorna false 
             return false;
         }
     }
