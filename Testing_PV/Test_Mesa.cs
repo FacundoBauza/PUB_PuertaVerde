@@ -87,7 +87,7 @@ namespace WebApi_PUB_PV.Tests.Controllers
         public void BajaMesa_IdExistente_RetornaOk()
         {
             // Arrange
-            var id = 1; // Proporciona un ID existente
+            int id = 6; // Proporciona un ID existente
             var mockBL = new Mock<IB_Mesa>();
             var controller = new MesaController(mockBL.Object);
             var mensajeRetorno = new MensajeRetorno { status = true, mensaje = "La mesa se dio de baja correctamente" };
