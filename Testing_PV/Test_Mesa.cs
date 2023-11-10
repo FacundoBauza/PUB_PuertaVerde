@@ -101,7 +101,7 @@ namespace WebApi_PUB_PV.Tests.Controllers
         {
             // Arrange
             int id = 0; // Proporciona un ID inexistente
-            var mensajeRetorno = new MensajeRetorno { status = true, mensaje = "Exepción no controlada" };
+            var mensajeRetorno = new MensajeRetorno { status = false, mensaje = "Exepción no controlada" };
             mockBL.Setup(bl => bl.Baja_Mesa(It.IsAny<int>())).Returns(mensajeRetorno);
             // Act
             var resultado = mesaController.BajaMesa(id) as ObjectResult;

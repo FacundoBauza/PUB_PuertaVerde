@@ -42,14 +42,14 @@ namespace WebApi_PUB_PV.Controllers
         [HttpDelete("/api/bajaMesa/{id:int}")]
         public IActionResult BajaMesa(int id)
         {
-            MensajeRetorno x = bl.Baja_Mesa(id);
-            if (x.status)
+            MensajeRetorno mensajeRetorno = bl.Baja_Mesa(id);
+            if (mensajeRetorno.status)
             {
-                return Ok(new StatusResponse { StatusOk = true, StatusMessage = x.mensaje });
+                return Ok(new StatusResponse { StatusOk = true, StatusMessage = mensajeRetorno.mensaje });
             }
             else
             {
-                return BadRequest(new StatusResponse { StatusOk = false, StatusMessage = x.mensaje });
+                return BadRequest(new StatusResponse { StatusOk = false, StatusMessage = mensajeRetorno.mensaje });
             }
         }
 
