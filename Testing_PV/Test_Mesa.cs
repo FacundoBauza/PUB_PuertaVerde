@@ -134,7 +134,77 @@ namespace WebApi_PUB_PV.Tests.Controllers
             Assert.AreEqual(mensajeRetorno.status, ((StatusResponse)resultado.Value).StatusOk);
             Assert.AreEqual(mensajeRetorno.mensaje, ((StatusResponse)resultado.Value).StatusMessage);
         }
+        [Test]
+        public void Put_DatosValidos_RetornaBadRequest()
+        {
+            // Arrange
+            var mesa = new DTMesa
+            {
+                id_Mesa = 0,
+                enUso = false,
+                precioTotal = 0,
+                nombre = "1",
+            };
 
+            // Act
+            var mensajeRetorno = new MensajeRetorno { status = false, mensaje = "Exepción no controlada" };
+            
+            mockBL.Setup(bl => bl.Modificar_Mesa(It.IsAny<DTMesa>())).Returns(mensajeRetorno);
+            var resultado = mesaController.Put(mesa) as ObjectResult;
+
+            // Assert
+            Assert.IsNotNull(resultado);
+            Assert.AreEqual(400, resultado.StatusCode);
+            Assert.AreEqual(mensajeRetorno.status, ((StatusResponse)resultado.Value).StatusOk);
+            Assert.AreEqual(mensajeRetorno.mensaje, ((StatusResponse)resultado.Value).StatusMessage);
+        }
+        [Test]
+        public void PutPrecio_DatosValidos_RetornaOk()
+        {
+            // Arrange
+            var mesa = new DTMesa
+            {
+                id_Mesa = 1,
+                enUso = false,
+                precioTotal = 0,
+                nombre = "1",
+            };
+
+            // Act
+            var mensajeRetorno = new MensajeRetorno { status = true, mensaje = "La mesa se guardo correctamente" };
+            mockBL.Setup(bl => bl.Modificar_Precio_Mesa(It.IsAny<DTMesa>())).Returns(mensajeRetorno);
+            var resultado = mesaController.PutPrecio(mesa) as ObjectResult;
+
+            // Assert
+            Assert.IsNotNull(resultado);
+            Assert.AreEqual(200, resultado.StatusCode);
+            Assert.AreEqual(mensajeRetorno.status, ((StatusResponse)resultado.Value).StatusOk);
+            Assert.AreEqual(mensajeRetorno.mensaje, ((StatusResponse)resultado.Value).StatusMessage);
+        }
+        [Test]
+        public void PutPrecio_DatosValidos_RetornaBadRequest()
+        {
+            // Arrange
+            var mesa = new DTMesa
+            {
+                id_Mesa = 0,
+                enUso = false,
+                precioTotal = 0,
+                nombre = "1",
+            };
+
+            // Act
+            var mensajeRetorno = new MensajeRetorno { status = false, mensaje = "Exepción no controlada" };
+
+            mockBL.Setup(bl => bl.Modificar_Precio_Mesa(It.IsAny<DTMesa>())).Returns(mensajeRetorno);
+            var resultado = mesaController.PutPrecio(mesa) as ObjectResult;
+
+            // Assert
+            Assert.IsNotNull(resultado);
+            Assert.AreEqual(400, resultado.StatusCode);
+            Assert.AreEqual(mensajeRetorno.status, ((StatusResponse)resultado.Value).StatusOk);
+            Assert.AreEqual(mensajeRetorno.mensaje, ((StatusResponse)resultado.Value).StatusMessage);
+        }
         [Test]
         public void CerarMesa_DatosValidos_RetornaByteArray()
         {
