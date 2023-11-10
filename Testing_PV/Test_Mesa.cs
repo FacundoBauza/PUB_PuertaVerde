@@ -14,7 +14,7 @@ using WebApi_PUB_PV.Models;
 using static System.Runtime.InteropServices.JavaScript.JSType;
 using DataAccesLayer.Models;
 
-namespace WebApi_PUB_PV.Tests.Controllers
+namespace Testing_PV
 {
     [TestFixture]
     public class Test_Mesa
