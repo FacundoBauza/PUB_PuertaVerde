@@ -15,19 +15,43 @@ namespace Testing_PV
     [TestFixture]
     internal class Test_Caja
     {
-        [Test]
-        public void Post_ValidCaja_ReturnsOkResult()
+        // Define una implementación Mock o Falsa de IB_Mesa para pruebas
+        public IB_Caja Service;
+        public CajaController controller;
+        public Mock<IB_Caja> mockBusinessLayer;
+        public DTCaja validCaja;
+        public DTCaja invalidCaja;
+
+        [SetUp]
+        public void Configuracion()
         {
-            // Arrange
-            var mockBusinessLayer = new Mock<IB_Caja>();
-            var controller = new CajaController(mockBusinessLayer.Object);
-            var validCaja = new DTCaja
+            // Inicializa la implementación Mock o Falsa
+
+            mockBusinessLayer = new Mock<IB_Caja>();
+            // Puedes utilizar una biblioteca de simulación como Moq para crear un mock
+            // Crea una instancia de MesaController con el servicio falso
+            controller = new CajaController(mockBusinessLayer.Object);
+            //datos necesarios para todos los test
+            validCaja = new DTCaja
             {
                 id = 1,
                 fecha = new(),
                 totalPrecios = 0,
                 estado = false
             };
+            invalidCaja = new DTCaja
+            {
+                id = -1,
+                fecha = new(),
+                totalPrecios = 0,
+                estado = false
+            };
+        }
+        [Test]
+        public void Post_ValidCaja_ReturnsOkResult()
+        {
+            // Arrange
+            
 
             // Configura el comportamiento del mock para Set_Cajas
             MensajeRetorno mensajeRetorno = new MensajeRetorno { status = true, mensaje = "Caja agregada correctamente" };
@@ -49,16 +73,6 @@ namespace Testing_PV
         [Test]
         public void Post_InvalidCaja_ReturnsBadRequestResult()
         {
-            // Arrange
-            var mockBusinessLayer = new Mock<IB_Caja>();
-            var controller = new CajaController(mockBusinessLayer.Object);
-            var invalidCaja = new DTCaja
-            {
-                id = -1,
-                fecha = new(),
-                totalPrecios = 0,
-                estado = false
-            };
             // Configura el comportamiento del mock para Set_Cajas con un DTO inválido
             MensajeRetorno mensajeRetorno = new MensajeRetorno { status = false, mensaje = "Error al agregar la caja" };
             mockBusinessLayer.Setup(bl => bl.Set_Cajas(invalidCaja)).Returns(mensajeRetorno);
@@ -79,16 +93,6 @@ namespace Testing_PV
         [Test]
         public void Put_ValidCaja_ReturnsOkResult()
         {
-            // Arrange
-            var mockBusinessLayer = new Mock<IB_Caja>();
-            var controller = new CajaController(mockBusinessLayer.Object);
-            var validCaja = new DTCaja
-            {
-                id = 1,
-                fecha = new(),
-                totalPrecios = 0,
-                estado = false
-            };
 
             // Configura el comportamiento del mock para Modificar_Cajas
             MensajeRetorno mensajeRetorno =new MensajeRetorno { status = true, mensaje = "Caja modificada correctamente" };
@@ -110,17 +114,6 @@ namespace Testing_PV
         [Test]
         public void Put_InvalidCaja_ReturnsBadRequestResult()
         {
-            // Arrange
-            var mockBusinessLayer = new Mock<IB_Caja>();
-            var controller = new CajaController(mockBusinessLayer.Object);
-            var invalidCaja = new DTCaja
-            {
-                id = -1,
-                fecha = new(),
-                totalPrecios = 0,
-                estado = false
-            };
-
             // Configura el comportamiento del mock para Modificar_Cajas con un DTO inválido
             MensajeRetorno mensajeRetorno =new MensajeRetorno { status = false, mensaje = "Error al modificar la caja" };
             mockBusinessLayer.Setup(bl => bl.Modificar_Cajas(invalidCaja)).Returns(mensajeRetorno);
@@ -140,17 +133,12 @@ namespace Testing_PV
         [Test]
         public void BajaCaja_ValidId_ReturnsOkResult()
         {
-            // Arrange
-            var mockBusinessLayer = new Mock<IB_Caja>();
-            var controller = new CajaController(mockBusinessLayer.Object);
-            var validId = 1;
-
             // Configura el comportamiento del mock para Baja_Cajas
             MensajeRetorno mensajeRetorno = new MensajeRetorno { status = true, mensaje = "Caja dada de baja correctamente" };
-            mockBusinessLayer.Setup(bl => bl.Baja_Cajas(validId)).Returns(mensajeRetorno);
+            mockBusinessLayer.Setup(bl => bl.Baja_Cajas(validCaja.id)).Returns(mensajeRetorno);
 
             // Act
-            var result = controller.BajaCaja(validId) as OkObjectResult;
+            var result = controller.BajaCaja(validCaja.id) as OkObjectResult;
 
             // Assert
             // Añade aserciones específicas según tu comportamiento esperado
@@ -165,17 +153,12 @@ namespace Testing_PV
         [Test]
         public void BajaCaja_InvalidId_ReturnsBadRequestResult()
         {
-            // Arrange
-            var mockBusinessLayer = new Mock<IB_Caja>();
-            var controller = new CajaController(mockBusinessLayer.Object);
-            var invalidId = -1;
-
             // Configura el comportamiento del mock para Baja_Cajas con un ID inválido
             MensajeRetorno mensajeRetorno = new MensajeRetorno { status = false, mensaje = "Error al dar de baja la caja" };
-            mockBusinessLayer.Setup(bl => bl.Baja_Cajas(invalidId)).Returns(mensajeRetorno);
+            mockBusinessLayer.Setup(bl => bl.Baja_Cajas(invalidCaja.id)).Returns(mensajeRetorno);
 
             // Act
-            var result = controller.BajaCaja(invalidId) as BadRequestObjectResult;
+            var result = controller.BajaCaja(invalidCaja.id) as BadRequestObjectResult;
 
             // Assert
             // Añade aserciones específicas según tu comportamiento esperado
@@ -185,6 +168,26 @@ namespace Testing_PV
             Assert.IsInstanceOf<StatusResponse>(result.Value);
             Assert.AreEqual(mensajeRetorno.status, ((StatusResponse)result.Value).StatusOk);
             Assert.AreEqual(mensajeRetorno.mensaje, ((StatusResponse)result.Value).StatusMessage);
+        }
+
+        [Test]
+        public void Get_ReturnsListOfCaja_NotNullAndNoNullElements()
+        {
+            // Configura el comportamiento del mock para GetCajas
+            mockBusinessLayer.Setup(bl => bl.GetCajas()).Returns(new List<DTCaja> ());
+
+            // Act
+            var result = controller.Get();
+
+            // Assert
+            Assert.IsNotNull(result);
+            Assert.IsInstanceOf<List<DTCaja>>(result);
+
+            // Verifica que la lista no sea null
+            Assert.IsNotNull(result);
+
+            // Verifica que ninguno de los elementos en la lista sea null
+            Assert.IsTrue(result.TrueForAll(caja => caja != null));
         }
     }
 }

@@ -10,7 +10,6 @@ namespace Domain.DT
         public float precio { get; set; }
         public Categoria tipo { get; set; }
 
-#pragma warning disable CS8618
         public DTProducto()
         {
         }
