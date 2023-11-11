@@ -18,18 +18,32 @@ namespace WebApi_PUB_PV.Controllers
         }
         //Agregar
         [HttpPost("/api/agregarCaja")]
-        public ActionResult<MensajeRetorno> Post([FromBody] DTCaja value)
+        public IActionResult Post([FromBody] DTCaja value)
         {
-            MensajeRetorno x = bl.Set_Cajas(value);
-            return Ok(new StatusResponse { StatusOk = x.status, StatusMessage = x.mensaje });
+            MensajeRetorno mensajeRetorno = bl.Set_Cajas(value);
+            if (mensajeRetorno.status)
+            {
+                return Ok(new StatusResponse { StatusOk = true, StatusMessage = mensajeRetorno.mensaje });
+            }
+            else
+            {
+                return BadRequest(new StatusResponse { StatusOk = false, StatusMessage = mensajeRetorno.mensaje });
+            }
         }
 
         //modificar
         [HttpPut("/api/listarCajas")]
-        public ActionResult<MensajeRetorno> Put([FromBody] DTCaja Modificar)
+        public IActionResult Put([FromBody] DTCaja Modificar)
         {
-            MensajeRetorno x = bl.Modificar_Cajas(Modificar);
-            return Ok(new StatusResponse { StatusOk = x.status, StatusMessage = x.mensaje });
+            MensajeRetorno mensajeRetorno = bl.Modificar_Cajas(Modificar);
+            if (mensajeRetorno.status)
+            {
+                return Ok(new StatusResponse { StatusOk = true, StatusMessage = mensajeRetorno.mensaje });
+            }
+            else
+            {
+                return BadRequest(new StatusResponse { StatusOk = false, StatusMessage = mensajeRetorno.mensaje });
+            }
         }
 
         //Listar
@@ -47,10 +61,17 @@ namespace WebApi_PUB_PV.Controllers
         }
         //Eliminar
         [HttpDelete("/api/bajaCaja/{id:int}")]
-        public ActionResult<bool> BajaCaja(int id)
+        public IActionResult BajaCaja(int id)
         {
-            MensajeRetorno x = bl.Baja_Cajas(id);
-            return Ok(new StatusResponse { StatusOk = x.status, StatusMessage = x.mensaje });
+            MensajeRetorno mensajeRetorno = bl.Baja_Cajas(id);
+            if (mensajeRetorno.status)
+            {
+                return Ok(new StatusResponse { StatusOk = true, StatusMessage = mensajeRetorno.mensaje });
+            }
+            else
+            {
+                return BadRequest(new StatusResponse { StatusOk = false, StatusMessage = mensajeRetorno.mensaje });
+            }
         }
 
     }

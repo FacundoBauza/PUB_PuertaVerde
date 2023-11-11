@@ -10,5 +10,6 @@ namespace BusinessLayer.Interfaces
         byte[] CerarMesa(DTMesa modificar);
         List<DTMesa> Listar_Mesas();
         MensajeRetorno Modificar_Mesa(DTMesa modificar);
+        MensajeRetorno Modificar_Precio_Mesa(DTMesa modificar);
     }
 }

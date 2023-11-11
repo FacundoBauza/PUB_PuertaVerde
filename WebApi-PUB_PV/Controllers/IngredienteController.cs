@@ -21,7 +21,6 @@ namespace WebApi_PUB_PV.Controllers
         public IActionResult Post([FromBody] DTIngrediente value)
         {
             MensajeRetorno mensajeRetorno = bl.Agregar_Ingrediente(value);
-
             if (mensajeRetorno.status)
             {
                 return Ok(new StatusResponse { StatusOk = true, StatusMessage = mensajeRetorno.mensaje });
@@ -41,10 +40,17 @@ namespace WebApi_PUB_PV.Controllers
 
         //Eliminar
         [HttpDelete("/api/bajaIngrediente/{id:int}")]
-        public ActionResult<MensajeRetorno> Delete(int id)
+        public IActionResult Delete(int id)
         {
-            MensajeRetorno x = bl.Eliminar_Ingredente(id);
-            return Ok(new StatusResponse { StatusOk = x.status, StatusMessage = x.mensaje });
+            MensajeRetorno mensajeRetorno = bl.Eliminar_Ingredente(id);
+            if (mensajeRetorno.status)
+            {
+                return Ok(new StatusResponse { StatusOk = true, StatusMessage = mensajeRetorno.mensaje });
+            }
+            else
+            {
+                return BadRequest(new StatusResponse { StatusOk = false, StatusMessage = mensajeRetorno.mensaje });
+            }
         }
 
         //Modificar
@@ -52,7 +58,6 @@ namespace WebApi_PUB_PV.Controllers
         public IActionResult Put([FromBody] DTIngrediente Modificar)
         {
             MensajeRetorno mensajeRetorno = bl.Modificar_Ingrediente(Modificar);
-
             if (mensajeRetorno.status)
             {
                 return Ok(new StatusResponse { StatusOk = true, StatusMessage = mensajeRetorno.mensaje });

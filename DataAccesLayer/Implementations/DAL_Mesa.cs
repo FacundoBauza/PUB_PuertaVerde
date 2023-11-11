@@ -214,11 +214,36 @@ namespace DataAccesLayer.Implementations
                     //retota que todo se hizo corectamente
                     return true;
                 }
-                catch { }
+                catch
+                {
+                    //error retorna false
+                    return false;
+                }
             }
             //no se pudo encontrar la mesa y retorna false
             return false;
         }
 
+        public bool Modificar_Precio_Mesas(DTMesa modificar)
+        {
+            // Utiliza SingleOrDefault() para buscar una Mesa.
+            var MesaEncontrada = _db.Mesas.SingleOrDefault(i => i.id_Mesa == modificar.id_Mesa);
+            if (MesaEncontrada != null)
+            {
+                try
+                {
+                    // Modifica las propiedades de la mesa.
+                    MesaEncontrada.precioTotal = modificar.precioTotal;
+                    // Guarda los cambios en la base de datos.
+                    _db.Mesas.Update(MesaEncontrada);
+                    _db.SaveChanges();
+                    //retota que todo se hizo corectamente
+                    return true;
+                }
+                catch { }
+            }
+            //no se pudo encontrar la mesa y retorna false 
+            return false;
+        }
     }
 }

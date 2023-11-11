@@ -1,150 +1,193 @@
-﻿using BusinessLayer.Interfaces;
-using Castle.Core.Configuration;
-using DataAccesLayer.Models;
+﻿using System.Collections.Generic;
+using BusinessLayer.Interfaces;
 using Domain.DT;
 using Domain.Entidades;
-using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Moq;
-using System;
-using System.Collections;
-using System.Collections.Generic;
-using System.Linq;
-using System.Security.Claims;
-using System.Text;
-using System.Threading.Tasks;
+using NUnit.Framework;
 using WebApi_PUB_PV.Controllers;
 using WebApi_PUB_PV.Models;
-using static System.Runtime.InteropServices.JavaScript.JSType;
 
 namespace Testing_PV
 {
+
+    [TestFixture]
     public class Test_Ingrediente
     {
-        [SetUp]
-        public void Setup()
-        {
-            public UserManager<Usuarios> _userManager;
-            public RoleManager<IdentityRole> _roleManager;
-            public IConfiguration _configuration;
-        }
 
-        //-----------------------------Agregar------------------------------
         [Test]
         public void Post_ValidIngrediente_ReturnsOkResult()
         {
             // Arrange
-            var mockBL = new Mock<IB_Ingrediente>();
-            var controller = new IngredienteController(mockBL.Object);
-            var ingrediente = new DTIngrediente(0, "Peregil", 40, 3);
-            var mensajeRetorno = new MensajeRetorno { status = true, mensaje = "Ingrediente agregado correctamente" };
-
-            mockBL.Setup(bl => bl.Agregar_Ingrediente(It.IsAny<DTIngrediente>())).Returns(mensajeRetorno);
-
-            // Act
-            var result = controller.Post(ingrediente) as ObjectResult;
-
-            // Assert
-            Assert.IsNotNull(result);
-            Assert.AreEqual(200, result.StatusCode);
-            Assert.AreEqual(mensajeRetorno.status, ((StatusResponse)result.Value).StatusOk);
-            Assert.AreEqual(mensajeRetorno.mensaje, ((StatusResponse)result.Value).StatusMessage);
-        }
-
-        [Test]
-        public void Post_InvalidIngrediente_ReturnsBadRequest()
-        {
-            // Arrange
-            var mockBL = new Mock<IB_Ingrediente>();
-            var controller = new IngredienteController(mockBL.Object);
-            var mesa = new DTIngrediente(0, "Tomate", 40, 3);
-            var mensajeRetorno = new MensajeRetorno { status = false, mensaje = "Ya existe el ingrediente" };
-
-            mockBL.Setup(bl => bl.Agregar_Ingrediente(It.IsAny<DTIngrediente>())).Returns(mensajeRetorno);
-
-            // Act
-            var result = controller.Post(mesa) as ObjectResult;
-
-            // Assert
-            Assert.IsNotNull(result);
-            Assert.AreEqual(400, result.StatusCode);
-            Assert.AreEqual(mensajeRetorno.status, ((StatusResponse)result.Value).StatusOk);
-            Assert.AreEqual(mensajeRetorno.mensaje, ((StatusResponse)result.Value).StatusMessage);
-        }
-
-        //-----------------------------Modificar------------------------------
-        [Test]
-        public void ModificarIngrediente_IngredienteModificado_RetornaOk()
-        {
-            // Arrange
-            var mockBL = new Mock<IB_Ingrediente>();
-            var controller = new IngredienteController(mockBL.Object);
-            DTIngrediente modificar = new DTIngrediente(13, "Tomate Rojo", 40, 3);
-            MensajeRetorno mensajeRetorno = new MensajeRetorno { status = true, mensaje = "Ingrediente modificado correctamente" };
-            mockBL.Setup(bl => bl.Modificar_Ingrediente(It.IsAny<DTIngrediente>())).Returns(mensajeRetorno);
-
-            // Act
-            var resultado = controller.Put(modificar) as ObjectResult;
-
-            // Assert
-            Assert.IsNotNull(resultado);
-            Assert.AreEqual(200, resultado.StatusCode);
-            Assert.AreEqual(mensajeRetorno.status, ((StatusResponse)resultado.Value).StatusOk);
-            Assert.AreEqual(mensajeRetorno.mensaje, ((StatusResponse)resultado.Value).StatusMessage);
-        }
-
-        [Test]
-        public void ModificarIngrediente_IngredienteInvalido_RetornaBadRequest()
-        {
-            // Arrange
-            var mockBL = new Mock<IB_Ingrediente>();
-            var controller = new IngredienteController(mockBL.Object);
-            DTIngrediente modificar = new DTIngrediente(0, "Peregil", 40, 3);
-            MensajeRetorno mensajeRetorno = new MensajeRetorno { status = false, mensaje = "El ingrediente no existe" };
-            mockBL.Setup(bl => bl.Modificar_Ingrediente(It.IsAny<DTIngrediente>())).Returns(mensajeRetorno);
-
-            // Act
-            var resultado = controller.Put(modificar) as ObjectResult;
-
-            // Assert
-            Assert.IsNotNull(resultado);
-            Assert.AreEqual(400, resultado.StatusCode);
-            Assert.AreEqual(mensajeRetorno.status, ((StatusResponse)resultado.Value).StatusOk);
-            Assert.AreEqual(mensajeRetorno.mensaje, ((StatusResponse)resultado.Value).StatusMessage);
-        }
-
-        [Test]
-        public void ModificarIngrediente_UsuarioNoAutorizado_RetornaUnauthorized()
-        {
-            // Arrange
-            var mockBL = new Mock<IB_Ingrediente>();
-            var mockBLUser = new Mock<IB_Usuario>();
-            var controller = new IngredienteController(mockBL.Object);
-            var controllerUser = new AuthController(mockBLUser.Object);
-
-            // Configura un contexto de usuario simulado con el rol "USER"
-            var user = new ClaimsPrincipal(new ClaimsIdentity(new List<Claim>
+            var mockBusinessLayer = new Mock<IB_Ingrediente>();
+            var controller = new IngredienteController(mockBusinessLayer.Object);
+            var validIngrediente = new DTIngrediente
             {
-                new Claim(ClaimTypes.Name, "NombreUsuario"),
-                new Claim(ClaimTypes.Role, "USER")
-            }));
-
-            // Establece el contexto de usuario en el controlador
-            controller.ControllerContext = new ControllerContext
-            {
-                HttpContext = new DefaultHttpContext { User = user }
+                id_Ingrediente = 0,
+                nombre = "test",
+                stock = 0,
+                id_Categoria = 1,
             };
 
-            var username = User.Identity.Name;
+            // Configura el comportamiento del mock para Agregar_Ingrediente
+            MensajeRetorno mensajeRetorno = new MensajeRetorno { status = true, mensaje = "Ingrediente agregado correctamente" };
+            mockBusinessLayer.Setup(bl => bl.Agregar_Ingrediente(validIngrediente)).Returns(mensajeRetorno);
 
-
+            // Act
+            var result = controller.Post(validIngrediente) as OkObjectResult;
 
             // Assert
-            Assert.IsNotNull(resultado);
-            Assert.AreEqual(401, resultado.StatusCode);
-            Assert.AreEqual(false, ((StatusResponse)resultado.Value).StatusOk);
-            Assert.AreEqual("Usuario no autorizado", ((StatusResponse)resultado.Value).StatusMessage);
+            // Añade aserciones específicas según tu comportamiento esperado
+            Assert.IsNotNull(result);
+            Assert.AreEqual(200, result.StatusCode);
+            Assert.IsNotNull(result.Value);
+            Assert.IsInstanceOf<StatusResponse>(result.Value);
+            Assert.AreEqual(mensajeRetorno.status, ((StatusResponse)result.Value).StatusOk);
+            Assert.AreEqual(mensajeRetorno.mensaje, ((StatusResponse)result.Value).StatusMessage);
+        }
+
+        [Test]
+        public void Post_InvalidIngrediente_ReturnsBadRequestResult()
+        {
+            // Arrange
+            var mockBusinessLayer = new Mock<IB_Ingrediente>();
+            var controller = new IngredienteController(mockBusinessLayer.Object);
+            var invalidIngrediente = new DTIngrediente
+            {
+                id_Ingrediente = -1,
+                nombre = "test",
+                stock = 0,
+                id_Categoria = 1,
+            };
+
+            // Configura el comportamiento del mock para Agregar_Ingrediente
+            MensajeRetorno mensajeRetorno = new MensajeRetorno { status = false, mensaje = "Error al agregar el ingrediente" };
+            mockBusinessLayer.Setup(bl => bl.Agregar_Ingrediente(invalidIngrediente)).Returns(mensajeRetorno);
+
+            // Act
+            var result = controller.Post(invalidIngrediente) as BadRequestObjectResult;
+
+            // Assert
+            // Añade aserciones específicas según tu comportamiento esperado
+            Assert.IsNotNull(result);
+            Assert.AreEqual(400, result.StatusCode);
+            Assert.IsNotNull(result.Value);
+            Assert.IsInstanceOf<StatusResponse>(result.Value);
+            Assert.AreEqual(mensajeRetorno.status, ((StatusResponse)result.Value).StatusOk);
+            Assert.AreEqual(mensajeRetorno.mensaje, ((StatusResponse)result.Value).StatusMessage);
+        }
+
+        [Test]
+        public void Delete_ValidId_ReturnsOkResult()
+        {
+            // Arrange
+            var mockBusinessLayer = new Mock<IB_Ingrediente>();
+            var controller = new IngredienteController(mockBusinessLayer.Object);
+            var validId = 1;
+
+            // Configura el comportamiento del mock para Eliminar_Ingrediente
+            MensajeRetorno mensajeRetorno = new MensajeRetorno { status = true, mensaje = "Ingrediente eliminado correctamente" };
+            mockBusinessLayer.Setup(bl => bl.Eliminar_Ingredente(validId)).Returns(mensajeRetorno);
+
+            // Act
+            var result = controller.Delete(validId) as OkObjectResult;
+
+            // Assert
+            // Añade aserciones específicas según tu comportamiento esperado
+            Assert.IsNotNull(result);
+            Assert.AreEqual(200, result.StatusCode);
+            Assert.IsNotNull(result.Value);
+            Assert.IsInstanceOf<StatusResponse>(result.Value);
+            Assert.AreEqual(mensajeRetorno.status, ((StatusResponse)result.Value).StatusOk);
+            Assert.AreEqual(mensajeRetorno.mensaje, ((StatusResponse)result.Value).StatusMessage);
+        }
+
+        [Test]
+        public void Delete_InvalidId_ReturnsBadRequestResult()
+        {
+            // Arrange
+            var mockBusinessLayer = new Mock<IB_Ingrediente>();
+            var controller = new IngredienteController(mockBusinessLayer.Object);
+            var invalidId = -1;
+
+            // Configura el comportamiento del mock para Eliminar_Ingrediente con un ID inválido
+            MensajeRetorno mensajeRetorno = new MensajeRetorno { status = false, mensaje = "Error al eliminar el ingrediente" };
+            mockBusinessLayer.Setup(bl => bl.Eliminar_Ingredente(invalidId)).Returns(mensajeRetorno);
+
+            // Act
+            var result = controller.Delete(invalidId) as BadRequestObjectResult;
+
+            // Assert
+            // Añade aserciones específicas según tu comportamiento esperado
+            Assert.IsNotNull(result);
+            Assert.AreEqual(400, result.StatusCode);
+            Assert.IsNotNull(result.Value);
+            Assert.IsInstanceOf<StatusResponse>(result.Value);
+            Assert.AreEqual(mensajeRetorno.status, ((StatusResponse)result.Value).StatusOk);
+            Assert.AreEqual(mensajeRetorno.mensaje, ((StatusResponse)result.Value).StatusMessage);
+        }
+
+        [Test]
+        public void Put_ValidIngrediente_ReturnsOkResult()
+        {
+            // Arrange
+            var mockBusinessLayer = new Mock<IB_Ingrediente>();
+            var controller = new IngredienteController(mockBusinessLayer.Object);
+            var validIngrediente = new DTIngrediente
+            {
+                id_Ingrediente = 0,
+                nombre = "test",
+                stock = 0,
+                id_Categoria = 1,
+            };
+
+            // Configura el comportamiento del mock para Modificar_Ingrediente
+            MensajeRetorno mensajeRetorno = new MensajeRetorno { status = true, mensaje = "Ingrediente modificado correctamente" };
+            mockBusinessLayer.Setup(bl => bl.Modificar_Ingrediente(validIngrediente)).Returns(mensajeRetorno);
+
+            // Act
+            var result = controller.Put(validIngrediente) as OkObjectResult;
+
+            // Assert
+            // Añade
+            // aserciones específicas según tu comportamiento esperado
+            Assert.IsNotNull(result);
+            Assert.AreEqual(200, result.StatusCode);
+            Assert.IsNotNull(result.Value);
+            Assert.IsInstanceOf<StatusResponse>(result.Value);
+            Assert.AreEqual(mensajeRetorno.status, ((StatusResponse)result.Value).StatusOk);
+            Assert.AreEqual(mensajeRetorno.mensaje, ((StatusResponse)result.Value).StatusMessage);
+        }
+
+        [Test]
+        public void Put_InvalidIngrediente_ReturnsBadRequestResult()
+        {
+            // Arrange
+            var mockBusinessLayer = new Mock<IB_Ingrediente>();
+            var controller = new IngredienteController(mockBusinessLayer.Object);
+            var invalidIngrediente = new DTIngrediente
+            {
+                id_Ingrediente = -1,
+                nombre = "test",
+                stock = 0,
+                id_Categoria = 1,
+            };
+
+            // Configura el comportamiento del mock para Modificar_Ingrediente con un DTO inválido
+            MensajeRetorno mensajeRetorno = new MensajeRetorno { status = false, mensaje = "Error al modificar el ingrediente" };
+            mockBusinessLayer.Setup(bl => bl.Modificar_Ingrediente(invalidIngrediente)).Returns(mensajeRetorno);
+
+            // Act
+            var result = controller.Put(invalidIngrediente) as BadRequestObjectResult;
+
+            // Assert
+            // Añade aserciones específicas según tu comportamiento esperado
+            Assert.IsNotNull(result);
+            Assert.AreEqual(400, result.StatusCode);
+            Assert.IsNotNull(result.Value);
+            Assert.IsInstanceOf<StatusResponse>(result.Value);
+            Assert.AreEqual(mensajeRetorno.status, ((StatusResponse)result.Value).StatusOk);
+            Assert.AreEqual(mensajeRetorno.mensaje, ((StatusResponse)result.Value).StatusMessage);
         }
     }
 }

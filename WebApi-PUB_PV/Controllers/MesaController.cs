@@ -42,14 +42,14 @@ namespace WebApi_PUB_PV.Controllers
         [HttpDelete("/api/bajaMesa/{id:int}")]
         public IActionResult BajaMesa(int id)
         {
-            MensajeRetorno x = bl.Baja_Mesa(id);
-            if (x.status)
+            MensajeRetorno mensajeRetorno = bl.Baja_Mesa(id);
+            if (mensajeRetorno.status)
             {
-                return Ok(new StatusResponse { StatusOk = true, StatusMessage = x.mensaje });
+                return Ok(new StatusResponse { StatusOk = true, StatusMessage = mensajeRetorno.mensaje });
             }
             else
             {
-                return BadRequest(new StatusResponse { StatusOk = false, StatusMessage = x.mensaje });
+                return BadRequest(new StatusResponse { StatusOk = false, StatusMessage = mensajeRetorno.mensaje });
             }
         }
 
@@ -57,16 +57,32 @@ namespace WebApi_PUB_PV.Controllers
         [HttpPut("/api/modificarMesa")]
         public IActionResult Put([FromBody] DTMesa Modificar)
         {
-            MensajeRetorno x = bl.Modificar_Mesa(Modificar);
-            if (x.status)
+            MensajeRetorno mensajeRetorno = bl.Modificar_Mesa(Modificar);
+            if (mensajeRetorno.status)
             {
-                return Ok(new StatusResponse { StatusOk = true, StatusMessage = x.mensaje });
+                return Ok(new StatusResponse { StatusOk = true, StatusMessage = mensajeRetorno.mensaje });
             }
             else
             {
-                return BadRequest(new StatusResponse { StatusOk = false, StatusMessage = x.mensaje });
+                return BadRequest(new StatusResponse { StatusOk = false, StatusMessage = mensajeRetorno.mensaje });
             }
         }
+
+        //Modificar
+        [HttpPut("/api/modificarprecio")]
+        public IActionResult PutPrecio([FromBody] DTMesa Modificar)
+        {
+            MensajeRetorno mensajeRetorno = bl.Modificar_Precio_Mesa(Modificar);
+            if (mensajeRetorno.status)
+            {
+                return Ok(new StatusResponse { StatusOk = true, StatusMessage = mensajeRetorno.mensaje });
+            }
+            else
+            {
+                return BadRequest(new StatusResponse { StatusOk = false, StatusMessage = mensajeRetorno.mensaje });
+            }
+        }
+
         //Cerar cuenta de la mesa
         [HttpPut("/api/cerarCuentaMesa")]
         public ActionResult<byte[]> CerarMesa([FromBody] DTMesa Modificar)
