@@ -49,10 +49,18 @@ namespace WebApi_PUB_PV.Controllers
 
         //Modificar
         [HttpPut("/api/modificarIngrediente")]
-        public ActionResult<DTIngrediente> Put([FromBody] DTIngrediente Modificar)
+        public IActionResult Put([FromBody] DTIngrediente Modificar)
         {
-            MensajeRetorno x = bl.Modificar_Ingrediente(Modificar);
-            return Ok(new StatusResponse { StatusOk = x.status, StatusMessage = x.mensaje });
+            MensajeRetorno mensajeRetorno = bl.Modificar_Ingrediente(Modificar);
+
+            if (mensajeRetorno.status)
+            {
+                return Ok(new StatusResponse { StatusOk = true, StatusMessage = mensajeRetorno.mensaje });
+            }
+            else
+            {
+                return BadRequest(new StatusResponse { StatusOk = false, StatusMessage = mensajeRetorno.mensaje });
+            }
         }
     }
 }
