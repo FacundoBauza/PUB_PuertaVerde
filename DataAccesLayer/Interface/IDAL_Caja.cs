@@ -15,5 +15,8 @@ namespace DataAccesLayer.Interface
         public bool Modificar_Cajas(DTCaja dtc);
         //Baja
         bool Baja_Caja(int id);
+
+        //UpdatePrecio
+        bool SumarPrecioCaja(float precio);
     }
 }

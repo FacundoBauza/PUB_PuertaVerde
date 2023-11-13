@@ -81,5 +81,21 @@ namespace BusinessLayer.Implementations
                 return men;
             }
         }
+
+        public MensajeRetorno SumarPrecioCaja(float precio)
+        {
+            MensajeRetorno mensajeRetorno = new();
+            if (_dal.SumarPrecioCaja(precio))
+            {
+                mensajeRetorno.mensaje = "Se sumo el precio correctamente";
+                mensajeRetorno.status = true;
+                return mensajeRetorno;
+            }
+            else
+            {
+                mensajeRetorno.Exepcion_no_Controlada();
+                return mensajeRetorno;
+            }
+        }
     }
 }
