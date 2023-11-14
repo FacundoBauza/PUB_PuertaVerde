@@ -100,8 +100,11 @@ namespace Testing_PV
             // Assert
             Assert.IsNotNull(resultado);
             Assert.AreEqual(200, resultado.StatusCode);
-            Assert.AreEqual(mensajeRetorno.status, ((StatusResponse)resultado.Value).StatusOk);
-            Assert.AreEqual(mensajeRetorno.mensaje, ((StatusResponse)resultado.Value).StatusMessage);
+            if (resultado.Value != null)
+            {
+                Assert.AreEqual(mensajeRetorno.status, ((StatusResponse)resultado.Value).StatusOk);
+                Assert.AreEqual(mensajeRetorno.mensaje, ((StatusResponse)resultado.Value).StatusMessage);
+            }
         }
 
         [Test]

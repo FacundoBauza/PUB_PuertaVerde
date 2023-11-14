@@ -22,24 +22,38 @@ namespace WebApi_PUB_PV.Controllers
         [HttpPost("/api/agregarPedido")]
         public async Task<ActionResult<DTPedido>> Post([FromBody] DTPedido value)
         {
-            MensajeRetorno x = bl.agregar_Pedido(value);
+            MensajeRetorno mensajeRetorno = bl.agregar_Pedido(value);
             if (value.tipo == Domain.Enums.Categoria.comida || value.tipo == Domain.Enums.Categoria.licuado)
             {
                 await _hub.Clients.All.SendAsync("NewPedido", "Pedido", "Se ha actualizado un pedido");
             }
-            return Ok(new StatusResponse { StatusOk = x.status, StatusMessage = x.mensaje });
+            if (mensajeRetorno.status)
+            {
+                return Ok(new StatusResponse { StatusOk = true, StatusMessage = mensajeRetorno.mensaje });
+            }
+            else
+            {
+                return BadRequest(new StatusResponse { StatusOk = false, StatusMessage = mensajeRetorno.mensaje });
+            }
         }
 
         //Actualizar    
         [HttpPut("/api/actualizarPedido")]
         public ActionResult<DTPedido> Put([FromBody] DTPedido value)
         {
-            MensajeRetorno x = bl.actualizar_Pedido(value);
+            MensajeRetorno mensajeRetorno = bl.actualizar_Pedido(value);
             if(value.tipo == Domain.Enums.Categoria.comida || value.tipo == Domain.Enums.Categoria.licuado)
             {
                 _hub.Clients.All.SendAsync("ClosePedido", "Pedido de la mesa"+value.id_Mesa+" terminado");
-            }   
-            return Ok(new StatusResponse { StatusOk = x.status, StatusMessage = x.mensaje });
+            }
+            if (mensajeRetorno.status)
+            {
+                return Ok(new StatusResponse { StatusOk = true, StatusMessage = mensajeRetorno.mensaje });
+            }
+            else
+            {
+                return BadRequest(new StatusResponse { StatusOk = false, StatusMessage = mensajeRetorno.mensaje });
+            }
         }
 
         //Listar
@@ -81,16 +95,30 @@ namespace WebApi_PUB_PV.Controllers
         [HttpPost("/api/finalizarPedido/{id:int}")]
         public ActionResult<bool> finalizarPedido(int id)
         {
-            MensajeRetorno x = bl.finalizar_Pedido(id);
-            return Ok(new StatusResponse { StatusOk = x.status, StatusMessage = x.mensaje });
+            MensajeRetorno mensajeRetorno = bl.finalizar_Pedido(id);
+            if (mensajeRetorno.status)
+            {
+                return Ok(new StatusResponse { StatusOk = true, StatusMessage = mensajeRetorno.mensaje });
+            }
+            else
+            {
+                return BadRequest(new StatusResponse { StatusOk = false, StatusMessage = mensajeRetorno.mensaje });
+            }
         }
 
         ///Eliminar
         [HttpDelete("/api/bajaPedido/{id:int}")]
         public ActionResult<bool> BajaPedido(int id)
         {
-            MensajeRetorno x = bl.baja_Pedido(id);
-            return Ok(new StatusResponse { StatusOk = x.status, StatusMessage = x.mensaje });
+            MensajeRetorno mensajeRetorno = bl.baja_Pedido(id);
+            if (mensajeRetorno.status)
+            {
+                return Ok(new StatusResponse { StatusOk = true, StatusMessage = mensajeRetorno.mensaje });
+            }
+            else
+            {
+                return BadRequest(new StatusResponse { StatusOk = false, StatusMessage = mensajeRetorno.mensaje });
+            }
         }
     }
 }

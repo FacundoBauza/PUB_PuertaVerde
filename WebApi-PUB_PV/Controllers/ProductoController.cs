@@ -17,10 +17,17 @@ namespace WebApi_PUB_PV.Controllers
 
         //Agregar
         [HttpPost("/api/agregarProducto")]
-        public ActionResult<DTProducto> Post([FromBody] DTProducto value)
+        public IActionResult Post([FromBody] DTProducto value)
         {
-            MensajeRetorno x = bl.agregar_Producto(value);
-            return Ok(new StatusResponse { StatusOk = x.status, StatusMessage = x.mensaje });
+            MensajeRetorno mensajeRetorno = bl.agregar_Producto(value);
+            if (mensajeRetorno.status)
+            {
+                return Ok(new StatusResponse { StatusOk = true, StatusMessage = mensajeRetorno.mensaje });
+            }
+            else
+            {
+                return BadRequest(new StatusResponse { StatusOk = false, StatusMessage = mensajeRetorno.mensaje });
+            }
         }
 
         //Listar
@@ -39,18 +46,32 @@ namespace WebApi_PUB_PV.Controllers
 
         //Eliminar
         [HttpDelete("/api/bajaProducto/{id:int}")]
-        public ActionResult<bool> BajaProducto(int id)
+        public IActionResult BajaProducto(int id)
         {
-            MensajeRetorno x = bl.baja_Producto(id);
-            return Ok(new StatusResponse { StatusOk = x.status, StatusMessage = x.mensaje });
+            MensajeRetorno mensajeRetorno = bl.baja_Producto(id);
+            if (mensajeRetorno.status)
+            {
+                return Ok(new StatusResponse { StatusOk = true, StatusMessage = mensajeRetorno.mensaje });
+            }
+            else
+            {
+                return BadRequest(new StatusResponse { StatusOk = false, StatusMessage = mensajeRetorno.mensaje });
+            }
         }
 
         //Modificar
         [HttpPut("/api/modificarProducto")]
-        public ActionResult<DTProducto> Put([FromBody] DTProducto Modificar)
+        public IActionResult Put([FromBody] DTProducto Modificar)
         {
-            MensajeRetorno x = bl.Modificar_Producto(Modificar);
-            return Ok(new StatusResponse { StatusOk = x.status, StatusMessage = x.mensaje });
+            MensajeRetorno mensajeRetorno = bl.Modificar_Producto(Modificar);
+            if (mensajeRetorno.status)
+            {
+                return Ok(new StatusResponse { StatusOk = true, StatusMessage = mensajeRetorno.mensaje });
+            }
+            else
+            {
+                return BadRequest(new StatusResponse { StatusOk = false, StatusMessage = mensajeRetorno.mensaje });
+            }
         }
     }
 }
