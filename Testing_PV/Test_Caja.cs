@@ -192,9 +192,10 @@ namespace Testing_PV
         [Test]
         public void SumarPrecioCaja_ReturnsOkResult_WhenStatusIsTrue()
         {
+
+            MensajeRetorno mensajeRetorno = new MensajeRetorno { status = true, mensaje = "Se sumo el precio correctamente" };
             // Configura el comportamiento del mock para SumarPrecioCaja
-            mockBusinessLayer.Setup(bl => bl.SumarPrecioCaja(100))
-                             .Returns(new MensajeRetorno { status = true, mensaje = "Se sumo el precio correctamente" });
+            mockBusinessLayer.Setup(bl => bl.SumarPrecioCaja(100)).Returns(mensajeRetorno);
 
             // Act
             var result = controller.SumarPrecioCaja(100) as OkObjectResult;
@@ -204,6 +205,8 @@ namespace Testing_PV
             Assert.AreEqual(200, result.StatusCode);
             Assert.IsNotNull(result.Value);
             Assert.IsInstanceOf<StatusResponse>(result.Value);
+            Assert.AreEqual(mensajeRetorno.status, ((StatusResponse)result.Value).StatusOk);
+            Assert.AreEqual(mensajeRetorno.mensaje, ((StatusResponse)result.Value).StatusMessage);
             // Añade aserciones específicas según tu comportamiento esperado
         }
 
@@ -211,8 +214,9 @@ namespace Testing_PV
         public void SumarPrecioCaja_ReturnsBadRequestResult_WhenStatusIsFalse()
         {
 
+            MensajeRetorno mensajeRetorno = new MensajeRetorno { status = false, mensaje = "Exepción no controlada" };
             // Configura el comportamiento del mock para SumarPrecioCaja
-            mockBusinessLayer.Setup(bl => bl.SumarPrecioCaja(100)).Returns(new MensajeRetorno { status = false, mensaje = "Exepción no controlada" });
+            mockBusinessLayer.Setup(bl => bl.SumarPrecioCaja(100)).Returns(mensajeRetorno);
 
             // Act
             var result = controller.SumarPrecioCaja(100) as BadRequestObjectResult;
@@ -222,6 +226,8 @@ namespace Testing_PV
             Assert.AreEqual(400, result.StatusCode);
             Assert.IsNotNull(result.Value);
             Assert.IsInstanceOf<StatusResponse>(result.Value);
+            Assert.AreEqual(mensajeRetorno.status, ((StatusResponse)result.Value).StatusOk);
+            Assert.AreEqual(mensajeRetorno.mensaje, ((StatusResponse)result.Value).StatusMessage);
             // Añade aserciones específicas según tu comportamiento esperado
         }
     }
