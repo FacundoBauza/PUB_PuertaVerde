@@ -23,27 +23,20 @@ namespace Testing_PV
     internal class Test_Caja
     {
         // Define una implementación Mock o Falsa de IB_Mesa para pruebas
-        private IB_Caja Service;
         private CajaController controller;
-        //public Mock<IB_Caja> mockBusinessLayer;
         private DTCaja validCaja;
         private DTCaja invalidCaja;
         private Mock<IDAL_Caja> mockDal;
-        private new Mock<IDAL_Casteo> mockCasteo;
+        private Mock<IDAL_Casteo> mockCasteo;
         private B_Caja bl;
 
         [SetUp]
         public void Configuracion()
         {
-            // Inicializa la implementación Mock o Falsa
-            //mockBusinessLayer = new Mock<IB_Caja>();
-            // Puedes utilizar una biblioteca de simulación como Moq para crear un mock
+            // Inicializa
             mockDal = new Mock<IDAL_Caja>();
             mockCasteo = new Mock<IDAL_Casteo>();
-            //bCaja = new B_Caja(mockDal.Object, mockCasteo.Object);
             bl = new(mockDal.Object, mockCasteo.Object);
-
-            // Configura el comportamiento simulado del DAL
             // Crea una instancia de MesaController con el servicio
             controller = new CajaController(bl);
             //datos necesarios para todos los test
