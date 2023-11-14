@@ -189,5 +189,40 @@ namespace Testing_PV
             // Verifica que ninguno de los elementos en la lista sea null
             Assert.IsTrue(result.TrueForAll(caja => caja != null));
         }
+        [Test]
+        public void SumarPrecioCaja_ReturnsOkResult_WhenStatusIsTrue()
+        {
+            // Configura el comportamiento del mock para SumarPrecioCaja
+            mockBusinessLayer.Setup(bl => bl.SumarPrecioCaja(100))
+                             .Returns(new MensajeRetorno { status = true, mensaje = "Se sumo el precio correctamente" });
+
+            // Act
+            var result = controller.SumarPrecioCaja(100) as OkObjectResult;
+
+            // Assert
+            Assert.IsNotNull(result);
+            Assert.AreEqual(200, result.StatusCode);
+            Assert.IsNotNull(result.Value);
+            Assert.IsInstanceOf<StatusResponse>(result.Value);
+            // Añade aserciones específicas según tu comportamiento esperado
+        }
+
+        [Test]
+        public void SumarPrecioCaja_ReturnsBadRequestResult_WhenStatusIsFalse()
+        {
+
+            // Configura el comportamiento del mock para SumarPrecioCaja
+            mockBusinessLayer.Setup(bl => bl.SumarPrecioCaja(100)).Returns(new MensajeRetorno { status = false, mensaje = "Exepción no controlada" });
+
+            // Act
+            var result = controller.SumarPrecioCaja(100) as BadRequestObjectResult;
+
+            // Assert
+            Assert.IsNotNull(result);
+            Assert.AreEqual(400, result.StatusCode);
+            Assert.IsNotNull(result.Value);
+            Assert.IsInstanceOf<StatusResponse>(result.Value);
+            // Añade aserciones específicas según tu comportamiento esperado
+        }
     }
 }
