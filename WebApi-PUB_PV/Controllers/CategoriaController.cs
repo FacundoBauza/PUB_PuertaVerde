@@ -18,10 +18,17 @@ namespace WebApi_PUB_PV.Controllers
 
         //Agregar
         [HttpPost("/api/agregarCategoria")]
-        public ActionResult<DTCategoria> Post([FromBody] DTCategoria value)
+        public IActionResult Post([FromBody] DTCategoria value)
         {
-            MensajeRetorno x = bl.agregar_Categoria(value);
-            return Ok(new StatusResponse { StatusOk = x.status, StatusMessage = x.mensaje });
+            MensajeRetorno mensajeRetorno = bl.agregar_Categoria(value);
+            if (mensajeRetorno.status)
+            {
+                return Ok(new StatusResponse { StatusOk = true, StatusMessage = mensajeRetorno.mensaje });
+            }
+            else
+            {
+                return BadRequest(new StatusResponse { StatusOk = false, StatusMessage = mensajeRetorno.mensaje });
+            }
         }
 
         //Listar
@@ -33,10 +40,17 @@ namespace WebApi_PUB_PV.Controllers
 
         //Eliminar
         [HttpDelete("/api/bajaCategoria/{id:int}")]
-        public ActionResult<bool> BajaCategoria(int id)
+        public IActionResult BajaCategoria(int id)
         {
-            MensajeRetorno x = bl.baja_Categoria(id);
-            return Ok(new StatusResponse { StatusOk = x.status, StatusMessage = x.mensaje });
+            MensajeRetorno mensajeRetorno = bl.baja_Categoria(id);
+            if (mensajeRetorno.status)
+            {
+                return Ok(new StatusResponse { StatusOk = true, StatusMessage = mensajeRetorno.mensaje });
+            }
+            else
+            {
+                return BadRequest(new StatusResponse { StatusOk = false, StatusMessage = mensajeRetorno.mensaje });
+            }
         }
     }
 }

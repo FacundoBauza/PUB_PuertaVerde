@@ -50,7 +50,8 @@ namespace DataAccesLayer.Implementations
                 apellido = x.apellido,
                 telefono = x.telefono,
                 saldo = x.saldo,
-                fichasCanje = x.fichasCanje
+                fichasCanje = x.fichasCanje,
+                registro_Activo = x.registro_Activo
             };
             return aux;
         }
