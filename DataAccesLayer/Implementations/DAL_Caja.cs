@@ -82,5 +82,28 @@ namespace DataAccesLayer.Implementations
             //busca todas las cajas activas y las debuelve
             return _db.Cajas.Where(x => x.estado).Select(x => x.GetCajas()).ToList();
         }
+
+        public bool SumarPrecioCaja(float precio)
+        {
+            // Utiliza SingleOrDefault() para buscar una caja.
+            var CajaEncontrada = _db.Cajas.SingleOrDefault(i => i.estado == true);
+            if (CajaEncontrada != null)
+            {
+                try
+                {
+                    // Modifica las propiedades de la mesa.
+                    CajaEncontrada.totalPrecios += precio;
+                    // Guarda los cambios en la base de datos.
+                    _db.Cajas.Update(CajaEncontrada);
+                    _db.SaveChanges();
+
+                    //retota que todo se hizo corectamente
+                    return true;
+                }
+                catch { }
+            }
+            //no se pudo encontrar la mesa y retorna false
+            return false;
+        }
     }
 }

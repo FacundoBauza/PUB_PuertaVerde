@@ -14,5 +14,8 @@ namespace BusinessLayer.Interfaces
         public MensajeRetorno Modificar_Cajas(Domain.DT.DTCaja dtc);
         //Baja
         MensajeRetorno Baja_Cajas(int id);
+
+        //UpdatePrecio
+        MensajeRetorno SumarPrecioCaja(float precio);
     }
 }

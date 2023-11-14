@@ -32,7 +32,7 @@ namespace WebApi_PUB_PV.Controllers
         }
 
         //modificar
-        [HttpPut("/api/listarCajas")]
+        [HttpPut("/api/modificarCaja")]
         public IActionResult Put([FromBody] DTCaja Modificar)
         {
             MensajeRetorno mensajeRetorno = bl.Modificar_Cajas(Modificar);
@@ -64,6 +64,20 @@ namespace WebApi_PUB_PV.Controllers
         public IActionResult BajaCaja(int id)
         {
             MensajeRetorno mensajeRetorno = bl.Baja_Cajas(id);
+            if (mensajeRetorno.status)
+            {
+                return Ok(new StatusResponse { StatusOk = true, StatusMessage = mensajeRetorno.mensaje });
+            }
+            else
+            {
+                return BadRequest(new StatusResponse { StatusOk = false, StatusMessage = mensajeRetorno.mensaje });
+            }
+        }
+
+        [HttpGet("/api/sumarPrecioCaja/{precio:float}")]
+        public IActionResult SumarPrecioCaja(float precio)
+        {
+            MensajeRetorno mensajeRetorno = bl.SumarPrecioCaja(precio);
             if (mensajeRetorno.status)
             {
                 return Ok(new StatusResponse { StatusOk = true, StatusMessage = mensajeRetorno.mensaje });
