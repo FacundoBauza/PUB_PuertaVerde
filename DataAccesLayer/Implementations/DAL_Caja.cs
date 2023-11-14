@@ -74,7 +74,7 @@ namespace DataAccesLayer.Implementations
         }
         public bool Baja_Caja(int id)
         {
-            throw new NotImplementedException();
+            return true;
         }
 
         public List<Cajas> GetCajaactivas()
