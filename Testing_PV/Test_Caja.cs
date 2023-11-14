@@ -189,5 +189,46 @@ namespace Testing_PV
             // Verifica que ninguno de los elementos en la lista sea null
             Assert.IsTrue(result.TrueForAll(caja => caja != null));
         }
+        [Test]
+        public void SumarPrecioCaja_ReturnsOkResult_WhenStatusIsTrue()
+        {
+
+            MensajeRetorno mensajeRetorno = new MensajeRetorno { status = true, mensaje = "Se sumo el precio correctamente" };
+            // Configura el comportamiento del mock para SumarPrecioCaja
+            mockBusinessLayer.Setup(bl => bl.SumarPrecioCaja(100)).Returns(mensajeRetorno);
+
+            // Act
+            var result = controller.SumarPrecioCaja(100) as OkObjectResult;
+
+            // Assert
+            Assert.IsNotNull(result);
+            Assert.AreEqual(200, result.StatusCode);
+            Assert.IsNotNull(result.Value);
+            Assert.IsInstanceOf<StatusResponse>(result.Value);
+            Assert.AreEqual(mensajeRetorno.status, ((StatusResponse)result.Value).StatusOk);
+            Assert.AreEqual(mensajeRetorno.mensaje, ((StatusResponse)result.Value).StatusMessage);
+            // Añade aserciones específicas según tu comportamiento esperado
+        }
+
+        [Test]
+        public void SumarPrecioCaja_ReturnsBadRequestResult_WhenStatusIsFalse()
+        {
+
+            MensajeRetorno mensajeRetorno = new MensajeRetorno { status = false, mensaje = "Exepción no controlada" };
+            // Configura el comportamiento del mock para SumarPrecioCaja
+            mockBusinessLayer.Setup(bl => bl.SumarPrecioCaja(100)).Returns(mensajeRetorno);
+
+            // Act
+            var result = controller.SumarPrecioCaja(100) as BadRequestObjectResult;
+
+            // Assert
+            Assert.IsNotNull(result);
+            Assert.AreEqual(400, result.StatusCode);
+            Assert.IsNotNull(result.Value);
+            Assert.IsInstanceOf<StatusResponse>(result.Value);
+            Assert.AreEqual(mensajeRetorno.status, ((StatusResponse)result.Value).StatusOk);
+            Assert.AreEqual(mensajeRetorno.mensaje, ((StatusResponse)result.Value).StatusMessage);
+            // Añade aserciones específicas según tu comportamiento esperado
+        }
     }
 }
