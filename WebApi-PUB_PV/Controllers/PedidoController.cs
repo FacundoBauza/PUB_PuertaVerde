@@ -20,7 +20,7 @@ namespace WebApi_PUB_PV.Controllers
 
         //Agregar
         [HttpPost("/api/agregarPedido")]
-        public async Task<ActionResult<DTPedido>> Post([FromBody] DTPedido value)
+        public async Task<IActionResult> Post([FromBody] DTPedido value)
         {
             MensajeRetorno mensajeRetorno = bl.agregar_Pedido(value);
             if (value.tipo == Domain.Enums.Categoria.comida || value.tipo == Domain.Enums.Categoria.licuado)
@@ -39,7 +39,7 @@ namespace WebApi_PUB_PV.Controllers
 
         //Actualizar    
         [HttpPut("/api/actualizarPedido")]
-        public ActionResult<DTPedido> Put([FromBody] DTPedido value)
+        public IActionResult Put([FromBody] DTPedido value)
         {
             MensajeRetorno mensajeRetorno = bl.actualizar_Pedido(value);
             if(value.tipo == Domain.Enums.Categoria.comida || value.tipo == Domain.Enums.Categoria.licuado)
@@ -91,9 +91,9 @@ namespace WebApi_PUB_PV.Controllers
             return bl.listar_PedidosPorMesa(id);
         }
 
-        ///Eliminar
+        ///Finalizar Pedido
         [HttpPost("/api/finalizarPedido/{id:int}")]
-        public ActionResult<bool> finalizarPedido(int id)
+        public IActionResult finalizarPedido(int id)
         {
             MensajeRetorno mensajeRetorno = bl.finalizar_Pedido(id);
             if (mensajeRetorno.status)
@@ -108,7 +108,7 @@ namespace WebApi_PUB_PV.Controllers
 
         ///Eliminar
         [HttpDelete("/api/bajaPedido/{id:int}")]
-        public ActionResult<bool> BajaPedido(int id)
+        public IActionResult BajaPedido(int id)
         {
             MensajeRetorno mensajeRetorno = bl.baja_Pedido(id);
             if (mensajeRetorno.status)
