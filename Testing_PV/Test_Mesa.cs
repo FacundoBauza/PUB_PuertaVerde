@@ -13,26 +13,35 @@ using System.Threading.Tasks;
 using WebApi_PUB_PV.Models;
 using static System.Runtime.InteropServices.JavaScript.JSType;
 using DataAccesLayer.Models;
+using BusinessLayer.Implementations;
+using DataAccesLayer.Interface;
+using DataAccesLayer.Implementations;
+using DataAccesLayer;
 
 namespace Testing_PV
 {
     [TestFixture]
     public class Test_Mesa
     {
-        // Define una implementación Mock o Falsa de IB_Mesa para pruebas
-        public MesaController mesaController;
-        public Mock<IB_Mesa> mockBL;
-        public DTMesa validMesa;
-        public DTMesa invalidMesa;
+        
+        private MesaController mesaController;
+        private DTMesa validMesa;
+        private DTMesa invalidMesa; 
+        private Mock<IDAL_Mesa> mockDal;
+        private Mock<IDAL_Casteo> mockCasteo;
+        private Mock<IDAL_FuncionesExtras>mockFunciones;
+        private B_Mesa bl;
 
         [SetUp]
         public void Configuracion()
         {
-            // Inicializa la implementación Mock o Falsa
-            mockBL = new Mock<IB_Mesa>();
-            // Puedes utilizar una biblioteca de simulación como Moq para crear un mock
-            // Crea una instancia de MesaController con el servicio falso
-            mesaController = new MesaController(mockBL.Object);
+            // Inicializa
+            mockDal = new Mock<IDAL_Mesa>();
+            mockCasteo = new Mock<IDAL_Casteo>();
+            mockFunciones = new Mock<IDAL_FuncionesExtras>();
+            bl = new(mockDal.Object, mockCasteo.Object, mockFunciones.Object);
+            // Crea una instancia de MesaController con el servicio
+            mesaController = new MesaController(bl);
             validMesa = new DTMesa
             {
                 id_Mesa = 0,
@@ -53,10 +62,10 @@ namespace Testing_PV
         public void Post_ValidMesa_RetornaOkResult()
         {
             // Arrange
-            var mensajeRetorno = new MensajeRetorno { status = true, mensaje = "Mesa agregada correctamente" };
+            var mensajeRetorno = new MensajeRetorno { status = true, mensaje = "La mesa se guardo correctamente" };
 
             // Configura el comportamiento del mock
-            mockBL.Setup(bl => bl.Agregar_Mesa(It.IsAny<DTMesa>())).Returns(mensajeRetorno);
+            mockDal.Setup(bl => bl.Set_Mesa(It.IsAny<DTMesa>())).Returns(true);
 
             // Act
             var result = mesaController.Post(validMesa) as ObjectResult;
@@ -64,6 +73,7 @@ namespace Testing_PV
             // Assert
             Assert.IsNotNull(result);
             Assert.AreEqual(200, result.StatusCode);
+            Assert.IsNotNull(result.Value);
             Assert.AreEqual(mensajeRetorno.status, ((StatusResponse)result.Value).StatusOk);
             Assert.AreEqual(mensajeRetorno.mensaje, ((StatusResponse)result.Value).StatusMessage);
         }
@@ -72,10 +82,10 @@ namespace Testing_PV
         public void Post_InvalidMesa_RetornaBadRequest()
         {
             // Arrange
-            var mensajeRetorno = new MensajeRetorno { status = false, mensaje = "Error al agregar la mesa" };
+            var mensajeRetorno = new MensajeRetorno { status = false, mensaje = "Exepción no controlada" };
 
             // Configura el comportamiento del mock
-            mockBL.Setup(bl => bl.Agregar_Mesa(It.IsAny<DTMesa>())).Returns(mensajeRetorno);
+            mockDal.Setup(bl => bl.Set_Mesa(It.IsAny<DTMesa>())).Returns(false);
 
             // Act
             var result = mesaController.Post(invalidMesa) as ObjectResult;
@@ -83,6 +93,7 @@ namespace Testing_PV
             // Assert
             Assert.IsNotNull(result);
             Assert.AreEqual(400, result.StatusCode);
+            Assert.IsNotNull(result.Value);
             Assert.AreEqual(mensajeRetorno.status, ((StatusResponse)result.Value).StatusOk);
             Assert.AreEqual(mensajeRetorno.mensaje, ((StatusResponse)result.Value).StatusMessage);
         }
@@ -94,17 +105,15 @@ namespace Testing_PV
             var mensajeRetorno = new MensajeRetorno { status = true, mensaje = "La mesa se dio de baja correctamente" };
 
             // Configura el comportamiento del mock
-            mockBL.Setup(bl => bl.Baja_Mesa(It.IsAny<int>())).Returns(mensajeRetorno);
+            mockDal.Setup(bl => bl.Baja_Mesa(It.IsAny<int>())).Returns(true);
             // Act
             var resultado = mesaController.BajaMesa(validMesa.id_Mesa) as ObjectResult;
             // Assert
             Assert.IsNotNull(resultado);
             Assert.AreEqual(200, resultado.StatusCode);
-            if (resultado.Value != null)
-            {
-                Assert.AreEqual(mensajeRetorno.status, ((StatusResponse)resultado.Value).StatusOk);
+            Assert.IsNotNull(resultado.Value);
+            Assert.AreEqual(mensajeRetorno.status, ((StatusResponse)resultado.Value).StatusOk);
                 Assert.AreEqual(mensajeRetorno.mensaje, ((StatusResponse)resultado.Value).StatusMessage);
-            }
         }
 
         [Test]
@@ -114,7 +123,7 @@ namespace Testing_PV
             var mensajeRetorno = new MensajeRetorno { status = false, mensaje = "Exepción no controlada" };
 
             // Configura el comportamiento del mock
-            mockBL.Setup(bl => bl.Baja_Mesa(It.IsAny<int>())).Returns(mensajeRetorno);
+            mockDal.Setup(bl => bl.Baja_Mesa(It.IsAny<int>())).Returns(false);
             
             // Act
             var resultado = mesaController.BajaMesa(invalidMesa.id_Mesa) as ObjectResult;
@@ -122,6 +131,7 @@ namespace Testing_PV
             // Assert
             Assert.IsNotNull(resultado);
             Assert.AreEqual(400, resultado.StatusCode);
+            Assert.IsNotNull(resultado.Value);
             Assert.AreEqual(mensajeRetorno.status, ((StatusResponse)resultado.Value).StatusOk);
             Assert.AreEqual(mensajeRetorno.mensaje, ((StatusResponse)resultado.Value).StatusMessage);
         }
@@ -132,7 +142,7 @@ namespace Testing_PV
             var mensajeRetorno = new MensajeRetorno { status = true, mensaje = "La mesa se guardo correctamente" };
 
             // Configura el comportamiento del mock
-            mockBL.Setup(bl => bl.Modificar_Mesa(It.IsAny<DTMesa>())).Returns(mensajeRetorno);
+            mockDal.Setup(bl => bl.Modificar_Mesas(It.IsAny<DTMesa>())).Returns(true);
 
             // Act
             var resultado = mesaController.Put(validMesa) as ObjectResult;
@@ -140,6 +150,7 @@ namespace Testing_PV
             // Assert
             Assert.IsNotNull(resultado);
             Assert.AreEqual(200, resultado.StatusCode);
+            Assert.IsNotNull(resultado.Value);
             Assert.AreEqual(mensajeRetorno.status, ((StatusResponse)resultado.Value).StatusOk);
             Assert.AreEqual(mensajeRetorno.mensaje, ((StatusResponse)resultado.Value).StatusMessage);
         }
@@ -150,7 +161,7 @@ namespace Testing_PV
             var mensajeRetorno = new MensajeRetorno { status = false, mensaje = "Exepción no controlada" };
 
             // Configura el comportamiento del mock
-            mockBL.Setup(bl => bl.Modificar_Mesa(It.IsAny<DTMesa>())).Returns(mensajeRetorno);
+            mockDal.Setup(bl => bl.Modificar_Mesas(It.IsAny<DTMesa>())).Returns(false);
             
             // Act
             var resultado = mesaController.Put(invalidMesa) as ObjectResult;
@@ -158,6 +169,7 @@ namespace Testing_PV
             // Assert
             Assert.IsNotNull(resultado);
             Assert.AreEqual(400, resultado.StatusCode);
+            Assert.IsNotNull(resultado.Value);
             Assert.AreEqual(mensajeRetorno.status, ((StatusResponse)resultado.Value).StatusOk);
             Assert.AreEqual(mensajeRetorno.mensaje, ((StatusResponse)resultado.Value).StatusMessage);
         }
@@ -168,7 +180,7 @@ namespace Testing_PV
             var mensajeRetorno = new MensajeRetorno { status = true, mensaje = "La mesa se guardo correctamente" };
             
             // Configura el comportamiento del mock
-            mockBL.Setup(bl => bl.Modificar_Precio_Mesa(It.IsAny<DTMesa>())).Returns(mensajeRetorno);
+            mockDal.Setup(bl => bl.Modificar_Precio_Mesas(It.IsAny<DTMesa>())).Returns(true);
 
             // Act
             var resultado = mesaController.PutPrecio(validMesa) as ObjectResult;
@@ -176,6 +188,7 @@ namespace Testing_PV
             // Assert
             Assert.IsNotNull(resultado);
             Assert.AreEqual(200, resultado.StatusCode);
+            Assert.IsNotNull(resultado.Value);
             Assert.AreEqual(mensajeRetorno.status, ((StatusResponse)resultado.Value).StatusOk);
             Assert.AreEqual(mensajeRetorno.mensaje, ((StatusResponse)resultado.Value).StatusMessage);
         }
@@ -186,13 +199,14 @@ namespace Testing_PV
             var mensajeRetorno = new MensajeRetorno { status = false, mensaje = "Exepción no controlada" };
 
             // Configura el comportamiento del mock
-            mockBL.Setup(bl => bl.Modificar_Precio_Mesa(It.IsAny<DTMesa>())).Returns(mensajeRetorno);
+            mockDal.Setup(bl => bl.Modificar_Precio_Mesas(It.IsAny<DTMesa>())).Returns(false);
             // Act
             var resultado = mesaController.PutPrecio(invalidMesa) as ObjectResult;
 
             // Assert
             Assert.IsNotNull(resultado);
             Assert.AreEqual(400, resultado.StatusCode);
+            Assert.IsNotNull(resultado.Value);
             Assert.AreEqual(mensajeRetorno.status, ((StatusResponse)resultado.Value).StatusOk);
             Assert.AreEqual(mensajeRetorno.mensaje, ((StatusResponse)resultado.Value).StatusMessage);
         }
@@ -210,19 +224,21 @@ namespace Testing_PV
         [Test]
         public void Get_ReturnsListOfMesa_NotNullAndNoNullElements()
         {
-            // Configura el comportamiento del mock
-            mockBL.Setup(bl => bl.Listar_Mesas()).Returns(new List<DTMesa> ());
+            var DC = new DataContext();
+            var dal = new DAL_Mesa(DC);
+            var cast = new DAL_Casteo();
+            var fun = new DAL_FuncionesExtras(DC,cast);
+            var bl = new B_Mesa(dal, cast, fun);
+            var controllerget = new MesaController(bl);
 
             // Act
-            var result = mesaController.Get();
+            var result = controllerget.Get();
 
             // Assert
             Assert.IsNotNull(result);
             Assert.IsInstanceOf<List<DTMesa>>(result);
-
             // Verifica que la lista no sea null
             Assert.IsNotNull(result);
-
             // Verifica que ninguno de los elementos en la lista sea null
             Assert.IsTrue(result.TrueForAll(mesa => mesa != null));
         }
