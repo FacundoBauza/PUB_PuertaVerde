@@ -143,5 +143,21 @@ namespace BusinessLayer.Implementations
             }
 
         }
+
+        public MensajeRetorno AgregarPagoParcial(int id, float pagoEfectuado)
+        {
+            MensajeRetorno mensajeRetorno = new MensajeRetorno();
+            if (_dal.AgregarPagoParcial(id, pagoEfectuado))
+            {
+                mensajeRetorno.mensaje = "Se agrego el pago parcial correctamente";
+                mensajeRetorno.status = true;
+                return mensajeRetorno;
+            }
+            else
+            {
+                mensajeRetorno.Exepcion_no_Controlada();
+                return mensajeRetorno;
+            }
+        }
     }
 }

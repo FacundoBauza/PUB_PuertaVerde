@@ -89,5 +89,19 @@ namespace WebApi_PUB_PV.Controllers
         {
             return bl.CerarMesa(Modificar);
         }
+
+        [HttpGet("/api/agregarPagoParcial/{id:int}/{pagoEfectuado:float}")]
+        public IActionResult AgregarPagoParcial(int id, float pagoEfectuado)
+        {
+            MensajeRetorno mensajeRetorno = bl.AgregarPagoParcial(id, pagoEfectuado);
+            if (mensajeRetorno.status)
+            {
+                return Ok(new StatusResponse { StatusOk = true, StatusMessage = mensajeRetorno.mensaje });
+            }
+            else
+            {
+                return BadRequest(new StatusResponse { StatusOk = false, StatusMessage = mensajeRetorno.mensaje });
+            }
+        }
     }
 }
