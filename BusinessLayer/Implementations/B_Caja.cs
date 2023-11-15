@@ -97,5 +97,21 @@ namespace BusinessLayer.Implementations
                 return mensajeRetorno;
             }
         }
+
+        public MensajeRetorno CerrarCajaActiva()
+        {
+            MensajeRetorno mensajeRetorno = new();
+            if (_dal.CerrarCajaActiva())
+            {
+                mensajeRetorno.mensaje = "Se cerro la caja correctamente";
+                mensajeRetorno.status = true;
+                return mensajeRetorno;
+            }
+            else
+            {
+                mensajeRetorno.Exepcion_no_Controlada();
+                return mensajeRetorno;
+            }
+        }
     }
 }

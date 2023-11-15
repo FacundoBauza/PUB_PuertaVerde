@@ -105,5 +105,25 @@ namespace DataAccesLayer.Implementations
             //no se pudo encontrar la mesa y retorna false
             return false;
         }
+        public bool CerrarCajaActiva()
+        {
+            var CajaEncontrada = _db.Cajas.SingleOrDefault(i => i.estado == true);
+            if (CajaEncontrada != null)
+            {
+                try
+                {
+                    // Modifica las propiedades de la mesa.
+                    CajaEncontrada.estado = false;
+                    // Guarda los cambios en la base de datos.
+                    _db.Cajas.Update(CajaEncontrada);
+                    _db.SaveChanges();
+
+                    //retota que todo se hizo corectamente
+                    return true;
+                }
+                catch { }
+            }
+            return false;
+        }
     }
 }

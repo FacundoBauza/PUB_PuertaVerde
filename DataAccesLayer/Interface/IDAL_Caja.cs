@@ -18,5 +18,7 @@ namespace DataAccesLayer.Interface
 
         //UpdatePrecio
         bool SumarPrecioCaja(float precio);
+
+        bool CerrarCajaActiva();
     }
 }
