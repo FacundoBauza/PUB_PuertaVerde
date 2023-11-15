@@ -16,18 +16,32 @@ namespace WebApi_PUB_PV.Controllers
 
         //Agregar
         [HttpPost("/api/agregarCliente")]
-        public ActionResult<DTCliente_Preferencial> Post([FromBody] DTCliente_Preferencial value)
+        public IActionResult Post([FromBody] DTCliente_Preferencial value)
         {
-            MensajeRetorno x = bl.agregar_ClientePreferencial(value);
-            return Ok(new StatusResponse { StatusOk = x.status, StatusMessage = x.mensaje });
+            MensajeRetorno mensajeRetorno = bl.agregar_ClientePreferencial(value);
+            if (mensajeRetorno.status)
+            {
+                return Ok(new StatusResponse { StatusOk = true, StatusMessage = mensajeRetorno.mensaje });
+            }
+            else
+            {
+                return BadRequest(new StatusResponse { StatusOk = false, StatusMessage = mensajeRetorno.mensaje });
+            }
         }
 
         //Actualizar    
         [HttpPut("/api/actualizarCliente")]
-        public ActionResult<DTCliente_Preferencial> Put([FromBody] DTCliente_Preferencial value)
+        public IActionResult Put([FromBody] DTCliente_Preferencial value)
         {
-            MensajeRetorno x = bl.actualizar_ClientePreferencial(value);
-            return Ok(new StatusResponse { StatusOk = x.status, StatusMessage = x.mensaje });
+            MensajeRetorno mensajeRetorno = bl.actualizar_ClientePreferencial(value);
+            if (mensajeRetorno.status)
+            {
+                return Ok(new StatusResponse { StatusOk = true, StatusMessage = mensajeRetorno.mensaje });
+            }
+            else
+            {
+                return BadRequest(new StatusResponse { StatusOk = false, StatusMessage = mensajeRetorno.mensaje });
+            }
         }
 
         //Listar
@@ -39,11 +53,19 @@ namespace WebApi_PUB_PV.Controllers
 
         ///Eliminar
         [HttpDelete("/api/bajaCliente/{id:int}")]
-        public ActionResult<bool> BajaCategoria(int id)
+        public IActionResult BajaCliente(int id)
         {
-            MensajeRetorno x = bl.baja_ClientePreferencial(id);
-            return Ok(new StatusResponse { StatusOk = x.status, StatusMessage = x.mensaje });
+            MensajeRetorno mensajeRetorno = bl.baja_ClientePreferencial(id);
+            if (mensajeRetorno.status)
+            {
+                return Ok(new StatusResponse { StatusOk = true, StatusMessage = mensajeRetorno.mensaje });
+            }
+            else
+            {
+                return BadRequest(new StatusResponse { StatusOk = false, StatusMessage = mensajeRetorno.mensaje });
+            }
         }
+
         //Cerar cuenta del Cliente Preferencial
         [HttpPut("/api/cerarCuentaCliente")]
         public ActionResult<byte[]> cerarCuenta([FromBody] DTCliente_Preferencial Modificar)

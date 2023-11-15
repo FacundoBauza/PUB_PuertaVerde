@@ -31,7 +31,7 @@ namespace BusinessLayer.Implementations
                     {
                         if (_fu.existeUsuario(dtP.username))
                         {
-                            if (_dal.set_Cliente(dtP))
+                            if (_dal.set_Pedido(dtP))
                             {
                                 if (_fu.existeClienteId(dtP.id_Cli_Preferencial))
                                 {

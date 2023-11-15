@@ -7,7 +7,7 @@ namespace DataAccesLayer.Interface
     public interface IDAL_Pedido
     {
         //Agregar
-        bool set_Cliente(DTPedido dtP);
+        bool set_Pedido(DTPedido dtP);
         //Actualizar
         bool update_Pedido(DTPedido dtP);
         //Listar

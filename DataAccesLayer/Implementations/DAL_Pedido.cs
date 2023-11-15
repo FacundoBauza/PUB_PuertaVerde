@@ -14,7 +14,7 @@ namespace DataAccesLayer.Implementations
         }
 
         //Agregar
-        public bool set_Cliente(DTPedido dtP)
+        public bool set_Pedido(DTPedido dtP)
         {
             Pedidos aux = Pedidos.SetPedido(dtP);
             Pedidos_Productos? aux2 = null;

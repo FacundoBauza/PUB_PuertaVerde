@@ -19,7 +19,20 @@ namespace BusinessLayer.Implementations
 
         public MensajeRetorno Baja_Cajas(int id)
         {
-            throw new NotImplementedException();
+
+            MensajeRetorno men = new();
+            if (_dal.Baja_Caja(id))
+            {
+                men.mensaje = "caja dada de baja";
+                men.status = true;
+                return men;
+            }
+            else
+            {
+                men.mensaje = "error al bajar caja";
+                men.status = false;
+                return men;
+            }
         }
 
         public List<DTCaja> GetCajas()

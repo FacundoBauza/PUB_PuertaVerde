@@ -1,5 +1,9 @@
 ﻿using System.Collections.Generic;
+using BusinessLayer.Implementations;
 using BusinessLayer.Interfaces;
+using DataAccesLayer.Implementations;
+using DataAccesLayer;
+using DataAccesLayer.Interface;
 using Domain.DT;
 using Domain.Entidades;
 using Microsoft.AspNetCore.Mvc;
@@ -15,20 +19,25 @@ namespace Testing_PV
     public class Test_Ingrediente
     {
         // Define una implementación Mock o Falsa de IB_Mesa para pruebas
-        public IB_Ingrediente Service;
-        public IngredienteController controller;
-        public Mock<IB_Ingrediente> mockBusinessLayer;
-        public DTIngrediente validIngrediente;
-        public DTIngrediente invalidIngrediente;
+        private IngredienteController controller;
+        private DTIngrediente validIngrediente;
+        private DTIngrediente invalidIngrediente;
+        private Mock<IDAL_Ingrediente> mockDal;
+        private Mock<IDAL_Casteo> mockCasteo;
+        private Mock<IDAL_FuncionesExtras> mockFunciones;
+        private B_Ingrediente bl;
+
 
         [SetUp]
         public void Configuracion()
         {
-            // Inicializa la implementación Mock o Falsa
-            mockBusinessLayer = new Mock<IB_Ingrediente>();
-            // utiliza biblioteca de simulación como Moq para crear un mock
-            // Crea una instancia de MesaController con el servicio falso
-            controller = new IngredienteController(mockBusinessLayer.Object);
+            // Inicializa
+            mockDal = new Mock<IDAL_Ingrediente>();
+            mockCasteo = new Mock<IDAL_Casteo>();
+            mockFunciones = new Mock<IDAL_FuncionesExtras>();
+            bl = new(mockDal.Object, mockCasteo.Object, mockFunciones.Object);
+            // Crea una instancia de IngredienteController con el servicio
+            controller = new IngredienteController(bl);
             //datos necesarios para todos los test
             validIngrediente = new DTIngrediente
             {
@@ -50,8 +59,8 @@ namespace Testing_PV
         public void Post_ValidIngrediente_ReturnsOkResult()
         {
             // Configura el comportamiento del mock para Agregar_Ingrediente
-            MensajeRetorno mensajeRetorno = new MensajeRetorno { status = true, mensaje = "Ingrediente agregado correctamente" };
-            mockBusinessLayer.Setup(bl => bl.Agregar_Ingrediente(validIngrediente)).Returns(mensajeRetorno);
+            MensajeRetorno mensajeRetorno = new MensajeRetorno { status = true, mensaje = "El Ingrediente se guardo correctamente" };
+            mockDal.Setup(bl => bl.set_Ingrediente(validIngrediente)).Returns(true);
 
             // Act
             var result = controller.Post(validIngrediente) as OkObjectResult;
@@ -69,13 +78,9 @@ namespace Testing_PV
         [Test]
         public void Post_InvalidIngrediente_ReturnsBadRequestResult()
         {
-            // Arrange
-            var mockBusinessLayer = new Mock<IB_Ingrediente>();
-            var controller = new IngredienteController(mockBusinessLayer.Object);
-
             // Configura el comportamiento del mock para Agregar_Ingrediente
-            MensajeRetorno mensajeRetorno = new MensajeRetorno { status = false, mensaje = "Error al agregar el ingrediente" };
-            mockBusinessLayer.Setup(bl => bl.Agregar_Ingrediente(invalidIngrediente)).Returns(mensajeRetorno);
+            MensajeRetorno mensajeRetorno = new MensajeRetorno { status = false, mensaje = "Exepción no controlada" };
+            mockDal.Setup(bl => bl.set_Ingrediente(invalidIngrediente)).Returns(false);
 
             // Act
             var result = controller.Post(invalidIngrediente) as BadRequestObjectResult;
@@ -94,8 +99,8 @@ namespace Testing_PV
         public void Delete_ValidId_ReturnsOkResult()
         {
             // Configura el comportamiento del mock para Eliminar_Ingrediente
-            MensajeRetorno mensajeRetorno = new MensajeRetorno { status = true, mensaje = "Ingrediente eliminado correctamente" };
-            mockBusinessLayer.Setup(bl => bl.Eliminar_Ingredente(validIngrediente.id_Ingrediente)).Returns(mensajeRetorno);
+            MensajeRetorno mensajeRetorno = new MensajeRetorno { status = true, mensaje = "El ingrediente fue eliminado" };
+            mockDal.Setup(bl => bl.Eliminar_Ingredente(validIngrediente.id_Ingrediente)).Returns(mensajeRetorno);
 
             // Act
             var result = controller.Delete(validIngrediente.id_Ingrediente) as OkObjectResult;
@@ -114,8 +119,8 @@ namespace Testing_PV
         public void Delete_InvalidId_ReturnsBadRequestResult()
         {
             // Configura el comportamiento del mock para Eliminar_Ingrediente con un ID inválido
-            MensajeRetorno mensajeRetorno = new MensajeRetorno { status = false, mensaje = "Error al eliminar el ingrediente" };
-            mockBusinessLayer.Setup(bl => bl.Eliminar_Ingredente(invalidIngrediente.id_Ingrediente)).Returns(mensajeRetorno);
+            MensajeRetorno mensajeRetorno = new MensajeRetorno { status = false, mensaje = "El ingrediente pertenece a un producto por lo que no es posible eliminarlo" };
+            mockDal.Setup(bl => bl.Eliminar_Ingredente(invalidIngrediente.id_Ingrediente)).Returns(mensajeRetorno);
 
             // Act
             var result = controller.Delete(invalidIngrediente.id_Ingrediente) as BadRequestObjectResult;
@@ -134,8 +139,8 @@ namespace Testing_PV
         public void Put_ValidIngrediente_ReturnsOkResult()
         {
             // Configura el comportamiento del mock para Modificar_Ingrediente
-            MensajeRetorno mensajeRetorno = new MensajeRetorno { status = true, mensaje = "Ingrediente modificado correctamente" };
-            mockBusinessLayer.Setup(bl => bl.Modificar_Ingrediente(validIngrediente)).Returns(mensajeRetorno);
+            MensajeRetorno mensajeRetorno = new MensajeRetorno { status = true, mensaje = "El Ingrediente se modifico correctamente" };
+            mockDal.Setup(bl => bl.modificar_Ingrediente(validIngrediente)).Returns(true);
 
             // Act
             var result = controller.Put(validIngrediente) as OkObjectResult;
@@ -155,8 +160,8 @@ namespace Testing_PV
         public void Put_InvalidIngrediente_ReturnsBadRequestResult()
         {
             // Configura el comportamiento del mock para Modificar_Ingrediente con un DTO inválido
-            MensajeRetorno mensajeRetorno = new MensajeRetorno { status = false, mensaje = "Error al modificar el ingrediente" };
-            mockBusinessLayer.Setup(bl => bl.Modificar_Ingrediente(invalidIngrediente)).Returns(mensajeRetorno);
+            MensajeRetorno mensajeRetorno = new MensajeRetorno { status = false, mensaje = "Exepción no controlada" };
+            mockDal.Setup(bl => bl.modificar_Ingrediente(invalidIngrediente)).Returns(false);
 
             // Act
             var result = controller.Put(invalidIngrediente) as BadRequestObjectResult;
@@ -173,11 +178,15 @@ namespace Testing_PV
         [Test]
         public void Get_ReturnsListOfIngrediente_NotNullAndNoNullElements()
         {
-            // Configura el comportamiento del mock para Listar_Ingrediente
-            mockBusinessLayer.Setup(bl => bl.Listar_Ingrediente()).Returns(new List<DTIngrediente> ());
+            var DC = new DataContext();
+            var dal = new DAL_Ingrediente(DC);
+            var cast = new DAL_Casteo();
+            var fun = new DAL_FuncionesExtras(DC, cast);
+            var bl = new B_Ingrediente(dal, cast, fun);
+            var controllerget = new IngredienteController(bl);
 
             // Act
-            var result = controller.Get();
+            var result = controllerget.Get();
 
             // Assert
             Assert.IsNotNull(result);
