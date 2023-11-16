@@ -73,7 +73,7 @@ namespace BusinessLayer.Implementations
             {
                 if (_dal.modificar_Producto(dtp) == true)
                 {
-                    men.mensaje = "El producto se guardo correctamente";
+                    men.mensaje = "El Producto se modifico correctamente";
                     men.status = true;
                     return men;
                 }

@@ -245,5 +245,28 @@ namespace DataAccesLayer.Implementations
             //no se pudo encontrar la mesa y retorna false 
             return false;
         }
+
+        public bool AgregarPagoParcial(int id, float pagoEfectuado)
+        {
+            var MesaEncontrada = _db.Mesas.SingleOrDefault(i => i.id_Mesa == id);
+            if (MesaEncontrada != null)
+            {
+                try
+                {
+                    // Modifica las propiedades de la mesa.
+                    MesaEncontrada.precioTotal -= pagoEfectuado;
+                    // Guarda los cambios en la base de datos.
+                    _db.Mesas.Update(MesaEncontrada);
+                    _db.SaveChanges();
+                    //retota que todo se hizo corectamente
+                    return true;
+                }
+                catch {
+                    return false;
+                }
+            }
+            //no se pudo encontrar la mesa y retorna false
+            return false;
+        }
     }
 }

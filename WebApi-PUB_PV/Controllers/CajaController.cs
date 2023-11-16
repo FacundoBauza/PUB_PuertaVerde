@@ -88,5 +88,18 @@ namespace WebApi_PUB_PV.Controllers
             }
         }
 
+        [HttpGet("/api/cerrarCajaActiva")]
+        public IActionResult CerrarCajaActiva()
+        {
+            MensajeRetorno mensajeRetorno = bl.CerrarCajaActiva();
+            if (mensajeRetorno.status)
+            {
+                return Ok(new StatusResponse { StatusOk = true, StatusMessage = mensajeRetorno.mensaje });
+            }
+            else
+            {
+                return BadRequest(new StatusResponse { StatusOk = false, StatusMessage = mensajeRetorno.mensaje });
+            }
+        }
     }
 }

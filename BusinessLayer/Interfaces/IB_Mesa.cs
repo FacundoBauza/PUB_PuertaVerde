@@ -11,5 +11,6 @@ namespace BusinessLayer.Interfaces
         List<DTMesa> Listar_Mesas();
         MensajeRetorno Modificar_Mesa(DTMesa modificar);
         MensajeRetorno Modificar_Precio_Mesa(DTMesa modificar);
+        MensajeRetorno AgregarPagoParcial(int id, float pagoEfectuado);
     }
 }

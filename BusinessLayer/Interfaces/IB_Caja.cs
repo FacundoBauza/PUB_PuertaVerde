@@ -17,5 +17,7 @@ namespace BusinessLayer.Interfaces
 
         //UpdatePrecio
         MensajeRetorno SumarPrecioCaja(float precio);
+
+        MensajeRetorno CerrarCajaActiva();
     }
 }

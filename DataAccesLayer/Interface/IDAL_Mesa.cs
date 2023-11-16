@@ -12,5 +12,7 @@ namespace DataAccesLayer.Interface
         byte[] CerarMesa(int id);
         bool Baja_Mesa(int id);
         bool Modificar_Precio_Mesas(DTMesa modificar);
+
+        bool AgregarPagoParcial(int id, float pagoEfectuado);
     }
 }

@@ -1,8 +1,14 @@
-﻿using BusinessLayer.Interfaces;
+﻿using BusinessLayer.Implementations;
+using BusinessLayer.Interfaces;
+using DataAccesLayer.Implementations;
+using DataAccesLayer;
+using DataAccesLayer.Interface;
 using Domain.DT;
 using Domain.Entidades;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.SignalR;
 using Moq;
+using SignalR;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -15,23 +21,52 @@ namespace Testing_PV
 {
     public class Test_Categoria
     {
-        [Test]
-        public void Agregar_ReturnOk()
+        private CategoriaController categoriaController;
+        private DTCategoria categoriaValida;
+        private DTCategoria categoriaInvalida;
+        private Mock<IDAL_Categoria> mockDal;
+        private Mock<IDAL_Casteo> mockCasteo;
+        private Mock<IDAL_FuncionesExtras> mockFunciones;
+        private B_Categoria bl;
+        private int id_categoriaValida;
+        private int id_categoriaInvalida;
+
+        [SetUp]
+        public void Configuracion()
         {
-            var mockBusinessLayer = new Mock<IB_Categoria>();
-            var controller = new CategoriaController(mockBusinessLayer.Object);
-            var aux = new DTCategoria
+            // Inicializa
+            mockDal = new Mock<IDAL_Categoria>();
+            mockCasteo = new Mock<IDAL_Casteo>();
+            mockFunciones = new Mock<IDAL_FuncionesExtras>();
+            bl = new(mockDal.Object, mockCasteo.Object, mockFunciones.Object);
+            // Crea una instancia de Categoria con el servicio
+            categoriaController = new CategoriaController(bl);
+            categoriaValida = new DTCategoria
             {
                 id_Categoria = 0,
                 nombre = "Articulos extras",
                 registro_Activo = true,
-                ingredientes = {}
+                ingredientes = { }
+            };
+            categoriaInvalida = new DTCategoria
+            {
+                id_Categoria = -1,
+                nombre = "Articulos extras",
+                registro_Activo = true,
+                ingredientes = { }
             };
 
-            MensajeRetorno mensajeRetorno = new MensajeRetorno { status = true, mensaje = "La Categoria se dio de alta correctamente" };
-            mockBusinessLayer.Setup(bl => bl.agregar_Categoria(aux)).Returns(mensajeRetorno);
+            id_categoriaValida = 7;
+            id_categoriaInvalida = -1;
+        }
 
-            var result = controller.Post(aux) as OkObjectResult;
+        [Test]
+        public void Agregar_ReturnOk()
+        {
+            MensajeRetorno mensajeRetorno = new MensajeRetorno { status = true, mensaje = "La Categoria se guardo correctamente" };
+            mockDal.Setup(bl => bl.set_Categoria(categoriaValida)).Returns(true);
+
+            var result = categoriaController.Post(categoriaValida) as OkObjectResult;
 
             Assert.IsNotNull(result);
             Assert.AreEqual(200, result.StatusCode);
@@ -44,20 +79,10 @@ namespace Testing_PV
         [Test]
         public void Agregar_ReturnBadRequest()
         {
-            var mockBusinessLayer = new Mock<IB_Categoria>();
-            var controller = new CategoriaController(mockBusinessLayer.Object);
-            var aux = new DTCategoria
-            {
-                id_Categoria = -1,
-                nombre = "Articulos extras",
-                registro_Activo = true,
-                ingredientes = { }
-            };
+            MensajeRetorno mensajeRetorno = new MensajeRetorno { status = false, mensaje = "Exepción no controlada" };
+            mockDal.Setup(bl => bl.set_Categoria(categoriaInvalida)).Returns(false);
 
-            MensajeRetorno mensajeRetorno = new MensajeRetorno { status = false, mensaje = "Error al agregar la Categoria" };
-            mockBusinessLayer.Setup(bl => bl.agregar_Categoria(aux)).Returns(mensajeRetorno);
-
-            var result = controller.Post(aux) as BadRequestObjectResult;
+            var result = categoriaController.Post(categoriaInvalida) as BadRequestObjectResult;
 
             Assert.IsNotNull(result);
             Assert.AreEqual(400, result.StatusCode);
@@ -70,14 +95,10 @@ namespace Testing_PV
         [Test]
         public void Eliminar_ReturnOk()
         {
-            var mockBusinessLayer = new Mock<IB_Categoria>();
-            var controller = new CategoriaController(mockBusinessLayer.Object);
-            var aux = 4;
+            MensajeRetorno mensajeRetorno = new MensajeRetorno { status = true, mensaje = "La Categoria se a dado de baja correctamente" };
+            mockDal.Setup(bl => bl.baja_Categoria(id_categoriaValida)).Returns(true);
 
-            MensajeRetorno mensajeRetorno = new MensajeRetorno { status = true, mensaje = "La categoria se dio de baja correctamente" };
-            mockBusinessLayer.Setup(bl => bl.baja_Categoria(aux)).Returns(mensajeRetorno);
-
-            var result = controller.BajaCategoria(aux) as OkObjectResult;
+            var result = categoriaController.BajaCategoria(id_categoriaValida) as OkObjectResult;
 
             Assert.IsNotNull(result);
             Assert.AreEqual(200, result.StatusCode);
@@ -90,14 +111,10 @@ namespace Testing_PV
         [Test]
         public void Eliminar_ReturnBadRequest()
         {
-            var mockBusinessLayer = new Mock<IB_Categoria>();
-            var controller = new CategoriaController(mockBusinessLayer.Object);
-            var aux = 50;
+            MensajeRetorno mensajeRetorno = new MensajeRetorno { status = false, mensaje = "Exepción no controlada" };
+            mockDal.Setup(bl => bl.baja_Categoria(id_categoriaInvalida)).Returns(false);
 
-            MensajeRetorno mensajeRetorno = new MensajeRetorno { status = false, mensaje = "Error al intentar dar de baja la Categoria" };
-            mockBusinessLayer.Setup(bl => bl.baja_Categoria(aux)).Returns(mensajeRetorno);
-
-            var result = controller.BajaCategoria(aux) as BadRequestObjectResult;
+            var result = categoriaController.BajaCategoria(id_categoriaInvalida) as BadRequestObjectResult;
 
             Assert.IsNotNull(result);
             Assert.AreEqual(400, result.StatusCode);
@@ -110,39 +127,21 @@ namespace Testing_PV
         [Test]
         public void ListarCategorias_Validar()
         {
-            var mockBusinessLayer = new Mock<IB_Categoria>();
-            var controller = new CategoriaController(mockBusinessLayer.Object);
+            var DC = new DataContext();
+            var dal = new DAL_Categoria(DC);
+            var cast = new DAL_Casteo();
+            var fun = new DAL_FuncionesExtras(DC, cast);
+            var bl = new B_Categoria(dal, cast, fun);
+            var _hub = new Mock<IHubContext<ChatHub>>();
+            var categoriaController2 = new CategoriaController(bl);
+         
+            // Act
+            var result = categoriaController2.Get();
 
-            mockBusinessLayer.Setup(bl => bl.listar_Categoria())
-            .Returns(new List<DTCategoria>
-            {
-                new DTCategoria
-                {
-                    id_Categoria = 1,
-                    nombre = "Bebida",
-                    registro_Activo = true
-                },
-                new DTCategoria
-                {
-                     id_Categoria = 2,
-                    nombre = "Comida",
-                    registro_Activo = true
-                },
-            });
-
-            var result = controller.Get();
-
+            // Verifica que ninguno de los elementos en la lista sea null
+            Assert.IsTrue(result.TrueForAll(categoria => categoria != null));
             Assert.IsNotNull(result);
             Assert.IsInstanceOf<List<DTCategoria>>(result);
-
-            CollectionAssert.AllItemsAreNotNull(result);
-
-            foreach (var categoria in result)
-            {
-                Assert.IsNotNull(categoria.id_Categoria);
-                Assert.IsNotNull(categoria.nombre);
-                Assert.IsTrue(categoria.registro_Activo);
-            }
         }
     }
 }

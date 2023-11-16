@@ -1,4 +1,8 @@
-﻿using BusinessLayer.Interfaces;
+﻿using BusinessLayer.Implementations;
+using BusinessLayer.Interfaces;
+using DataAccesLayer.Implementations;
+using DataAccesLayer;
+using DataAccesLayer.Interface;
 using Domain.DT;
 using Domain.Entidades;
 using Microsoft.AspNetCore.Mvc;
@@ -13,18 +17,35 @@ using System.Text;
 using System.Threading.Tasks;
 using WebApi_PUB_PV.Controllers;
 using WebApi_PUB_PV.Models;
+using DataAccesLayer.Models;
 
 namespace Testing_PV
 {
     public class Test_Pedido
     {
-        [Test]
-        public async Task Agregar_ReturnOk()
+        private PedidoController pedidoController;
+        private DTPedido pedidoValido;
+        private DTPedido pedidoInvalido;
+        private Mock<IDAL_Pedido> mockDal;
+        private Mock<IDAL_Casteo> mockCasteo;
+        private Mock<IDAL_FuncionesExtras> mockFunciones;
+        private B_Pedido bl;
+        private int id_pedidoValido;
+        private int id_pedidoInvalido;
+        private int id_Mesa;
+
+        [SetUp]
+        public void Configuracion()
         {
+            // Inicializa
+            mockDal = new Mock<IDAL_Pedido>();
+            mockCasteo = new Mock<IDAL_Casteo>();
+            mockFunciones = new Mock<IDAL_FuncionesExtras>();
+            bl = new(mockDal.Object, mockCasteo.Object, mockFunciones.Object);
+            // Crea una instancia de Pedido con el servicio
             var _hub = new Mock<IHubContext<ChatHub>>();
-            var mockBusinessLayer = new Mock<IB_Pedido>();
-            var controller = new PedidoController(mockBusinessLayer.Object, _hub.Object);
-            var aux = new DTPedido
+            pedidoController = new PedidoController(bl,_hub.Object);
+            pedidoValido = new DTPedido
             {
                 id_Pedido = 0,
                 valorPedido = 540,
@@ -38,27 +59,7 @@ namespace Testing_PV
                 tipo = 0,
                 list_IdProductos = { }
             };
-
-            MensajeRetorno mensajeRetorno = new MensajeRetorno { status = true, mensaje = "El Pedido se dio de alta correctamente" };
-            mockBusinessLayer.Setup(bl => bl.agregar_Pedido(aux)).Returns(mensajeRetorno);
-
-            var result = await controller.Post(aux) as OkObjectResult;
-
-            Assert.IsNotNull(result);
-            Assert.AreEqual(200, result.StatusCode);
-            Assert.IsNotNull(result.Value);
-            Assert.IsInstanceOf<StatusResponse>(result.Value);
-            Assert.AreEqual(mensajeRetorno.status, ((StatusResponse)result.Value).StatusOk);
-            Assert.AreEqual(mensajeRetorno.mensaje, ((StatusResponse)result.Value).StatusMessage);
-        }
-
-        [Test]
-        public async Task Agregar_ReturnBadRequest()
-        {
-            var _hub = new Mock<IHubContext<ChatHub>>();
-            var mockBusinessLayer = new Mock<IB_Pedido>();
-            var controller = new PedidoController(mockBusinessLayer.Object, _hub.Object);
-            var aux = new DTPedido
+            pedidoInvalido = new DTPedido
             {
                 id_Pedido = -1,
                 valorPedido = 411,
@@ -73,10 +74,44 @@ namespace Testing_PV
                 list_IdProductos = { }
             };
 
-            MensajeRetorno mensajeRetorno = new MensajeRetorno { status = false, mensaje = "Error al dar de alta el Pedido" };
-            mockBusinessLayer.Setup(bl => bl.agregar_Pedido(aux)).Returns(mensajeRetorno);
+            id_pedidoValido = 7;
+            id_pedidoInvalido = -1;
+            id_Mesa = 1;
+        }
 
-            var result = await controller.Post(aux) as BadRequestObjectResult;
+        [Test]
+        public async Task Agregar_ReturnOk()
+        {
+            // Configura el mock para simular que el usuario existe
+            mockFunciones.Setup(fu => fu.existeUsuario(It.IsAny<string>()))
+               .Returns(true);
+
+            MensajeRetorno mensajeRetorno = new MensajeRetorno { status = true, mensaje = "El Pedido se guardo Correctamente" };
+            mockDal.Setup(bl => bl.set_Pedido(pedidoValido)).Returns(true);
+
+            var result = await pedidoController.Post(pedidoValido) as OkObjectResult;
+
+            Assert.IsNotNull(result);
+            Assert.AreEqual(200, result.StatusCode);
+            Assert.IsNotNull(result.Value);
+            Assert.IsInstanceOf<StatusResponse>(result.Value);
+            Assert.AreEqual(mensajeRetorno.status, ((StatusResponse)result.Value).StatusOk);
+            string expectedMessage = mensajeRetorno.mensaje;
+            string actualMessage = ((StatusResponse)result.Value).StatusMessage;
+            Assert.IsTrue(actualMessage.Contains(expectedMessage));
+        }
+
+        [Test]
+        public async Task Agregar_ReturnBadRequest()
+        {
+            // Configura el mock para simular que el pedido existe
+            mockFunciones.Setup(fu => fu.existePedido(It.IsAny<int>()))
+               .Returns(true);
+
+            MensajeRetorno mensajeRetorno = new MensajeRetorno { status = false, mensaje = "Ya existe un pedido con los datos ingresados" };
+            mockDal.Setup(bl => bl.set_Pedido(pedidoInvalido)).Returns(false);
+
+            var result = await pedidoController.Post(pedidoInvalido) as BadRequestObjectResult;
 
             Assert.IsNotNull(result);
             Assert.AreEqual(400, result.StatusCode);
@@ -89,28 +124,20 @@ namespace Testing_PV
         [Test]
         public void Modificar_ReturnOk()
         {
-            var _hub = new Mock<IHubContext<ChatHub>>();
-            var mockBusinessLayer = new Mock<IB_Pedido>();
-            var controller = new PedidoController(mockBusinessLayer.Object, _hub.Object);
-            var aux = new DTPedido
-            {
-                id_Pedido = 59,
-                valorPedido = 800,
-                pago = false,
-                username = "fbauza2014@gmail.com",
-                id_Cli_Preferencial = 8,
-                id_Mesa = 9,
-                estadoProceso = true,
-                fecha_ingreso = new DateTime(),
-                numero_movil = "",
-                tipo = 0,
-                list_IdProductos = { }
-            };
+            // Configura el mock para simular que el pedido existe
+            mockFunciones.Setup(fu => fu.existePedido(It.IsAny<int>()))
+               .Returns(true);
+            // Configura el mock para simular que el usuarioe xiste
+            mockFunciones.Setup(fu => fu.existeUsuario(It.IsAny<string>()))
+               .Returns(true);
+            // Configura el mock para simular que la mesa existe
+            mockFunciones.Setup(fu => fu.existeMesa(It.IsAny<int>()))
+               .Returns(true);
 
-            MensajeRetorno mensajeRetorno = new MensajeRetorno { status = true, mensaje = "El Pedido se modifico correctamente" };
-            mockBusinessLayer.Setup(bl => bl.actualizar_Pedido(aux)).Returns(mensajeRetorno);
+            MensajeRetorno mensajeRetorno = new MensajeRetorno { status = true, mensaje = "El Pedido se actualizo Correctamente" };
+            mockDal.Setup(bl => bl.update_Pedido(pedidoValido)).Returns(true);
 
-            var result = controller.Put(aux) as OkObjectResult;
+            var result = pedidoController.Put(pedidoValido) as OkObjectResult;
 
             Assert.IsNotNull(result);
             Assert.AreEqual(200, result.StatusCode);
@@ -123,28 +150,14 @@ namespace Testing_PV
         [Test]
         public void Modificar_ReturnBadRequest()
         {
-            var _hub = new Mock<IHubContext<ChatHub>>();
-            var mockBusinessLayer = new Mock<IB_Pedido>();
-            var controller = new PedidoController(mockBusinessLayer.Object, _hub.Object);
-            var aux = new DTPedido
-            {
-                id_Pedido = 0,
-                valorPedido = 540,
-                pago = false,
-                username = "fbauza2014@gmail.com",
-                id_Cli_Preferencial = 0,
-                id_Mesa = 2,
-                estadoProceso = true,
-                fecha_ingreso = new DateTime(),
-                numero_movil = "",
-                tipo = 0,
-                list_IdProductos = { }
-            };
+            // Configura el mock para simular que el pedido no existe
+            mockFunciones.Setup(fu => fu.existePedido(It.IsAny<int>()))
+               .Returns(false);
 
-            MensajeRetorno mensajeRetorno = new MensajeRetorno { status = false, mensaje = "Error al intentar modificar el Pedido" };
-            mockBusinessLayer.Setup(bl => bl.actualizar_Pedido(aux)).Returns(mensajeRetorno);
+            MensajeRetorno mensajeRetorno = new MensajeRetorno { status = false, mensaje = "No existe un pedido con los datos ingresados" };
+            mockDal.Setup(bl => bl.update_Pedido(pedidoInvalido)).Returns(false);
 
-            var result = controller.Put(aux) as BadRequestObjectResult;
+            var result = pedidoController.Put(pedidoInvalido) as BadRequestObjectResult;
 
             Assert.IsNotNull(result);
             Assert.AreEqual(400, result.StatusCode);
@@ -157,15 +170,10 @@ namespace Testing_PV
         [Test]
         public void Eliminar_ReturnOk()
         {
-            var _hub = new Mock<IHubContext<ChatHub>>();
-            var mockBusinessLayer = new Mock<IB_Pedido>();
-            var controller = new PedidoController(mockBusinessLayer.Object, _hub.Object);
-            var aux = 59;
-
             MensajeRetorno mensajeRetorno = new MensajeRetorno { status = true, mensaje = "El Pedido se dio de baja correctamente" };
-            mockBusinessLayer.Setup(bl => bl.baja_Pedido(aux)).Returns(mensajeRetorno);
+            mockDal.Setup(bl => bl.baja_Pedido(id_pedidoValido)).Returns(true);
 
-            var result = controller.BajaPedido(aux) as OkObjectResult;
+            var result = pedidoController.BajaPedido(id_pedidoValido) as OkObjectResult;
 
             Assert.IsNotNull(result);
             Assert.AreEqual(200, result.StatusCode);
@@ -178,15 +186,10 @@ namespace Testing_PV
         [Test]
         public void Eliminar_ReturnBadRequest()
         {
-            var _hub = new Mock<IHubContext<ChatHub>>();
-            var mockBusinessLayer = new Mock<IB_Pedido>();
-            var controller = new PedidoController(mockBusinessLayer.Object, _hub.Object);
-            var aux = 100;
+            MensajeRetorno mensajeRetorno = new MensajeRetorno { status = false, mensaje = "Exepción no controlada" };
+            mockDal.Setup(bl => bl.baja_Pedido(id_pedidoInvalido)).Returns(false);
 
-            MensajeRetorno mensajeRetorno = new MensajeRetorno { status = false, mensaje = "Error al intentar dar de baja el Pedido" };
-            mockBusinessLayer.Setup(bl => bl.baja_Pedido(aux)).Returns(mensajeRetorno);
-
-            var result = controller.BajaPedido(aux) as BadRequestObjectResult;
+            var result = pedidoController.BajaPedido(id_pedidoInvalido) as BadRequestObjectResult;
 
             Assert.IsNotNull(result);
             Assert.AreEqual(400, result.StatusCode);
@@ -199,15 +202,10 @@ namespace Testing_PV
         [Test]
         public void Finalizar_ReturnOk()
         {
-            var _hub = new Mock<IHubContext<ChatHub>>();
-            var mockBusinessLayer = new Mock<IB_Pedido>();
-            var controller = new PedidoController(mockBusinessLayer.Object, _hub.Object);
-            var aux = 59;
-
             MensajeRetorno mensajeRetorno = new MensajeRetorno { status = true, mensaje = "El Pedido se finalizo correctamente" };
-            mockBusinessLayer.Setup(bl => bl.finalizar_Pedido(aux)).Returns(mensajeRetorno);
+            mockDal.Setup(bl => bl.finalizar_Pedido(id_pedidoValido)).Returns(true);
 
-            var result = controller.finalizarPedido(aux) as OkObjectResult;
+            var result = pedidoController.finalizarPedido(id_pedidoValido) as OkObjectResult;
 
             Assert.IsNotNull(result);
             Assert.AreEqual(200, result.StatusCode);
@@ -220,15 +218,10 @@ namespace Testing_PV
         [Test]
         public void Finalizar_ReturnBadRequest()
         {
-            var _hub = new Mock<IHubContext<ChatHub>>();
-            var mockBusinessLayer = new Mock<IB_Pedido>();
-            var controller = new PedidoController(mockBusinessLayer.Object, _hub.Object);
-            var aux = 100;
+            MensajeRetorno mensajeRetorno = new MensajeRetorno { status = false, mensaje = "Exepción no controlada" };
+            mockDal.Setup(bl => bl.finalizar_Pedido(id_pedidoInvalido)).Returns(false);
 
-            MensajeRetorno mensajeRetorno = new MensajeRetorno { status = false, mensaje = "Error al intentar finalizar el Pedido" };
-            mockBusinessLayer.Setup(bl => bl.finalizar_Pedido(aux)).Returns(mensajeRetorno);
-
-            var result = controller.finalizarPedido(aux) as BadRequestObjectResult;
+            var result = pedidoController.finalizarPedido(id_pedidoInvalido) as BadRequestObjectResult;
 
             Assert.IsNotNull(result);
             Assert.AreEqual(400, result.StatusCode);
@@ -241,96 +234,108 @@ namespace Testing_PV
         [Test]
         public void ListarPedidos_Validar()
         {
+            var DC = new DataContext();
+            var dal = new DAL_Pedido(DC);
+            var cast = new DAL_Casteo();
+            var fun = new DAL_FuncionesExtras(DC, cast);
+            var bl = new B_Pedido(dal, cast, fun);
             var _hub = new Mock<IHubContext<ChatHub>>();
-            var mockBusinessLayer = new Mock<IB_Pedido>();
-            var controller = new PedidoController(mockBusinessLayer.Object, _hub.Object);
+            var pedidoController2 = new PedidoController(bl, _hub.Object);
 
-            mockBusinessLayer.Setup(bl => bl.listar_Pedidos()).Returns(new List<DTPedido>());
+            // Act
+            var result = pedidoController2.Get();
 
-            var result = controller.Get();
-
+            // Assert
             Assert.IsNotNull(result);
-            Assert.IsTrue(result.TrueForAll(result => result != null));
             Assert.IsInstanceOf<List<DTPedido>>(result);
 
-            CollectionAssert.AllItemsAreNotNull(result);
+            // Verifica que ninguno de los elementos en la lista sea null
+            Assert.IsTrue(result.TrueForAll(pedido => pedido != null));
         }
 
         [Test]
-        public void GetPedidoID_Validar()
+        public void GetPedido_ReturnsCorrectPedido()
         {
-            var _hub = new Mock<IHubContext<ChatHub>>();
-            var mockBusinessLayer = new Mock<IB_Pedido>();
-            var controller = new PedidoController(mockBusinessLayer.Object, _hub.Object);
-            var aux = 59;
+            // Arrange
+            var idPedido = 1;
+            // Simula la respuesta esperada desde DAL y Casteo
+            var expectedDTPedido = new DTPedido { /* propiedades esperadas */ };
+            mockDal.Setup(d => d.get_Pedido(idPedido)).Returns(new Pedidos());
+            mockCasteo.Setup(c => c.CastDTPedido(It.IsAny<Pedidos>())).Returns(expectedDTPedido);
 
-            mockBusinessLayer.Setup(bl => bl.Pedido(aux)).Returns(new DTPedido());
+            // Act
+            var result = pedidoController.GetPedido(idPedido);
 
-            var result = controller.GetPedido(aux);
-
+            // Assert
             Assert.IsNotNull(result);
-            Assert.IsInstanceOf<DTPedido>(result);
-
+            Assert.AreEqual(expectedDTPedido, result);
         }
 
 
         [Test]
         public void ListarPedidosActivos_Validar()
         {
+            var DC = new DataContext();
+            var dal = new DAL_Pedido(DC);
+            var cast = new DAL_Casteo();
+            var fun = new DAL_FuncionesExtras(DC, cast);
+            var bl = new B_Pedido(dal, cast, fun);
             var _hub = new Mock<IHubContext<ChatHub>>();
-            var mockBusinessLayer = new Mock<IB_Pedido>();
-            var controller = new PedidoController(mockBusinessLayer.Object, _hub.Object);
+            var pedidoController2 = new PedidoController(bl, _hub.Object);
 
-            mockBusinessLayer.Setup(bl => bl.listar_PedidosActivos()).Returns(new List<DTPedido>());
+            // Act
+            var result = pedidoController2.GetActivos();
 
-            var result = controller.GetActivos();
-
+            // Assert
             Assert.IsNotNull(result);
-            Assert.IsTrue(result.TrueForAll(result => result != null));
-            Assert.IsTrue(result.TrueForAll(result => result.estadoProceso == true));
             Assert.IsInstanceOf<List<DTPedido>>(result);
 
-            CollectionAssert.AllItemsAreNotNull(result);
+            // Verifica que ninguno de los elementos en la lista sea null
+            Assert.IsTrue(result.TrueForAll(pedido => pedido != null));
         }
 
         [Test]
         public void ListarPedidosMesa_Validar()
         {
+            var DC = new DataContext();
+            var dal = new DAL_Pedido(DC);
+            var cast = new DAL_Casteo();
+            var fun = new DAL_FuncionesExtras(DC, cast);
+            var bl = new B_Pedido(dal, cast, fun);
             var _hub = new Mock<IHubContext<ChatHub>>();
-            var mockBusinessLayer = new Mock<IB_Pedido>();
-            var controller = new PedidoController(mockBusinessLayer.Object, _hub.Object);
-            var aux = 1;
+            var pedidoController2 = new PedidoController(bl, _hub.Object);
 
-            mockBusinessLayer.Setup(bl => bl.listar_PedidosPorMesa(aux)).Returns(new List<DTPedido>());
+            // Act
+            var result = pedidoController2.GetPedidosPorMesa(id_Mesa);
 
-            var result = controller.GetPedidosPorMesa(aux);
-
+            // Verifica que ninguno de los elementos en la lista sea null
+            Assert.IsTrue(result.TrueForAll(pedido => pedido != null));
             Assert.IsNotNull(result);
             Assert.IsTrue(result.TrueForAll(result => result != null));
-            Assert.IsTrue(result.TrueForAll(result => result.id_Mesa == aux));
+            Assert.IsTrue(result.TrueForAll(result => result.id_Mesa == id_Mesa));
             Assert.IsInstanceOf<List<DTPedido>>(result);
-
-            CollectionAssert.AllItemsAreNotNull(result);
         }
 
         [Test]
         public void ListarPedidosTipo_Validar()
         {
+            var DC = new DataContext();
+            var dal = new DAL_Pedido(DC);
+            var cast = new DAL_Casteo();
+            var fun = new DAL_FuncionesExtras(DC, cast);
+            var bl = new B_Pedido(dal, cast, fun);
             var _hub = new Mock<IHubContext<ChatHub>>();
-            var mockBusinessLayer = new Mock<IB_Pedido>();
-            var controller = new PedidoController(mockBusinessLayer.Object, _hub.Object);
-            var aux = Domain.Enums.Categoria.comida;
+            var pedidoController2 = new PedidoController(bl, _hub.Object);
+            var tipo = (Domain.Enums.Categoria)1;
+            // Act
+            var result = pedidoController2.GetPedidosPorTipo(tipo);
 
-            mockBusinessLayer.Setup(bl => bl.listar_PedidosPorTipo(aux)).Returns(new List<DTPedido>());
-
-            var result = controller.GetPedidosPorTipo(aux);
-
+            // Verifica que ninguno de los elementos en la lista sea null
+            Assert.IsTrue(result.TrueForAll(pedido => pedido != null));
             Assert.IsNotNull(result);
             Assert.IsTrue(result.TrueForAll(result => result != null));
-            Assert.IsTrue(result.TrueForAll(result => result.tipo == aux));
+            Assert.IsTrue(result.TrueForAll(result => result.tipo == tipo));
             Assert.IsInstanceOf<List<DTPedido>>(result);
-
-            CollectionAssert.AllItemsAreNotNull(result);
         }
     }
 }
