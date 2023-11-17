@@ -1,6 +1,7 @@
 ﻿using BusinessLayer.Interfaces;
 using Domain.DT;
 using Domain.Entidades;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using WebApi_PUB_PV.Models;
 
@@ -17,6 +18,7 @@ namespace WebApi_PUB_PV.Controllers
 
         //Agregar
         [HttpPost("/api/agregarProducto")]
+        [Authorize(Roles = "ADMIN")]
         public IActionResult Post([FromBody] DTProducto value)
         {
             MensajeRetorno mensajeRetorno = bl.agregar_Producto(value);
@@ -46,6 +48,7 @@ namespace WebApi_PUB_PV.Controllers
 
         //Eliminar
         [HttpDelete("/api/bajaProducto/{id:int}")]
+        [Authorize(Roles = "ADMIN")]
         public IActionResult BajaProducto(int id)
         {
             MensajeRetorno mensajeRetorno = bl.baja_Producto(id);
@@ -61,6 +64,7 @@ namespace WebApi_PUB_PV.Controllers
 
         //Modificar
         [HttpPut("/api/modificarProducto")]
+        [Authorize(Roles = "ADMIN")]
         public IActionResult Put([FromBody] DTProducto Modificar)
         {
             MensajeRetorno mensajeRetorno = bl.Modificar_Producto(Modificar);

@@ -1,6 +1,7 @@
 ﻿using BusinessLayer.Interfaces;
 using Domain.DT;
 using Domain.Entidades;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using WebApi_PUB_PV.Models;
 
@@ -17,6 +18,7 @@ namespace WebApi_PUB_PV.Controllers
 
         //Agregar
         [HttpPost("/api/agregarMesa")]
+        [Authorize(Roles = "ADMIN, MOZO, CAJA")]
         public IActionResult Post([FromBody] DTMesa value)
         {
             MensajeRetorno mensajeRetorno = bl.Agregar_Mesa(value);
@@ -33,6 +35,7 @@ namespace WebApi_PUB_PV.Controllers
 
         //Listar
         [HttpGet("/api/listarMesas")]
+        [Authorize(Roles = "ADMIN, MOZO, CAJA")]
         public List<DTMesa> Get()
         {
             return bl.Listar_Mesas();
@@ -40,6 +43,7 @@ namespace WebApi_PUB_PV.Controllers
 
         //Eliminar
         [HttpDelete("/api/bajaMesa/{id:int}")]
+        [Authorize(Roles = "ADMIN, MOZO, CAJA")]
         public IActionResult BajaMesa(int id)
         {
             MensajeRetorno mensajeRetorno = bl.Baja_Mesa(id);
@@ -55,6 +59,7 @@ namespace WebApi_PUB_PV.Controllers
 
         //Modificar
         [HttpPut("/api/modificarMesa")]
+        [Authorize(Roles = "ADMIN, MOZO, CAJA")]
         public IActionResult Put([FromBody] DTMesa Modificar)
         {
             MensajeRetorno mensajeRetorno = bl.Modificar_Mesa(Modificar);
@@ -70,6 +75,7 @@ namespace WebApi_PUB_PV.Controllers
 
         //Modificar
         [HttpPut("/api/modificarprecio")]
+        [Authorize(Roles = "ADMIN, MOZO, CAJA")]
         public IActionResult PutPrecio([FromBody] DTMesa Modificar)
         {
             MensajeRetorno mensajeRetorno = bl.Modificar_Precio_Mesa(Modificar);
@@ -85,12 +91,14 @@ namespace WebApi_PUB_PV.Controllers
 
         //Cerar cuenta de la mesa
         [HttpPut("/api/cerarCuentaMesa")]
+        [Authorize(Roles = "ADMIN, MOZO, CAJA")]
         public ActionResult<byte[]> CerarMesa([FromBody] DTMesa Modificar)
         {
             return bl.CerarMesa(Modificar);
         }
 
         [HttpGet("/api/agregarPagoParcial/{id:int}/{pagoEfectuado:float}")]
+        [Authorize(Roles = "ADMIN, MOZO, CAJA")]
         public IActionResult AgregarPagoParcial(int id, float pagoEfectuado)
         {
             MensajeRetorno mensajeRetorno = bl.AgregarPagoParcial(id, pagoEfectuado);

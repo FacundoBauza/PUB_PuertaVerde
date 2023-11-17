@@ -1,4 +1,7 @@
-﻿using BusinessLayer.Interfaces;
+﻿
+
+
+using BusinessLayer.Interfaces;
 using DataAccesLayer.Models;
 using Domain.DT;
 using Microsoft.AspNetCore.Authorization;
@@ -130,7 +133,7 @@ namespace WebApi_PUB_PV.Controllers
 
         [HttpGet]
         [Route("Usuario")]
-        //[Authorize(Roles = "USER")]
+        [Authorize(Roles = "USER")]
         public async Task<ActionResult<DTUsuario>> GetInformacionUsuario()
         {
             string username = User.FindFirstValue(ClaimTypes.NameIdentifier);
@@ -154,7 +157,7 @@ namespace WebApi_PUB_PV.Controllers
 
         [HttpGet]
         [Route("Usuarios")]
-        //[Authorize(Roles = "ADMIN")]
+        [Authorize(Roles = "ADMIN")]
         public async Task<ActionResult<IEnumerable<DTUsuario>>> GetUsuarios()
         {
             return await _userManager.Users.Select(x => new DTUsuario()
@@ -169,7 +172,7 @@ namespace WebApi_PUB_PV.Controllers
 
         [HttpGet]
         [Route("listarUsuarios")]
-        //[Authorize(Roles = "ADMIN")]
+        [Authorize(Roles = "ADMIN")]
         public async Task<ActionResult<IEnumerable<DTUsuarioInfo>>> listarUsuarios()
         {
             // Filtra los usuarios cuyo campo registroActivo sea true
@@ -189,7 +192,7 @@ namespace WebApi_PUB_PV.Controllers
 
 
         [HttpPost]
-        //[Authorize(Roles = "ADMIN")]
+        [Authorize(Roles = "ADMIN")]
         [Route("AddRole")]
         [ProducesResponseType(typeof(StatusResponse), 200)]
         public async Task<IActionResult> AddRole([FromBody] AddRoleModel model)
@@ -228,7 +231,7 @@ namespace WebApi_PUB_PV.Controllers
         }
 
         [HttpDelete]
-        //[Authorize(Roles = "ADMIN")]
+        [Authorize(Roles = "ADMIN")]
         [Route("BajaUsuario/{username}")]
         [ProducesResponseType(typeof(StatusResponse), 200)]
         public async Task<IActionResult> UpdateUser(string username)
@@ -246,7 +249,7 @@ namespace WebApi_PUB_PV.Controllers
         }
 
         [HttpPut]
-        //[Authorize(Roles = "ADMIN")]
+        [Authorize(Roles = "ADMIN")]
         [Route("modificarUsuario")]
         [ProducesResponseType(typeof(StatusResponse), 200)]
         public async Task<IActionResult> modificarUser([FromBody] DTUsuarioInfo dtuser)
@@ -265,7 +268,7 @@ namespace WebApi_PUB_PV.Controllers
         }
 
         [HttpDelete]
-        //[Authorize(Roles = "ADMIN")]
+        [Authorize(Roles = "ADMIN")]
         [Route("BajaRole")]
         [ProducesResponseType(typeof(StatusResponse), 200)]
         public async Task<IActionResult> BajaRole([FromBody] AddRoleModel model)

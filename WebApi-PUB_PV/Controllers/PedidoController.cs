@@ -1,6 +1,7 @@
 ﻿using BusinessLayer.Interfaces;
 using Domain.DT;
 using Domain.Entidades;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.SignalR;
 using SignalR;
@@ -20,6 +21,7 @@ namespace WebApi_PUB_PV.Controllers
 
         //Agregar
         [HttpPost("/api/agregarPedido")]
+        [Authorize(Roles = "MOZO, CAJA")]
         public async Task<IActionResult> Post([FromBody] DTPedido value)
         {
             MensajeRetorno mensajeRetorno = bl.agregar_Pedido(value);
@@ -39,6 +41,7 @@ namespace WebApi_PUB_PV.Controllers
 
         //Actualizar    
         [HttpPut("/api/actualizarPedido")]
+        [Authorize(Roles = "MOZO, CAJA, COCINA")]
         public IActionResult Put([FromBody] DTPedido value)
         {
             MensajeRetorno mensajeRetorno = bl.actualizar_Pedido(value);
@@ -58,6 +61,7 @@ namespace WebApi_PUB_PV.Controllers
 
         //Listar
         [HttpGet("/api/Pedido{id:int}")]
+        [Authorize(Roles = "MOZO, CAJA ,COCINA")]
         public DTPedido GetPedido(int id)
         {
             return bl.Pedido(id);
@@ -65,6 +69,7 @@ namespace WebApi_PUB_PV.Controllers
 
         //Listar
         [HttpGet("/api/listarPedidos")]
+        [Authorize(Roles = "MOZO, CAJA ,COCINA")]
         public List<DTPedido> Get()
         {
             return bl.listar_Pedidos();
@@ -72,6 +77,7 @@ namespace WebApi_PUB_PV.Controllers
 
         //Listar Activos
         [HttpGet("/api/listarPedidosActivos")]
+        [Authorize(Roles = "MOZO, CAJA ,COCINA")]
         public List<DTPedido> GetActivos()
         {
             return bl.listar_PedidosActivos();
@@ -79,6 +85,7 @@ namespace WebApi_PUB_PV.Controllers
 
         //Listar
         [HttpGet("/api/listarPedidosPorTipo{tipo}")]
+        [Authorize(Roles = "MOZO, CAJA ,COCINA")]
         public List<DTPedido> GetPedidosPorTipo(Domain.Enums.Categoria tipo)
         {
             return bl.listar_PedidosPorTipo(tipo);
@@ -86,6 +93,7 @@ namespace WebApi_PUB_PV.Controllers
 
         //Listar
         [HttpGet("/api/listarPedidosPorMesa{id}")]
+        [Authorize(Roles = "MOZO, CAJA, COCINA")]
         public List<DTPedido> GetPedidosPorMesa(int id)
         {
             return bl.listar_PedidosPorMesa(id);
@@ -93,6 +101,7 @@ namespace WebApi_PUB_PV.Controllers
 
         ///Finalizar Pedido
         [HttpPost("/api/finalizarPedido/{id:int}")]
+        [Authorize(Roles = "CAJA,COCINA")]
         public IActionResult finalizarPedido(int id)
         {
             MensajeRetorno mensajeRetorno = bl.finalizar_Pedido(id);
@@ -108,6 +117,7 @@ namespace WebApi_PUB_PV.Controllers
 
         ///Eliminar
         [HttpDelete("/api/bajaPedido/{id:int}")]
+        [Authorize(Roles = "ADMIN")]
         public IActionResult BajaPedido(int id)
         {
             MensajeRetorno mensajeRetorno = bl.baja_Pedido(id);

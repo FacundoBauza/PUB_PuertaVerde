@@ -1,6 +1,7 @@
 ﻿using BusinessLayer.Interfaces;
 using Domain.DT;
 using Domain.Entidades;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using WebApi_PUB_PV.Models;
 
@@ -18,6 +19,7 @@ namespace WebApi_PUB_PV.Controllers
 
         //Agregar
         [HttpPost("/api/agregarIngrediente")]
+        [Authorize(Roles = "ADMIN")]
         public IActionResult Post([FromBody] DTIngrediente value)
         {
             MensajeRetorno mensajeRetorno = bl.Agregar_Ingrediente(value);
@@ -33,6 +35,7 @@ namespace WebApi_PUB_PV.Controllers
 
         //Listar
         [HttpGet("/api/listarIngredientes")]
+        [Authorize(Roles = "ADMIN")]
         public List<DTIngrediente> Get()
         {
             return bl.Listar_Ingrediente();
@@ -40,6 +43,7 @@ namespace WebApi_PUB_PV.Controllers
 
         //Eliminar
         [HttpDelete("/api/bajaIngrediente/{id:int}")]
+        [Authorize(Roles = "ADMIN")]
         public IActionResult Delete(int id)
         {
             MensajeRetorno mensajeRetorno = bl.Eliminar_Ingredente(id);
@@ -55,6 +59,7 @@ namespace WebApi_PUB_PV.Controllers
 
         //Modificar
         [HttpPut("/api/modificarIngrediente")]
+        [Authorize(Roles = "ADMIN")]
         public IActionResult Put([FromBody] DTIngrediente Modificar)
         {
             MensajeRetorno mensajeRetorno = bl.Modificar_Ingrediente(Modificar);
