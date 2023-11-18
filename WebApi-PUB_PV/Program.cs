@@ -64,6 +64,7 @@ builder.Services.AddCors(options =>
     options.AddPolicy("CorsPolicy", builder =>
     {
         builder.AllowAnyMethod().AllowAnyHeader().WithOrigins("http://localhost:5173").AllowCredentials();
+        builder.AllowAnyMethod().AllowAnyHeader().WithOrigins("https://proyecto-puerta-verde.vercel.app").AllowCredentials();
     });
 });
 
