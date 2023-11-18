@@ -1,6 +1,7 @@
 ﻿using BusinessLayer.Interfaces;
 using Domain.DT;
 using Domain.Entidades;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using WebApi_PUB_PV.Models;
 
@@ -16,6 +17,7 @@ namespace WebApi_PUB_PV.Controllers
 
         //Agregar
         [HttpPost("/api/agregarCliente")]
+        [Authorize(Roles = "ADMIN")]
         public IActionResult Post([FromBody] DTCliente_Preferencial value)
         {
             MensajeRetorno mensajeRetorno = bl.agregar_ClientePreferencial(value);
@@ -31,6 +33,7 @@ namespace WebApi_PUB_PV.Controllers
 
         //Actualizar    
         [HttpPut("/api/actualizarCliente")]
+        [Authorize(Roles = "ADMIN, CAJA")]
         public IActionResult Put([FromBody] DTCliente_Preferencial value)
         {
             MensajeRetorno mensajeRetorno = bl.actualizar_ClientePreferencial(value);
@@ -46,6 +49,7 @@ namespace WebApi_PUB_PV.Controllers
 
         //Listar
         [HttpGet("/api/listarCliente")]
+        [Authorize(Roles = "ADMIN, CAJA, MOZO")]
         public List<DTCliente_Preferencial> Get()
         {
             return bl.listar_ClientePreferencial();
@@ -53,6 +57,7 @@ namespace WebApi_PUB_PV.Controllers
 
         ///Eliminar
         [HttpDelete("/api/bajaCliente/{id:int}")]
+        [Authorize(Roles = "ADMIN")]
         public IActionResult BajaCliente(int id)
         {
             MensajeRetorno mensajeRetorno = bl.baja_ClientePreferencial(id);
@@ -68,6 +73,7 @@ namespace WebApi_PUB_PV.Controllers
 
         //Cerar cuenta del Cliente Preferencial
         [HttpPut("/api/cerarCuentaCliente")]
+        [Authorize(Roles = "ADMIN, CAJA")]
         public byte[] cerarCuenta([FromBody] DTCliente_Preferencial Modificar)
         {
             return bl.cerarCuenta(Modificar);

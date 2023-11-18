@@ -16,6 +16,7 @@ namespace WebApi_PUB_PV.Controllers
         //Listar todos los producto
         //[Authorize(Roles = "Admin")]
         [HttpPost("/api/todoslosproductos")]
+        [Authorize(Roles = "ADMIN")]
         public List<DTProductoEstadistica> Gettodoslosproductos([FromBody] DTProductoEstadistica value)
         {
             /*if (!User.IsInRole("Admin"))
@@ -26,12 +27,14 @@ namespace WebApi_PUB_PV.Controllers
         }
         //Listar los pdidos de un tipo
         [HttpPost("/api/productotipo")]
+        [Authorize(Roles = "ADMIN")]
         public List<DTProductoEstadistica> Getproductotipo([FromBody] DTProductoEstadistica value)
         {
             return bl.productostipo(value);
         }
         //solo un pedido
         [HttpPost("/api/producto")]
+        [Authorize(Roles = "ADMIN")]
         public DTProductoEstadistica Getproducto([FromBody] DTProductoEstadistica value)
         {
             return bl.producto(value);

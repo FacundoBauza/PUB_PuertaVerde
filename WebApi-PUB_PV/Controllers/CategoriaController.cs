@@ -1,6 +1,7 @@
 ﻿using BusinessLayer.Interfaces;
 using Domain.DT;
 using Domain.Entidades;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using WebApi_PUB_PV.Models;
 
@@ -18,6 +19,7 @@ namespace WebApi_PUB_PV.Controllers
 
         //Agregar
         [HttpPost("/api/agregarCategoria")]
+        [Authorize(Roles = "ADMIN")]
         public IActionResult Post([FromBody] DTCategoria value)
         {
             MensajeRetorno mensajeRetorno = bl.agregar_Categoria(value);
@@ -33,6 +35,7 @@ namespace WebApi_PUB_PV.Controllers
 
         //Listar
         [HttpGet("/api/listarCategorias")]
+        [Authorize(Roles = "ADMIN")]
         public List<DTCategoria> Get()
         {
             return bl.listar_Categoria();
@@ -40,6 +43,7 @@ namespace WebApi_PUB_PV.Controllers
 
         //Eliminar
         [HttpDelete("/api/bajaCategoria/{id:int}")]
+        [Authorize(Roles = "ADMIN")]
         public IActionResult BajaCategoria(int id)
         {
             MensajeRetorno mensajeRetorno = bl.baja_Categoria(id);

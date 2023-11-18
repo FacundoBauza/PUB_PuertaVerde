@@ -1,6 +1,7 @@
 ﻿using BusinessLayer.Interfaces;
 using Domain.DT;
 using Domain.Entidades;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using WebApi_PUB_PV.Models;
 
@@ -16,8 +17,10 @@ namespace WebApi_PUB_PV.Controllers
         {
             this.bl = bl;
         }
+
         //Agregar
         [HttpPost("/api/agregarCaja")]
+        [Authorize(Roles = "CAJA")]
         public IActionResult Post([FromBody] DTCaja value)
         {
             MensajeRetorno mensajeRetorno = bl.Set_Cajas(value);
@@ -33,6 +36,7 @@ namespace WebApi_PUB_PV.Controllers
 
         //modificar
         [HttpPut("/api/modificarCaja")]
+        [Authorize(Roles = "CAJA")]
         public IActionResult Put([FromBody] DTCaja Modificar)
         {
             MensajeRetorno mensajeRetorno = bl.Modificar_Cajas(Modificar);
@@ -48,6 +52,7 @@ namespace WebApi_PUB_PV.Controllers
 
         //Listar
         [HttpGet("/api/listarCaja")]
+        [Authorize(Roles = "CAJA")]
         public List<DTCaja> Get()
         {
             return bl.GetCajas();
@@ -55,12 +60,14 @@ namespace WebApi_PUB_PV.Controllers
 
         //Listar activa
         [HttpGet("/api/listarCajaavtiva")]
+        [Authorize(Roles = "CAJA")]
         public List<DTCaja> Getactivas()
         {
             return bl.GetCajasactivas();
         }
         //Eliminar
         [HttpDelete("/api/bajaCaja/{id:int}")]
+        [Authorize(Roles = "CAJA")]
         public IActionResult BajaCaja(int id)
         {
             MensajeRetorno mensajeRetorno = bl.Baja_Cajas(id);
@@ -75,6 +82,7 @@ namespace WebApi_PUB_PV.Controllers
         }
 
         [HttpGet("/api/sumarPrecioCaja/{precio:float}")]
+        [Authorize(Roles = "CAJA")]
         public IActionResult SumarPrecioCaja(float precio)
         {
             MensajeRetorno mensajeRetorno = bl.SumarPrecioCaja(precio);
@@ -89,6 +97,7 @@ namespace WebApi_PUB_PV.Controllers
         }
 
         [HttpGet("/api/cerrarCajaActiva")]
+        [Authorize(Roles = "CAJA")]
         public IActionResult CerrarCajaActiva()
         {
             MensajeRetorno mensajeRetorno = bl.CerrarCajaActiva();

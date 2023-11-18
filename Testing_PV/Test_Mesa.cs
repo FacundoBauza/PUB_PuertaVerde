@@ -218,6 +218,7 @@ namespace Testing_PV
 
             // Assert
             Assert.IsNotNull(resultado);
+            Assert.IsNotNull(resultado.Value);
             Assert.IsInstanceOf<byte[]>(resultado.Value);
         }
 
@@ -235,12 +236,12 @@ namespace Testing_PV
             var result = controllerget.Get();
 
             // Assert
-            Assert.IsNotNull(result);
-            Assert.IsInstanceOf<List<DTMesa>>(result);
             // Verifica que la lista no sea null
             Assert.IsNotNull(result);
+            Assert.IsInstanceOf<List<DTMesa>>(result);
             // Verifica que ninguno de los elementos en la lista sea null
             Assert.IsTrue(result.TrueForAll(mesa => mesa != null));
+
         }
     }
 }
