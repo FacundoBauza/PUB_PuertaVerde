@@ -17,6 +17,7 @@ namespace WebApi_PUB_PV.Controllers
         {
             this.bl = bl;
         }
+
         //Agregar
         [HttpPost("/api/agregarCaja")]
         [Authorize(Roles = "CAJA")]
